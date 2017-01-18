@@ -59,11 +59,10 @@ var roleHarvester = {
                     transferTo = creep.room.controller.id;
                     creep.memory.movingTo = transferTo;
                 }
-                var target = Game.getObjectById(transferTo);
-                if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(target);
-                }
-
+            }
+            var target = Game.getObjectById(transferTo);
+            if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(target);
             }
         }
 

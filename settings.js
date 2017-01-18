@@ -6,7 +6,7 @@ var settings = {
         var settings = {};
         settings.MinHarvesterNumber = 2;
         settings.MinUpgraderNumber = 4;
-        settings.MinBuilderNumber = 1;
+        settings.MinBuilderNumber = 2;
 
         settings.SourceIds = [];
         for (var roomName in Game.rooms) {

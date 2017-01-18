@@ -9,13 +9,25 @@ var factory = {
         }
 
         //Spawn harvester
+        //for (var i in Memory.Settings.SourceIds) {
+        //    var sourceId = Memory.Settings.SourceIds[i];
+        //    var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester' && creep.memory.sourceId == sourceId);
+
+        //    if (harvesters.length < Memory.Settings.MinHarvesterNumber && Game.spawns['Spawn1'].energy >= 300 && Game.spawns['Spawn1'].spawning == null) {
+        //        var newName = Game.spawns['Spawn1'].createCreep([WORK, WORK, CARRY, MOVE], undefined, { role: 'harvester', sourceId: sourceId, harvesting: true });
+        //        console.log('Spawning new harvester: ' + newName);
+        //        return;
+        //    }
+        //}
+
+        //Spawn miner
         for (var i in Memory.Settings.SourceIds) {
             var sourceId = Memory.Settings.SourceIds[i];
-            var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester' && creep.memory.sourceId == sourceId);
+            var miners = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && creep.memory.sourceId == sourceId);
 
-            if (harvesters.length < Memory.Settings.MinHarvesterNumber && Game.spawns['Spawn1'].energy >= 300 && Game.spawns['Spawn1'].spawning == null) {
-                var newName = Game.spawns['Spawn1'].createCreep([WORK, WORK, CARRY, MOVE], undefined, { role: 'harvester', sourceId: sourceId, harvesting: true });
-                console.log('Spawning new harvester: ' + newName);
+            if (miners.length < Memory.Settings.MinerPerSource && Game.spawns['Spawn1'].energy >= 300 && Game.spawns['Spawn1'].spawning == null) {
+                var newName = Game.spawns['Spawn1'].createCreep([WORK, WORK, WORK, MOVE], undefined, { role: 'miner', sourceId: sourceId });
+                console.log('Spawning new miner: ' + newName);
                 return;
             }
         }
