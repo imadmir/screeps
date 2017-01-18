@@ -1,6 +1,12 @@
 var factory = {
 
     spawn: function () {
+        //Remove dead creeps
+        for (var name in Game.creeps) {
+            if (Game.creeps[name] == undefined) {
+                delete Game.creeps[name];
+            }
+        }
 
         //Spawn harvester
         for (var i in Memory.Settings.SourceIds) {
@@ -10,7 +16,7 @@ var factory = {
             if (harvesters.length < Memory.Settings.MinHarvesterNumber && Game.spawns['Spawn1'].energy >= 300 && Game.spawns['Spawn1'].spawning == null) {
                 var newName = Game.spawns['Spawn1'].createCreep([WORK, WORK, CARRY, MOVE], undefined, { role: 'harvester', sourceId: sourceId });
                 console.log('Spawning new harvester: ' + newName);
-                break;
+                return;
             }
         }
 
@@ -24,6 +30,7 @@ var factory = {
             if (upgraders.length < Memory.Settings.MinUpgraderNumber && Game.spawns['Spawn1'].energy >= 300 && Game.spawns['Spawn1'].spawning == null) {
                 var newName = Game.spawns['Spawn1'].createCreep([WORK, WORK, CARRY, MOVE], undefined, { role: 'upgrader' });
                 console.log('Spawning new Upgrader: ' + newName);
+                return;
             }
 
             //spawn builder
@@ -32,15 +39,10 @@ var factory = {
             if (builders.length < Memory.Settings.MinBuilderNumber && Game.spawns['Spawn1'].energy >= 300 && Game.spawns['Spawn1'].spawning == null) {
                 var newName = Game.spawns['Spawn1'].createCreep([WORK, CARRY, CARRY, MOVE], undefined, { role: 'builder' });
                 console.log('Spawning new Builder: ' + newName);
+                return;
             }
         }
 
-        //Remove dead creeps
-        for (var name in Game.creeps) {
-            if (Game.creeps[name] == undefined) {
-                delete Game.creeps[name];
-            }
-        }
     }
 
 };
