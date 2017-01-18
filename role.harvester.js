@@ -23,29 +23,6 @@ var roleHarvester = {
                 }
             }
         }
-    },
-    
-    spawn: function() {
-        var sourceId1 = 'da64e67d3dea4525ac964d7c';
-        var sourceId2 = '36d3afe073e745bde77dcba4';
-        var sourceId3 = 'f512c712bbc33bef95f4cc4a';
-        
-        var harvesters1 = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester' && creep.memory.sourceId == sourceId1);
-        var harvesters2 = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester' && creep.memory.sourceId == sourceId2);
-        var harvesters3 = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester' && creep.memory.sourceId == sourceId3);
-
-        if(harvesters1.length < 1) {
-            var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'harvester', sourceId: sourceId1});
-            console.log('Spawning new harvester: ' + newName);
-        }
-        if(harvesters2.length < 2) {
-            var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'harvester', sourceId: sourceId2});
-            console.log('Spawning new harvester: ' + newName);
-        }
-        if(harvesters3.length < 4) {
-            var newName = Game.spawns['Spawn1'].createCreep([WORK,CARRY,MOVE], undefined, {role: 'harvester', sourceId: sourceId3});
-            console.log('Spawning new harvester: ' + newName);
-        }
     }
     
 };
