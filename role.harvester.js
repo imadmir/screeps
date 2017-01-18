@@ -13,6 +13,7 @@ var roleHarvester = {
                 }
             }//else go to the nearest source
             else {
+                creep.say('Hostile near source');
                 var source = creep.pos.findClosestByRange(FIND_SOURCES);
                 if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(source);
