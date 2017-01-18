@@ -23,7 +23,6 @@ module.exports.loop = function () {
     roleBuilder.spawn(); 
     roleUpgrader.spawn(); 
     
-    
     for(var name in Game.creeps) {
         var creep = Game.creeps[name];
         if(creep.memory.role == 'harvester') {
