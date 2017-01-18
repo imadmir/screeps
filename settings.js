@@ -1,4 +1,3 @@
-﻿
 var settings = {
 
     init: function () {
