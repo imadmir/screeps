@@ -12,7 +12,11 @@ var settings = {
             var room = Game.rooms[roomName];
             var sources = room.find(FIND_SOURCES);
             for (var count in sources) {
-                settings.SourceIds.push(sources[count].id);
+                //if there is hostiles in range, don't include it. 
+                var hostiles = sources[count].pos.findInRange(FIND_HOSTILE_CREEPS, 3);
+                if (hostiles.length = 0) {
+                    settings.SourceIds.push(sources[count].id);
+                }
             }
         }
 
