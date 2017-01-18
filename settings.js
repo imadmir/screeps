@@ -11,8 +11,8 @@
         for (var roomName in Game.rooms) {
             var room = Game.rooms[roomName];
             var sources = room.find(FIND_SOURCES);
-            for (var source in sources) {
-                settings.SourceIds.push(source.id);
+            for (var count in sources) {
+                settings.SourceIds.push(sources[count].id);
             }
         }
 
