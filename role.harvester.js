@@ -5,8 +5,18 @@ var roleHarvester = {
         if(creep.carry.energy < creep.carryCapacity) {
             var sourceId = creep.memory.sourceId;
             var source = Game.getObjectById(sourceId);
-            if(creep.harvest(source) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(source);
+            //if there is hostiles in range, don't go there. 
+            var hostiles = source.pos.findInRange(FIND_HOSTILE_CREEPS, 3);
+            if (hostiles.length == 0) {
+                if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(source);
+                }
+            }//else go to the nearest source
+            else {
+                var sources = creep.room.find(FIND_SOURCES);
+                if (creep.harvest(sources[0]) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(sources[0]);
+                }
             }
         }
         else {

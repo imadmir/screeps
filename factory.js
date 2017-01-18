@@ -15,7 +15,7 @@ var factory = {
 
         var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester');
 
-        if (harvesters.length >= Memory.Settings.MinHarvesterNumber * Memory.Settings.SourceIds.length) {
+        if (harvesters.length >= Memory.Settings.MinHarvesterNumber) {
 
             //spawn upgrader
             var upgraders = _.filter(Game.creeps, (creep) => creep.memory.role == 'upgrader');
