@@ -1,4 +1,5 @@
-﻿var settings = {
+﻿
+var settings = {
 
     init: function () {
 

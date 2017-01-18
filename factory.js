@@ -1,4 +1,5 @@
-﻿var factory = {
+﻿
+var factory = {
 
     spawn: function () {
 
