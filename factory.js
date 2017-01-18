@@ -14,7 +14,7 @@ var factory = {
             var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester' && creep.memory.sourceId == sourceId);
 
             if (harvesters.length < Memory.Settings.MinHarvesterNumber && Game.spawns['Spawn1'].energy >= 300 && Game.spawns['Spawn1'].spawning == null) {
-                var newName = Game.spawns['Spawn1'].createCreep([WORK, WORK, CARRY, MOVE], undefined, { role: 'harvester', sourceId: sourceId });
+                var newName = Game.spawns['Spawn1'].createCreep([WORK, WORK, CARRY, MOVE], undefined, { role: 'harvester', sourceId: sourceId, harvesting: true });
                 console.log('Spawning new harvester: ' + newName);
                 return;
             }
