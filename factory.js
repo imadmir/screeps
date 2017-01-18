@@ -3,7 +3,8 @@ var factory = {
     spawn: function () {
 
         //Spawn harvester
-        for (var sourceId in Memory.Settings.SourceIds) {
+        for (var i in Memory.Settings.SourceIds) {
+            var sourceId = Memory.Settings.SourceIds[i];
             var harvesters = _.filter(Game.creeps, (creep) => creep.memory.role == 'harvester' && creep.memory.sourceId == sourceId);
 
             if (harvesters.length < Memory.Settings.MinHarvesterNumber && Game.spawns['Spawn1'].energy >= 300) {
