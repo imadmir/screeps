@@ -15,7 +15,7 @@ var roleHarvester = {
 
         if (creep.memory.harvesting) {
             var sourceId = '';
-            if (creep.memory.movingTo != undefinied) {
+            if (creep.memory.movingTo != undefined) {
                 sourceId = creep.memory.movingTo;
             }
             else {
@@ -39,7 +39,7 @@ var roleHarvester = {
         }
         else {
             var transferTo = '';
-            if (creep.memory.movingTo != undefinied) {
+            if (creep.memory.movingTo != undefined) {
                 transferTo = creep.memory.movingTo;
             }
             else {
