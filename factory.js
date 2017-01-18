@@ -29,7 +29,7 @@ var factory = {
             //spawn builder
             var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder');
 
-            if (upgraders.length < Memory.Settings.MinBuilderNumber && Game.spawns['Spawn1'].energy >= 300 && Game.spawns['Spawn1'].spawning == null) {
+            if (builders.length < Memory.Settings.MinBuilderNumber && Game.spawns['Spawn1'].energy >= 300 && Game.spawns['Spawn1'].spawning == null) {
                 var newName = Game.spawns['Spawn1'].createCreep([WORK, CARRY, CARRY, MOVE], undefined, { role: 'builder' });
                 console.log('Spawning new Builder: ' + newName);
             }
