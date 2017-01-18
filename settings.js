@@ -1,6 +1,7 @@
 var settings = {
 
     init: function () {
+        console.log('Initializing Settings ....');
 
         var settings = {};
         settings.MinHarvesterNumber = 2;
@@ -14,7 +15,7 @@ var settings = {
             for (var count in sources) {
                 //if there is hostiles in range, don't include it. 
                 var hostiles = sources[count].pos.findInRange(FIND_HOSTILE_CREEPS, 3);
-                if (hostiles.length = 0) {
+                if (hostiles.length == 0) {
                     settings.SourceIds.push(sources[count].id);
                 }
             }
