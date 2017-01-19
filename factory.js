@@ -33,7 +33,7 @@ var factory = {
             var carriers = _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier' && creep.memory.sourceId == sourceId);
 
             if (carriers.length < Memory.Settings.CarrierPerSource && Game.spawns['Spawn1'].energy >= 300 && Game.spawns['Spawn1'].spawning == null) {
-                var newName = Game.spawns['Spawn1'].createCreep([CARRY, MOVE, CARRY, MOVE, CARRY, MOVE], undefined, { role: 'carrier', sourceId: sourceId });
+                var newName = Game.spawns['Spawn1'].createCreep([CARRY, MOVE, CARRY, MOVE, CARRY, MOVE], undefined, { role: 'carrier', sourceId: sourceId, carrying: false });
                 console.log('Spawning new carrier: ' + newName);
                 return;
             }
