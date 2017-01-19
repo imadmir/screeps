@@ -4,9 +4,9 @@ var settings = {
         console.log('Initializing Settings ....');
 
         var settings = {};
-        settings.MinHarvesterNumber = 2;
-        settings.MinUpgraderNumber = 4;
-        settings.MinBuilderNumber = 2;
+        settings.BuilderPerRoom = 6;
+        settings.MinerPerSource = 1;
+        settings.CarrierPerSource = 2;
 
         settings.SourceIds = [];
         for (var roomName in Game.rooms) {
