@@ -42,7 +42,7 @@ var roleCarrier = {
                 creep.moveTo(target);
             }
             //if the target is full, clear the movingTo to look for a different target
-            if ( !(target !== null) || target.energy == target.energyCapacity) {
+            if (isTargetFull(target)) {
                 creep.memory.movingTo = undefined;
             }
         }
@@ -81,5 +81,18 @@ var roleCarrier = {
     }
 
 };
+
+function isTargetFull(target) {
+    if (target !== null) {
+        if (target.energy == target.energyCapacity) {
+            return true;
+        }
+        if (target.carry.energy == target.carryCapacity) {
+            return true;
+        }
+        return false;
+    }
+    return true;
+}
 
 module.exports = roleCarrier;
