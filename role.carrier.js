@@ -44,19 +44,22 @@ var roleCarrier = {
             else {
                 sourceId = creep.memory.sourceId;
                 var sourceMain = Game.getObjectById(sourceId);
-                //if there is hostiles in range, don't go there. 
+
                 var droppedSource = sourceMain.pos.findInRange(FIND_DROPPED_RESOURCES, 1);
-                if (droppedSource.length == 0) {
-                    creep.memory.movingTo = sourceId;
+                if (droppedSource.length > 0) {
+                    creep.memory.movingTo = droppedSource.id;
                 } else {
                     var sourceNew = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES);
                     sourceId = sourceNew.id;
                     creep.memory.movingTo = sourceId;
                 }
             }
-            var source = Game.getObjectById(sourceId);
-            creep.moveTo(source);
-            creep.pickup(source, source.amount - 1);
+
+            if (sourceId != '') {
+                var source = Game.getObjectById(sourceId);
+                creep.moveTo(source);
+                creep.pickup(source, source.amount - 1);
+            }
 
         }
 
