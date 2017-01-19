@@ -84,10 +84,10 @@ var roleCarrier = {
 
 function isTargetFull(target) {
     if (target !== null) {
-        if (target.energy == target.energyCapacity) {
+       if (target.energy != undefined && target.energy == target.energyCapacity) {
             return true;
         }
-        if (target.carry.energy == target.carryCapacity) {
+        if (target.carry != undefined && target.carry.energy == target.carryCapacity) {
             return true;
         }
         return false;
