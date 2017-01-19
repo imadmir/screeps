@@ -28,6 +28,14 @@ var roleCarrier = {
                     transferTo = targets[0].id;
                     creep.memory.movingTo = transferTo;
                 }
+                    //If all structures are full, give energy to builders
+                else {
+                    var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder' && creep.energy == 0);
+                    if (builders.length > 0) {
+                        transferTo = builders[0].id;
+                        creep.memory.movingTo = transferTo;
+                    }
+                }
             }
             var target = Game.getObjectById(transferTo);
             if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
