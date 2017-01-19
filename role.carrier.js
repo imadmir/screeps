@@ -55,8 +55,8 @@ var roleCarrier = {
                 }
             }
 
-            if (sourceId != '') {
-                var source = Game.getObjectById(sourceId);
+            var source = Game.getObjectById(sourceId);
+            if (source !== null) {
                 creep.moveTo(source);
                 creep.pickup(source, source.amount - 1);
             }
