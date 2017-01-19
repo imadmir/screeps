@@ -6,7 +6,7 @@ var settings = {
         var settings = {};
         settings.BuilderPerRoom = 6;
         settings.MinerPerSource = 1;
-        settings.CarrierPerSource = 2;
+        settings.CarrierPerSource = 1;
 
         settings.SourceIds = [];
         for (var roomName in Game.rooms) {
