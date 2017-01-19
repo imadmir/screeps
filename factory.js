@@ -26,7 +26,7 @@ var factory = {
             var miners = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && creep.memory.sourceId == sourceId);
 
             if (miners.length < Memory.Settings.MinerPerSource && Game.spawns['Spawn1'].energy >= 300 && Game.spawns['Spawn1'].spawning == null) {
-                var newName = Game.spawns['Spawn1'].createCreep([WORK, WORK, MOVE], undefined, { role: 'miner', sourceId: sourceId });
+                var newName = Game.spawns['Spawn1'].createCreep([WORK, WORK, MOVE, MOVE], undefined, { role: 'miner', sourceId: sourceId });
                 console.log('Spawning new miner: ' + newName);
                 return;
             }

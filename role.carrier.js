@@ -33,7 +33,10 @@ var roleCarrier = {
             if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(target);
             }
-
+            //if the target is full, clear the movingTo to look for a different target
+            if (target.energy == target.energyCapacity) {
+                creep.memory.movingTo = undefined;
+            }
         }
         else {
 
@@ -59,6 +62,9 @@ var roleCarrier = {
             if (source !== null) {
                 creep.moveTo(source);
                 creep.pickup(source, source.amount - 1);
+            } else {
+                //if there is no source. look for a new one
+                creep.memory.movingTo = undefined;
             }
 
         }
