@@ -48,9 +48,10 @@ var roleCarrier = {
                 sourceId = creep.memory.sourceId;
                 var sourceMain = Game.getObjectById(sourceId);
 
-                var droppedSource = sourceMain.pos.findInRange(FIND_DROPPED_RESOURCES, 2);
-                if (droppedSource.length > 0) {
-                    creep.memory.movingTo = droppedSource.id;
+                var droppedSources = sourceMain.pos.findInRange(FIND_DROPPED_RESOURCES, 2);
+                if (droppedSources.length > 0) {
+                    sourceId = droppedSource[0].id;
+                    creep.memory.movingTo = droppedSource[0].id;
                 } else {
                     var sourceNew = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES);
                     sourceId = sourceNew.id;
