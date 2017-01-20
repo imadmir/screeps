@@ -4,7 +4,7 @@ var settings = {
         console.log('Initializing Settings ....');
 
         var settings = {};
-        settings.BuilderPerRoom = 6;
+        settings.BuilderPerRoom = 4;
         settings.MinerPerSource = 1;
         settings.CarrierPerSource = 1;
 
