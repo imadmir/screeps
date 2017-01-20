@@ -60,10 +60,22 @@ var roleCarrier = {
                 if (droppedSources.length > 0) {
                     sourceId = droppedSources[0].id;
                     creep.memory.movingTo = droppedSources[0].id;
-                } else {
-                    var sourceNew = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES);
-                    sourceId = sourceNew.id;
-                    creep.memory.movingTo = sourceId;
+                }
+                else {
+                    var containers = sourceMain.pos.findInRanged(FIND_STRUCTURES, 2, {
+                    filter: (structure) => {
+                        return (structure.structureType == STRUCTURE_CONTAINER && 
+                                structure.store[RESOURCE_ENERGY] > 0
+                    }
+                    if (containers.length > 0) {
+                        sourceId = containers[0].id;
+                        creep.memory.movingTo = containers[0].id;
+                }
+                   else{    
+                        var sourceNew = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES);
+                        sourceId = sourceNew.id;
+                        creep.memory.movingTo = sourceId;
+                    }
                 }
             }
 
