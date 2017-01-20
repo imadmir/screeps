@@ -4,7 +4,7 @@ var factory = {
         //Remove dead creeps
         for (var name in Game.creeps) {
             if (Game.creeps[name] == undefined) {
-                delete Game.creeps[name];
+                delete Memory.creeps[name];
             }
         }
 
