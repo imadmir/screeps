@@ -20,7 +20,7 @@ var factory = {
 
         var level = 0;
         for (var spawnName in Game.spawns) {
-            var spawn = game.spawns[spawnName]
+            var spawn = Game.spawns[spawnName]
 
             var totalMiners = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner');
             var totalCarriers = _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier');
