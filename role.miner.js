@@ -24,7 +24,9 @@ var roleMiner = {
         var source = Game.getObjectById(sourceId);
         if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
             creep.moveTo(source);
-            creep.room.createConstructionSite(creep.pos, STRUCTURE_ROAD);
+            if (creep.room.controller.level > 1) {
+                creep.room.createConstructionSite(creep.pos, STRUCTURE_ROAD);
+            }
         }
     }
 

@@ -13,17 +13,30 @@ var roleBuilder = {
         }
 
         if (creep.memory.working) {
+            if (creep.room.controller.ticksToDowngrade < 2000) {
+                //upgrade controller
+                if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(creep.room.controller);
+                }
+            }
             //Build construction sites
-            var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
-            if (targets.length && creep.room.controller.ticksToDowngrade > 2000) {
+            var targets = creep.room.find(FIND_MY_CONSTRUCTION_SITES);
+            if (targets.length) {
                 if (creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targets[0]);
                 }
             }
-                //else upgrade controller
             else {
-                if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(creep.room.controller);
+                targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+                if (targets.length) {
+                    if (creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(targets[0]);
+                    }
+                    else {
+                        if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+                            creep.moveTo(creep.room.controller);
+                        }
+                    }
                 }
             }
         }
