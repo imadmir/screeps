@@ -24,7 +24,7 @@ var factory = {
 
             var totalMiners = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner');
             var totalCarriers = _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier');
-            if (totalMiners >= Memory.Settings.MinerPerSource && totalCarriers >= Memory.Settings.CarrierPerSource) {
+            if (totalMiners.length >= Memory.Settings.MinerPerSource && totalCarriers.length >= Memory.Settings.CarrierPerSource) {
                 if (spawn.room.energyCapacityAvailable >= 550) {
                     level = 1;
                 }
