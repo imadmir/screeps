@@ -30,9 +30,8 @@ var roleCarrier = {
             var target = Game.getObjectById(transferTo);
             if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(target);
-            }
-            //if the target is full, clear the movingTo to look for a different target
-            if (isTargetFull(target)) {
+            }  
+            else { //if the target is full, clear the movingTo to look for a different target
                 creep.memory.movingTo = undefined;
             }
         }
@@ -44,18 +43,18 @@ var roleCarrier = {
 
 };
 
-function isTargetFull(target) {
-    if (target !== null) {
-        if (target.energy != undefined && target.energy == target.energyCapacity) {
-            return true;
-        }
-        if (target.carry != undefined && target.carry.energy == target.carryCapacity) {
-            return true;
-        }
-        return false;
-    }
-    return true;
-}
+//function isTargetFull(target) {
+//    if (target !== null) {
+//        if (target.energy != undefined && target.energy == target.energyCapacity) {
+//            return true;
+//        }
+//        if (target.carry != undefined && target.carry.energy == target.carryCapacity) {
+//            return true;
+//        }
+//        return false;
+//    }
+//    return true;
+//}
 
 function findTargetToGiveEnergy(creep) {
     var targets = creep.room.find(FIND_STRUCTURES, {
