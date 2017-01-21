@@ -1,22 +1,22 @@
+var action = require('action');
+
 var roleBuilder = {
 
     /** @param {Creep} creep **/
-    run: function(creep) {
+    run: function (creep) {
 
-        if(creep.memory.building && creep.carry.energy == 0) {
-            creep.memory.building = false;
-            creep.say('harvesting');
+        if (creep.memory.working && creep.carry.energy == 0) {
+            creep.memory.working = false;
         }
-        if(!creep.memory.building && creep.carry.energy == creep.carryCapacity) {
-            creep.memory.building = true;
-            creep.say('building');
+        if (!creep.memory.working && creep.carry.energy == creep.carryCapacity) {
+            creep.memory.working = true;
         }
 
-        if (creep.memory.building) {
+        if (creep.memory.working) {
             //Build construction sites
             var targets = creep.room.find(FIND_CONSTRUCTION_SITES);
-            if(targets.length && creep.room.controller.ticksToDowngrade > 2000) {
-                if(creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
+            if (targets.length && creep.room.controller.ticksToDowngrade > 2000) {
+                if (creep.build(targets[0]) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(targets[0]);
                 }
             }
@@ -28,13 +28,10 @@ var roleBuilder = {
             }
         }
         else {
-            //get the energy from the closest source
-            var source = creep.pos.findClosestByRange(FIND_SOURCES);
-            if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(source);
-            }
+            action.PickUpEnergy(creep);
         }
     }
 };
+
 
 module.exports = roleBuilder;
