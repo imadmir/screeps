@@ -18,6 +18,9 @@ var factory = {
         var builderParts = [[WORK, CARRY, CARRY, MOVE, MOVE],
                            [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE]];
 
+        var guardParts = [[ATTACK, ATTACK, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE],
+                           [ATTACK, ATTACK, ATTACK, ATTACK, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE]];
+
         var level = 0;
         for (var spawnName in Game.spawns) {
             var spawn = Game.spawns[spawnName]
@@ -59,6 +62,18 @@ var factory = {
                 var newName = spawn.createCreep(builderParts[level], undefined, { role: 'builder', working: false });
                 console.log('Spawning new Builder: ' + newName);
                 return;
+            }
+
+            //spawn Guards if there is any hostiles
+            var hostileTargets = spawn.room.find(FIND_HOSTILE_CREEPS);
+            if (hostileTargets.lenth) {
+                var guards = _.filter(Game.creeps, (creep) => creep.memory.role == 'guard');
+
+                if (guards.length < hostileTargets.lenth + 1 && spawn.room.energyAvailable >= requiredEnergy && spawn.spawning == null) {
+                    var newName = spawn.createCreep(guardParts[level], undefined, { role: 'guard' });
+                    console.log('Spawning new Guard: ' + newName);
+                    return;
+                }
             }
         }
 
