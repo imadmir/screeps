@@ -36,9 +36,14 @@ var settings = {
                 settings.towerIds.push(towers[i].id);
             }
 
-            var roomInfo = { name: roomName, sourceIds: sourceIds, spawnNames: spawnNames }
+            var roomInfo = { name: roomName, sourceIds: sourceIds, spawnNames: spawnNames, targets: [] }
 
             settings.rooms.push(roomInfo);
+        }
+
+        var roomE83S33 = _.filter(settings.rooms, (room) => room.name == 'E83S33');
+        if (roomE83S33.length) {
+            roomE83S33[0].targets.push('E83S34');
         }
 
         Memory.Settings = settings;
