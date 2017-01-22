@@ -10,7 +10,7 @@ var factory = {
 
 
         var minerParts = [[WORK, WORK, MOVE, MOVE],
-                           [WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE]];
+                           [WORK, WORK, WORK, WORK, WORK, MOVE]];
 
         var carrierParts = [[CARRY, CARRY, CARRY, MOVE, MOVE, MOVE],
                              [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE]];
