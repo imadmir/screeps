@@ -22,7 +22,7 @@ var settings = {
             var spawns = room.find(FIND_MY_SPAWNS);
             var spawnNames = [];
             for (var i in spawns) {
-                spawnNames.push(spawns[i].Name);
+                spawnNames.push(spawns[i].name);
             }
 
             var roomInfo = { name: roomName, sourceIds: sourceIds, spawnNames: spawnNames }
