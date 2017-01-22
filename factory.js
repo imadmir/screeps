@@ -11,15 +11,19 @@ var factory = {
 
         var minerParts = [[WORK, WORK, MOVE, MOVE],
                            [WORK, WORK, WORK, WORK, WORK, MOVE]];
+        var minerPartsCost = [300, 550];
 
         var carrierParts = [[CARRY, CARRY, CARRY, MOVE, MOVE, MOVE],
                              [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE]];
+        var carrierPartsCost = [300, 550];
 
         var builderParts = [[WORK, CARRY, CARRY, MOVE, MOVE],
                            [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE]];
+        var builderPartsCost = [300, 550];
 
         var guardParts = [[ATTACK, ATTACK, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE],
                            [ATTACK, ATTACK, ATTACK, ATTACK, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE]];
+        var guardPartsCost = [300, 550];
 
         var roomLevel = 0;
         for (var roomCount in Memory.Settings.rooms) {
@@ -36,10 +40,6 @@ var factory = {
                         roomLevel = 1;
                     }
                 }
-                var requiredEnergy = 300;
-                if (roomLevel == 1) {
-                    requiredEnergy = 550;
-                }
 
                 for (var spawnCount in roomInfo.spawnNames) {
                     var spawnName = roomInfo.spawnNames[spawnCount]
@@ -50,14 +50,14 @@ var factory = {
                         var sourceId = roomInfo.sourceIds[i];
                         var miners = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && creep.memory.mainSourceId == sourceId);
 
-                        if (miners.length < Memory.Settings.MinerPerSource && room.energyAvailable >= requiredEnergy && spawn.spawning == null) {
+                        if (miners.length < Memory.Settings.MinerPerSource && room.energyAvailable >= minerPartsCost[roomLevel] && spawn.spawning == null) {
                             var newName = spawn.createCreep(minerParts[roomLevel], undefined, { role: 'miner', mainSourceId: sourceId, mainSourceRoomName: roomInfo.name, roomName: roomInfo.name });
                             console.log('Spawning new miner: ' + newName + ' -  Room: ' + roomInfo.name + ' mainSourceId: ' + sourceId);
                             break;
                         }
                         var carriers = _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier' && creep.memory.mainSourceId == sourceId);
 
-                        if (carriers.length < Memory.Settings.CarrierPerSource && room.energyAvailable >= requiredEnergy && spawn.spawning == null) {
+                        if (carriers.length < Memory.Settings.CarrierPerSource && room.energyAvailable >= carrierPartsCost[roomLevel] && spawn.spawning == null) {
                             var newName = spawn.createCreep(carrierParts[roomLevel], undefined, { role: 'carrier', mainSourceId: sourceId, working: false, mainSourceRoomName: roomInfo.name, roomName: roomInfo.name });
                             console.log('Spawning new carrier: ' + newName + ' -  Room: ' + roomInfo.name + ' mainSourceId: ' + sourceId);
                             break;
@@ -69,7 +69,7 @@ var factory = {
                     if (hostileTargets.lenth) {
                         var guards = _.filter(Game.creeps, (creep) => creep.memory.role == 'guard' && creep.room.name == roomInfo.name);
 
-                        if (guards.length < hostileTargets.lenth + 1 && room.energyAvailable >= requiredEnergy && spawn.spawning == null) {
+                        if (guards.length < hostileTargets.lenth + 1 && room.energyAvailable >= guardPartsCost[roomLevel] && spawn.spawning == null) {
                             var newName = spawn.createCreep(guardParts[roomLevel], undefined, { role: 'guard', roomName: roomInfo.name });
                             console.log('Spawning new Guard: ' + newName + ' -  Room: ' + roomInfo.name );
                             break;
@@ -79,7 +79,7 @@ var factory = {
                     //spawn builder
                     var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder' && creep.room.name == roomInfo.name);
 
-                    if (builders.length < Memory.Settings.BuilderPerRoom && room.energyAvailable >= requiredEnergy && spawn.spawning == null) {
+                    if (builders.length < Memory.Settings.BuilderPerRoom && room.energyAvailable >= builderPartsCost[roomLevel] && spawn.spawning == null) {
                         var newName = spawn.createCreep(builderParts[roomLevel], undefined, { role: 'builder', working: false, requireEnergy: true, roomName: roomInfo.name });
                         console.log('Spawning new Builder: ' + newName + ' -  Room: ' + roomInfo.name );
                         break;
@@ -87,7 +87,7 @@ var factory = {
 
                     var wallBuilders = _.filter(Game.creeps, (creep) => creep.memory.role == 'wallBuilder' && creep.room.name == roomInfo.name);
 
-                    if (wallBuilders.length < Memory.Settings.WallBuilderPerRoom && room.energyAvailable >= requiredEnergy && spawn.spawning == null) {
+                    if (wallBuilders.length < Memory.Settings.WallBuilderPerRoom && room.energyAvailable >= builderPartsCost[roomLevel] && spawn.spawning == null) {
                         var newName = spawn.createCreep(builderParts[roomLevel], undefined, { role: 'wallBuilder', working: false, roomName: roomInfo.name });
                         console.log('Spawning new wallBuilder: ' + newName + ' -  Room: ' + roomInfo.name);
                         break;

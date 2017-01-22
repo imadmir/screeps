@@ -23,6 +23,15 @@ var structureTower = {
             if (damagedBuildings.length) {
                 tower.repair(damagedBuildings[0])
             }
+                //if no building is damaged, fix ramparts
+            else {
+                var damagedRamparts = tower.room.find(FIND_STRUCTURES,
+                { filter: (s) => s.hits < s.hitsMax && s.structureType == STRUCTURE_RAMPART });
+                damagedRamparts.sort(function (a, b) { return (a.hits - b.hits) });
+                if (damagedRamparts.length) {
+                    tower.repair(damagedBuildings[0])
+                }
+            }
         }
     }
 
