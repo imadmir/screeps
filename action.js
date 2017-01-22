@@ -53,11 +53,50 @@ var action = {
 
             //if there is no source. look for a new one
             creep.memory.movingTo = undefined;
-            
+
         }
 
         return false;
-        
+
+    },
+    //transfer energy to the spawn/extension/tower, else give it to a builder
+    GiveEnergy: function (creep) {
+        var transferTo = '';
+        //if the creep is moving, keep on moving, he already has a target for his transfer
+        if (creep.memory.movingTo != undefined) {
+            transferTo = creep.memory.movingTo;
+        }
+        else {
+
+            var targets = creep.room.find(FIND_STRUCTURES, {
+                filter: (structure) => {
+                    return (structure.structureType == STRUCTURE_EXTENSION ||
+                            structure.structureType == STRUCTURE_SPAWN ||
+                            structure.structureType == STRUCTURE_TOWER) && structure.energy < structure.energyCapacity;
+                }
+            });
+            if (targets.length > 0) {
+                transferTo = targets[0].id;
+            }
+                //If all structures are full, give energy to builders
+            else {
+                var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder' && creep.carry.energy < (creep.carryCapacity / 2));
+                if (builders.length > 0) {
+                    transferTo = builders[0].id;
+                }
+            }
+        }
+
+        if (transferTo != '') {
+            creep.memory.movingTo = transferTo;
+            var target = Game.getObjectById(transferTo);
+            if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(target);
+            }
+            else { //if the target is full, clear the movingTo to look for a different target
+                creep.memory.movingTo = undefined;
+            }
+        }
     }
 
 };
