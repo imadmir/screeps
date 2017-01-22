@@ -9,6 +9,7 @@ var settings = {
         settings.MinerPerSource = 1;
         settings.CarrierPerSource = 2;
 
+        settings.towerIds = [];
         settings.rooms = [];
         for (var roomName in Game.rooms) {
             var room = Game.rooms[roomName];
@@ -25,7 +26,18 @@ var settings = {
                 spawnNames.push(spawns[i].name);
             }
 
+            var towers = room.find(FIND_MY_STRUCTURES, {
+                filter: (structure) => {
+                            return (structure.structureType == STRUCTURE_TOWER);
+                }
+            });
+
+            for (var i in towers) {
+                settings.towerIds.push(towers[i].id);
+            }
+
             var roomInfo = { name: roomName, sourceIds: sourceIds, spawnNames: spawnNames }
+
             settings.rooms.push(roomInfo);
         }
 

@@ -4,6 +4,7 @@ var roleCarrier = require('role.carrier');
 var roleGuard = require('role.guard');
 var settings = require('settings');
 var factory = require('factory');
+var structureTower = require('structure.tower');
 
 module.exports.loop = function () {
 
@@ -27,5 +28,10 @@ module.exports.loop = function () {
         if (creep.memory.role == 'guard') {
             roleGuard.run(creep);
         }
+    }
+
+    for (var towerId in Memory.Settings.towerIds) {
+        var tower = Game.getObjectById(towerId);
+        structureTower.run(tower);
     }
 }
