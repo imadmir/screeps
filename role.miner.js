@@ -1,7 +1,10 @@
 var roleMiner = {
 
-    /** @param {Creep} creep **/
     run: function (creep) {
+
+        if (creep == null) {
+            return;
+        }
 
         var sourceId = '';
         if (creep.memory.movingTo != undefined) {

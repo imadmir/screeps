@@ -1,7 +1,9 @@
 var structureTower = {
 
     run: function (tower) {
-        
+        if (tower == null) {
+            return;
+        }
         var targets = tower.room.find(FIND_HOSTILE_CREEPS);
         if (targets.length) {
             tower.attack(targets[0]);

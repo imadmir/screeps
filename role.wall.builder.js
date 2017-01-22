@@ -4,6 +4,10 @@ var roleWallBuilder = {
 
     run: function (creep) {
 
+        if (creep == null) {
+            return;
+        }
+
         if (creep.memory.working && creep.carry.energy == 0) {
             creep.memory.working = false;
         }
