@@ -31,7 +31,9 @@ var action = {
             }
             if (sourceId == '') {
                 var sourceNew = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES);
-                sourceId = sourceNew.id;
+                if (sourceNew != null) {
+                    sourceId = sourceNew.id;
+                }
             }
         }
 

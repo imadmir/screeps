@@ -17,8 +17,10 @@ var roleMiner = {
             } else {
                 creep.say('Enemy');
                 var sourceNew = creep.pos.findClosestByRange(FIND_SOURCES);
-                sourceId = sourceNew.id;
-                creep.memory.movingTo = sourceId;
+                if (sourceNew != null) {
+                    sourceId = sourceNew.id;
+                    creep.memory.movingTo = sourceId;
+                }
             }
         }
         var source = Game.getObjectById(sourceId);
