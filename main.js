@@ -30,7 +30,8 @@ module.exports.loop = function () {
         }
     }
 
-    for (var towerId in Memory.Settings.towerIds) {
+    for (var i in Memory.Settings.towerIds) {
+        var towerId = Memory.Settings.towerIds[i];
         var tower = Game.getObjectById(towerId);
         structureTower.run(tower);
     }
