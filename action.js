@@ -120,13 +120,16 @@ var action = {
             targetId = creep.memory.movingTo;
         }
         else {
-            var targets = creep.room.find(FIND_MY_CONSTRUCTION_SITES);
+            //Make sure to send only 1 builder per construction job.
+            var targets = creep.room.find(FIND_MY_CONSTRUCTION_SITES,
+                                        { filter: (s) => !(_.filter(Game.creeps, (creep) => creep.memory.role == 'builder' && creep.memory.movingTo == s.id).length > 0) });
             if (targets.length) {
                 targetId = targets[0].id;
                 creep.memory.movingTo = targetId;
             }
             else {
-                targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+                targets = creep.room.find(FIND_CONSTRUCTION_SITES,
+                                        { filter: (s) => !(_.filter(Game.creeps, (creep) => creep.memory.role == 'builder' && creep.memory.movingTo == s.id).length > 0) });
                 if (targets.length) {
                     targetId = targets[0].id;
                     creep.memory.movingTo = targetId;

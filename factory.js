@@ -52,6 +52,8 @@ var factory = {
                     var spawnName = roomInfo.spawnNames[spawnCount]
                     var spawn = Game.spawns[spawnName]
 
+                    var spawning = false;
+
                     //Spawn miner
                     for (var i in roomInfo.sourceIds) {
                         var sourceId = roomInfo.sourceIds[i];
@@ -60,6 +62,7 @@ var factory = {
                         if (miners.length < Memory.Settings.MinerPerSource && room.energyAvailable >= minerPartsCost[roomLevel] && spawn.spawning == null) {
                             var newName = spawn.createCreep(minerParts[roomLevel], undefined, { role: 'miner', mainSourceId: sourceId, mainSourceRoomName: roomInfo.name, roomName: roomInfo.name });
                             console.log('Spawning new miner: ' + newName + ' -  Room: ' + roomInfo.name + ' mainSourceId: ' + sourceId);
+                            spawning = true;
                             break;
                         }
                         var carriers = _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier' && creep.memory.mainSourceId == sourceId);
@@ -67,10 +70,13 @@ var factory = {
                         if (carriers.length < Memory.Settings.CarrierPerSource && room.energyAvailable >= carrierPartsCost[roomLevel] && spawn.spawning == null) {
                             var newName = spawn.createCreep(carrierParts[roomLevel], undefined, { role: 'carrier', mainSourceId: sourceId, working: false, mainSourceRoomName: roomInfo.name, roomName: roomInfo.name });
                             console.log('Spawning new carrier: ' + newName + ' -  Room: ' + roomInfo.name + ' mainSourceId: ' + sourceId);
+                            spawning = true;
                             break;
                         }
                     }
-
+                    if (spawning) {
+                        break;
+                    }
                     //spawn Guards if there is any hostiles
                     var hostileTargets = room.find(FIND_HOSTILE_CREEPS);
                     if (hostileTargets.lenth) {
