@@ -22,8 +22,8 @@ var factory = {
                            [ATTACK, ATTACK, ATTACK, ATTACK, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE]];
 
         var roomLevel = 0;
-        for (var roomCount in Settings.rooms) {
-            var roomInfo = Settings.rooms[roomCount];
+        for (var roomCount in Memory.Settings.rooms) {
+            var roomInfo = Memory.Settings.rooms[roomCount];
 
             //if the room has a spawn
             if (roomInfo.spawnNames.length > 0) {
