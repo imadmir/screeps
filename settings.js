@@ -2,6 +2,7 @@ var settings = {
 
     init: function () {
         console.log('Initializing Settings ....');
+        Memory.ReloadSettings = undefined;
 
         var settings = {};
         settings.BuilderPerRoom = 4;
