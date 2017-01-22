@@ -33,6 +33,17 @@ var action = {
                 if (sourceNew != null) {
                     sourceId = sourceNew.id;
                 }
+                else {
+                    var sourceContainer = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                        filter: (structure) => {
+                            return (structure.structureType == STRUCTURE_CONTAINER &&
+                                    structure.store[RESOURCE_ENERGY] > 0);
+                        }
+                    });
+                    if (sourceContainer != null) {
+                        sourceId = sourceContainer.id;
+                    }
+                }
             }
         }
 
