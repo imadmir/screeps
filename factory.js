@@ -88,7 +88,7 @@ var factory = {
                     var wallBuilders = _.filter(Game.creeps, (creep) => creep.memory.role == 'wallBuilder' && creep.room.name == roomInfo.name);
 
                     if (wallBuilders.length < Memory.Settings.WallBuilderPerRoom && room.energyAvailable >= requiredEnergy && spawn.spawning == null) {
-                        var newName = spawn.createCreep(builderParts[roomLevel], undefined, { role: 'wallBuilder', working: false, requireEnergy: true, roomName: roomInfo.name });
+                        var newName = spawn.createCreep(builderParts[roomLevel], undefined, { role: 'wallBuilder', working: false, roomName: roomInfo.name });
                         console.log('Spawning new wallBuilder: ' + newName + ' -  Room: ' + roomInfo.name);
                         break;
                     }
