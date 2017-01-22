@@ -13,15 +13,37 @@ var roleWallBuilder = {
 
         if (creep.memory.working) {
             //Repair walls and ramparts
-            var targets = creep.room.find(FIND_STRUCTURES,
-                { filter: (s) => s.hits < s.hitsMax && (s.structureType == STRUCTURE_WALL || s.structureType == STRUCTURE_RAMPART) });
-            targets.sort(function (a,b) {return (a.hits - b.hits)});
+            var targetId = '';
+            if (creep.memory.movingTo != undefined) {
+                targetId = creep.memory.movingTo;
+            }
+            else {
+                var targets = creep.room.find(FIND_STRUCTURES,
+                    { filter: (s) => s.hits < s.hitsMax && (s.structureType == STRUCTURE_WALL || s.structureType == STRUCTURE_RAMPART) });
+                targets.sort(function (a, b) { return (a.hits - b.hits) });
 
-            if (targets.length) {
-                if (creep.repair(targets[0]) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(targets[0]);
+                if (targets.length) {
+                    targetId = targets[0].id;
+                    creep.memory.movingTo = targetId;
+                    if (creep.repair(targets[0]) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(targets[0]);
+                    }
                 }
             }
+
+            if (targetId != '') {
+                var target = Game.getObjectById(targetId);
+                var repairResult = creep.repair(target);
+                if (repairResult == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target);
+                }
+
+                if (target.hits == target.hitsMax || creep.carry.energy == 0) {
+                    //clear move to, building has been finished
+                    creep.memory.movingTo = undefined;
+                }
+            }
+
         }
         else {
             action.PickUpEnergy(creep);
