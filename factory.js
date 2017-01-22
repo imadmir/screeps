@@ -53,14 +53,14 @@ var factory = {
                         if (miners.length < Memory.Settings.MinerPerSource && room.energyAvailable >= requiredEnergy && spawn.spawning == null) {
                             var newName = spawn.createCreep(minerParts[roomLevel], undefined, { role: 'miner', mainSourceId: sourceId, roomName: roomInfo.name });
                             console.log('Spawning new miner: ' + newName + ' -  Room: ' + roomInfo.name + ' mainSourceId: ' + sourceId);
-                            continue;
+                            break;
                         }
                         var carriers = _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier' && creep.memory.mainSourceId == sourceId);
 
                         if (carriers.length < Memory.Settings.CarrierPerSource && room.energyAvailable >= requiredEnergy && spawn.spawning == null) {
                             var newName = spawn.createCreep(carrierParts[roomLevel], undefined, { role: 'carrier', mainSourceId: sourceId, working: false, roomName: roomInfo.name });
                             console.log('Spawning new carrier: ' + newName + ' -  Room: ' + roomInfo.name + ' mainSourceId: ' + sourceId);
-                            continue;
+                            break;
                         }
                     }
 
@@ -72,7 +72,7 @@ var factory = {
                         if (guards.length < hostileTargets.lenth + 1 && room.energyAvailable >= requiredEnergy && spawn.spawning == null) {
                             var newName = spawn.createCreep(guardParts[roomLevel], undefined, { role: 'guard' });
                             console.log('Spawning new Guard: ' + newName + ' -  Room: ' + roomInfo.name );
-                            continue;
+                            break;
                         }
                     }
 
@@ -82,7 +82,7 @@ var factory = {
                     if (builders.length < Memory.Settings.BuilderPerRoom && room.energyAvailable >= requiredEnergy && spawn.spawning == null) {
                         var newName = spawn.createCreep(builderParts[roomLevel], undefined, { role: 'builder', working: false });
                         console.log('Spawning new Builder: ' + newName + ' -  Room: ' + roomInfo.name );
-                        continue;
+                        break;
                     }
 
                 }
