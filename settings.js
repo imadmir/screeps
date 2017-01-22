@@ -42,6 +42,7 @@ var settings = {
         }
 
         Memory.Settings = settings;
+        console.log('Initializing Completed. ');
     }
 
 };
