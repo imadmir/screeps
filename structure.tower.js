@@ -29,7 +29,7 @@ var structureTower = {
                 { filter: (s) => s.hits < s.hitsMax && s.structureType == STRUCTURE_RAMPART });
                 damagedRamparts.sort(function (a, b) { return (a.hits - b.hits) });
                 if (damagedRamparts.length) {
-                    tower.repair(damagedBuildings[0])
+                    tower.repair(damagedRamparts[0])
                 }
             }
         }

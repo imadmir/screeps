@@ -10,20 +10,24 @@ var factory = {
 
 
         var minerParts = [[WORK, WORK, MOVE, MOVE],
-                           [WORK, WORK, WORK, WORK, WORK, MOVE]];
-        var minerPartsCost = [300, 550];
+                           [WORK, WORK, WORK, WORK, WORK, MOVE],
+                           [WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE]];
+        var minerPartsCost = [300, 550, 700];
 
         var carrierParts = [[CARRY, CARRY, CARRY, MOVE, MOVE, MOVE],
-                             [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE]];
-        var carrierPartsCost = [300, 550];
+                             [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],
+                             [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE]];
+        var carrierPartsCost = [300, 550, 800];
 
         var builderParts = [[WORK, CARRY, CARRY, MOVE, MOVE],
-                           [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE]];
-        var builderPartsCost = [300, 550];
+                           [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE],
+                           [WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE]];
+        var builderPartsCost = [300, 550, 800];
 
         var guardParts = [[ATTACK, ATTACK, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE],
-                           [ATTACK, ATTACK, ATTACK, ATTACK, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE]];
-        var guardPartsCost = [300, 550];
+                           [ATTACK, ATTACK, ATTACK, ATTACK, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE],
+                           [RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, MOVE, MOVE, MOVE, MOVE]];
+        var guardPartsCost = [300, 550, 800];
 
         var roomLevel = 0;
         for (var roomCount in Memory.Settings.rooms) {
@@ -36,7 +40,10 @@ var factory = {
                 var totalMiners = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && creep.room.name == roomInfo.name);
                 var totalCarriers = _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier' && creep.room.name == roomInfo.name);
                 if (totalMiners.length >= Memory.Settings.MinerPerSource && totalCarriers.length >= Memory.Settings.CarrierPerSource) {
-                    if (room.energyCapacityAvailable >= 550) {
+                    if (room.energyCapacityAvailable >= 800) {
+                        roomLevel = 2;
+                    }
+                    else if (room.energyCapacityAvailable >= 550) {
                         roomLevel = 1;
                     }
                 }
