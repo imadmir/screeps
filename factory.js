@@ -80,7 +80,7 @@ var factory = {
                     var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder' && creep.room.name == roomInfo.name);
 
                     if (builders.length < Memory.Settings.BuilderPerRoom && room.energyAvailable >= requiredEnergy && spawn.spawning == null) {
-                        var newName = spawn.createCreep(builderParts[roomLevel], undefined, { role: 'builder', working: false });
+                        var newName = spawn.createCreep(builderParts[roomLevel], undefined, { role: 'builder', working: false, requireEnergy: true });
                         console.log('Spawning new Builder: ' + newName + ' -  Room: ' + roomInfo.name );
                         break;
                     }
@@ -88,7 +88,7 @@ var factory = {
                     var wallBuilders = _.filter(Game.creeps, (creep) => creep.memory.role == 'wallBuilder' && creep.room.name == roomInfo.name);
 
                     if (wallBuilders.length < Memory.Settings.WallBuilderPerRoom && room.energyAvailable >= requiredEnergy && spawn.spawning == null) {
-                        var newName = spawn.createCreep(builderParts[roomLevel], undefined, { role: 'wallBuilder', working: false });
+                        var newName = spawn.createCreep(builderParts[roomLevel], undefined, { role: 'wallBuilder', working: false, requireEnergy: true });
                         console.log('Spawning new wallBuilder: ' + newName + ' -  Room: ' + roomInfo.name);
                         break;
                     }
