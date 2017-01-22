@@ -18,6 +18,7 @@ var roleBuilder = {
                 if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(creep.room.controller);
                 }
+                return;
             }
             //Build construction sites
             var targets = creep.room.find(FIND_MY_CONSTRUCTION_SITES);
