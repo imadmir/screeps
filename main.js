@@ -7,7 +7,7 @@ var factory = require('factory');
 
 module.exports.loop = function () {
 
-    if (Memory.Settings == undefined) {
+    if (Memory.Settings == undefined || Memory.ReloadSettings != undefined) {
         settings.init();
     }
 
