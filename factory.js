@@ -51,14 +51,14 @@ var factory = {
                         var miners = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && creep.memory.mainSourceId == sourceId);
 
                         if (miners.length < Memory.Settings.MinerPerSource && room.energyAvailable >= requiredEnergy && spawn.spawning == null) {
-                            var newName = spawn.createCreep(minerParts[roomLevel], undefined, { role: 'miner', mainSourceId: sourceId, roomName: roomInfo.name });
+                            var newName = spawn.createCreep(minerParts[roomLevel], undefined, { role: 'miner', mainSourceId: sourceId, mainSourceRoomName: roomInfo.name, roomName: roomInfo.name });
                             console.log('Spawning new miner: ' + newName + ' -  Room: ' + roomInfo.name + ' mainSourceId: ' + sourceId);
                             break;
                         }
                         var carriers = _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier' && creep.memory.mainSourceId == sourceId);
 
                         if (carriers.length < Memory.Settings.CarrierPerSource && room.energyAvailable >= requiredEnergy && spawn.spawning == null) {
-                            var newName = spawn.createCreep(carrierParts[roomLevel], undefined, { role: 'carrier', mainSourceId: sourceId, working: false, roomName: roomInfo.name });
+                            var newName = spawn.createCreep(carrierParts[roomLevel], undefined, { role: 'carrier', mainSourceId: sourceId, working: false, mainSourceRoomName: roomInfo.name, roomName: roomInfo.name });
                             console.log('Spawning new carrier: ' + newName + ' -  Room: ' + roomInfo.name + ' mainSourceId: ' + sourceId);
                             break;
                         }
@@ -70,7 +70,7 @@ var factory = {
                         var guards = _.filter(Game.creeps, (creep) => creep.memory.role == 'guard' && creep.room.name == roomInfo.name);
 
                         if (guards.length < hostileTargets.lenth + 1 && room.energyAvailable >= requiredEnergy && spawn.spawning == null) {
-                            var newName = spawn.createCreep(guardParts[roomLevel], undefined, { role: 'guard' });
+                            var newName = spawn.createCreep(guardParts[roomLevel], undefined, { role: 'guard', roomName: roomInfo.name });
                             console.log('Spawning new Guard: ' + newName + ' -  Room: ' + roomInfo.name );
                             break;
                         }
@@ -80,7 +80,7 @@ var factory = {
                     var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder' && creep.room.name == roomInfo.name);
 
                     if (builders.length < Memory.Settings.BuilderPerRoom && room.energyAvailable >= requiredEnergy && spawn.spawning == null) {
-                        var newName = spawn.createCreep(builderParts[roomLevel], undefined, { role: 'builder', working: false, requireEnergy: true });
+                        var newName = spawn.createCreep(builderParts[roomLevel], undefined, { role: 'builder', working: false, requireEnergy: true, roomName: roomInfo.name });
                         console.log('Spawning new Builder: ' + newName + ' -  Room: ' + roomInfo.name );
                         break;
                     }
@@ -88,7 +88,7 @@ var factory = {
                     var wallBuilders = _.filter(Game.creeps, (creep) => creep.memory.role == 'wallBuilder' && creep.room.name == roomInfo.name);
 
                     if (wallBuilders.length < Memory.Settings.WallBuilderPerRoom && room.energyAvailable >= requiredEnergy && spawn.spawning == null) {
-                        var newName = spawn.createCreep(builderParts[roomLevel], undefined, { role: 'wallBuilder', working: false, requireEnergy: true });
+                        var newName = spawn.createCreep(builderParts[roomLevel], undefined, { role: 'wallBuilder', working: false, requireEnergy: true, roomName: roomInfo.name });
                         console.log('Spawning new wallBuilder: ' + newName + ' -  Room: ' + roomInfo.name);
                         break;
                     }
