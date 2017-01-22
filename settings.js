@@ -9,15 +9,23 @@ var settings = {
         settings.MinerPerSource = 1;
         settings.CarrierPerSource = 2;
 
-        settings.SourceIds = [];
         settings.rooms = [];
         for (var roomName in Game.rooms) {
             var room = Game.rooms[roomName];
+
             var sources = room.find(FIND_SOURCES);
-            for (var count in sources) {
-                settings.SourceIds.push(sources[count].id);
+            var sourceIds = [];
+            for (var i in sources) {
+                sourceIds.push(sources[i].id);
             }
-            var roomInfo = { name: roomName, sources: settings.SourceIds }
+
+            var spawns = room.find(FIND_MY_SPAWNS);
+            var spawnNames = [];
+            for (var i in spawns) {
+                spawnNames.push(spawns[i].Name);
+            }
+
+            var roomInfo = { name: roomName, sourceIds: sourceIds, spawnNames: spawnNames }
             settings.rooms.push(roomInfo);
         }
 

@@ -8,7 +8,7 @@ var roleMiner = {
             sourceId = creep.memory.movingTo;
         }
         else {
-            sourceId = creep.memory.sourceId;
+            sourceId = creep.memory.mainSourceId;
             var sourceMain = Game.getObjectById(sourceId);
             //if there is hostiles in range, don't go there. 
             var hostiles = sourceMain.pos.findInRange(FIND_HOSTILE_CREEPS, 3);

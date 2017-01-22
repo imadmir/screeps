@@ -8,10 +8,9 @@ var action = {
             sourceId = creep.memory.movingTo;
         }
         else {
-            //if the creep has a source id in memroy
-            if (creep.memory.sourceId != undefined) {
-                sourceId = creep.memory.sourceId;
-                var sourceMain = Game.getObjectById(sourceId);
+            //if the creep has a mainSource id in memory
+            if (creep.memory.mainSourceId != undefined) {
+                var sourceMain = Game.getObjectById(creep.memory.mainSourceId);
 
                 var droppedSources = sourceMain.pos.findInRange(FIND_DROPPED_RESOURCES, 2);
                 if (droppedSources.length > 0) {
