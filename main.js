@@ -29,7 +29,7 @@ module.exports.loop = function () {
         if (creep.memory.role == 'guard') {
             roleGuard.run(creep);
         }
-        if (creep.memory.role == 'guard') {
+        if (creep.memory.role == 'wallBuilder') {
             roleWallBuilder.run(creep);
         }
     }
