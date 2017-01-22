@@ -33,12 +33,14 @@ var roleWallBuilder = {
 
             if (targetId != '') {
                 var target = Game.getObjectById(targetId);
-                var repairResult = creep.repair(target);
-                if (repairResult == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(target);
+                if (target != null) {
+                    var repairResult = creep.repair(target);
+                    if (repairResult == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(target);
+                    }
                 }
 
-                if (target.hits == target.hitsMax || creep.carry.energy == 0) {
+                if (target == null || target.hits == target.hitsMax || creep.carry.energy == 0) {
                     //clear move to, building has been finished
                     creep.memory.movingTo = undefined;
                 }

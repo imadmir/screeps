@@ -22,43 +22,13 @@ var roleBuilder = {
             }
 
             //Build construction sites
-            var targetId = '';
-            if (creep.memory.movingTo != undefined) {
-                targetId = creep.memory.movingTo;
-            }
-            else {
-                var targets = creep.room.find(FIND_MY_CONSTRUCTION_SITES);
-                if (targets.length) {
-                    targetId = targets[0].id;
-                    creep.memory.movingTo = targetId;
-                }
-                else {
-                    targets = creep.room.find(FIND_CONSTRUCTION_SITES);
-                    if (targets.length) {
-                        targetId = targets[0].id;
-                        creep.memory.movingTo = targetId;
-                    }
-                }
-            }
-
-            if (targetId != '') {
-                var target = Game.getObjectById(targetId);
-                var buildResult = creep.build(target);
-                if (buildResult != OK) {
-                    if (buildResult == ERR_NOT_IN_RANGE) {
-                        creep.moveTo(target);
-                    } else {
-                        //clear move to, building has been finished
-                        creep.memory.movingTo = undefined;
-                    }
-                }
-            }
-            else {
-                //upgrade controller
-                if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(creep.room.controller);
-                }
-            }
+           var actionResult = action.BuildStructures(creep);
+           if (!actionResult) {
+               //upgrade controller
+               if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+                   creep.moveTo(creep.room.controller);
+               }
+           }
 
         }
         else {

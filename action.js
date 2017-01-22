@@ -71,6 +71,7 @@ var action = {
         return false;
 
     },
+
     //transfer energy to the spawn/extension/tower, else give it to a builder
     GiveEnergy: function (creep) {
         var transferTo = '';
@@ -92,9 +93,9 @@ var action = {
             }
                 //If all structures are full, give energy to builders
             else {
-                var builders = _.filter(Game.creeps, (creep) => (creep.memory.role == 'builder' || creep.memory.role == 'wallBuilder') && creep.carry.energy < (creep.carryCapacity / 2));
-                if (builders.length > 0) {
-                    transferTo = builders[0].id;
+                var needEnergy = _.filter(Game.creeps, (creep) => (creep.memory.requireEnergy) && creep.carry.energy < (creep.carryCapacity / 2));
+                if (needEnergy.length > 0) {
+                    transferTo = needEnergy[0].id;
                 }
             }
         }
@@ -109,6 +110,45 @@ var action = {
                 creep.memory.movingTo = undefined;
             }
         }
+    },
+
+    BuildStructures: function(creep)
+    {
+        //Build construction sites
+        var targetId = '';
+        if (creep.memory.movingTo != undefined) {
+            targetId = creep.memory.movingTo;
+        }
+        else {
+            var targets = creep.room.find(FIND_MY_CONSTRUCTION_SITES);
+            if (targets.length) {
+                targetId = targets[0].id;
+                creep.memory.movingTo = targetId;
+            }
+            else {
+                targets = creep.room.find(FIND_CONSTRUCTION_SITES);
+                if (targets.length) {
+                    targetId = targets[0].id;
+                    creep.memory.movingTo = targetId;
+                }
+            }
+        }
+
+        if (targetId != '') {
+            var target = Game.getObjectById(targetId);
+            var buildResult = creep.build(target);
+            if (buildResult != OK) {
+                if (buildResult == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target);
+                } else {
+                    //clear move to, building has been finished
+                    creep.memory.movingTo = undefined;
+                }
+            }
+            return true;
+        }
+        //if no target found, return false;
+        return false;
     }
 
 };
