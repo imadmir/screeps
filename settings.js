@@ -6,6 +6,7 @@ var settings = {
 
         var settings = {};
         settings.BuilderPerRoom = 4;
+        settings.WallBuilderPerRoom = 1;
         settings.MinerPerSource = 1;
         settings.CarrierPerSource = 2;
 

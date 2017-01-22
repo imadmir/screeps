@@ -2,6 +2,7 @@ var roleBuilder = require('role.builder');
 var roleMiner = require('role.miner');
 var roleCarrier = require('role.carrier');
 var roleGuard = require('role.guard');
+var roleWallBuilder = require('role.wall.builder');
 var settings = require('settings');
 var factory = require('factory');
 var structureTower = require('structure.tower');
@@ -27,6 +28,9 @@ module.exports.loop = function () {
         }
         if (creep.memory.role == 'guard') {
             roleGuard.run(creep);
+        }
+        if (creep.memory.role == 'guard') {
+            roleWallBuilder.run(creep);
         }
     }
 
