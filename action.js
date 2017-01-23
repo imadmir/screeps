@@ -84,19 +84,29 @@ var action = {
             var targets = creep.room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
                     return ((structure.structureType == STRUCTURE_EXTENSION ||
-                            structure.structureType == STRUCTURE_SPAWN) && structure.energy < structure.energyCapacity)
-                         || (structure.structureType == STRUCTURE_TOWER && structure.energy < structure.energyCapacity * 0.9);
+                            structure.structureType == STRUCTURE_SPAWN) && structure.energy < structure.energyCapacity);
                 }
             });
             if (targets.length > 0) {
                 transferTo = targets[0].id;
             }
-                //If all structures are full, give energy to builders
             else {
-                var needEnergy = _.filter(Game.creeps, (creep) => (creep.memory.requireEnergy) && creep.carry.energy < (creep.carryCapacity / 2));
-                if (needEnergy.length > 0) {
-                    transferTo = needEnergy[0].id;
+                targets = creep.room.find(FIND_STRUCTURES, {
+                    filter: (structure) => {
+                        return (structure.structureType == STRUCTURE_TOWER && structure.energy < structure.energyCapacity * 0.9);
+                    }
+                });
+                if (targets.length > 0) {
+                    transferTo = targets[0].id;
                 }
+                else {
+                    //If all structures are full, give energy to builders
+                    var needEnergy = _.filter(Game.creeps, (creep) => (creep.memory.requireEnergy) && creep.carry.energy < (creep.carryCapacity / 2));
+                    if (needEnergy.length > 0) {
+                        transferTo = needEnergy[0].id;
+                    }
+                }
+                
             }
         }
 
