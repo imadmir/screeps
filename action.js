@@ -1,5 +1,29 @@
+function sortStructures(structure)
+		{
+			if(structure.structureType == STRUCTURE_SPAWN)
+				return 10;
+			if(structure.structureType == STRUCTURE_EXTENSION)
+				return 8;
+			if(structure.structureType == STRUCTURE_TOWER)
+				return 6;
+			if(structure.structureType == STRUCTURE_STORAGE)
+				return 0;
+		}
+		
 var action = {
 
+	var sortStructures = function(structure)
+		{
+			if(structure.structureType == STRUCTURE_SPAWN)
+				return 10;
+			if(structure.structureType == STRUCTURE_EXTENSION)
+				return 8;
+			if(structure.structureType == STRUCTURE_TOWER)
+				return 6;
+			if(structure.structureType == STRUCTURE_STORAGE)
+				return 0;
+		}
+	
     //get dropped energy, or energy from a container
     PickUpEnergy: function (creep) {
         var sourceId = '';
@@ -92,28 +116,21 @@ var action = {
             var targets = creep.room.find(FIND_STRUCTURES, {
                 filter: (structure) => {
                     return ((structure.structureType == STRUCTURE_EXTENSION ||
-                            structure.structureType == STRUCTURE_SPAWN) && structure.energy < structure.energyCapacity);
+                            structure.structureType == STRUCTURE_SPAWN) && structure.energy < structure.energyCapacity)
+							|| (structure.structureType == STRUCTURE_TOWER && structure.energy < structure.energyCapacity * 0.9)
+							|| (structure.structureType == STRUCTURE_STORAGE && structure.energy < structure.energyCapacity * 0.9);
                 }
             });
             if (targets.length > 0) {
+				targets.sort(function(a, b){return sortStructures(b) - sortStructures(a)});
                 transferTo = targets[0].id;
             }
             else {
-                targets = creep.room.find(FIND_STRUCTURES, {
-                    filter: (structure) => {
-                        return (structure.structureType == STRUCTURE_TOWER && structure.energy < structure.energyCapacity * 0.9);
-                    }
-                });
-                if (targets.length > 0) {
-                    transferTo = targets[0].id;
-                }
-                else {
-                    //If all structures are full, give energy to builders
-                    var needEnergy = _.filter(Game.creeps, (creep) => (creep.memory.requireEnergy) && creep.carry.energy < (creep.carryCapacity / 2));
-                    if (needEnergy.length > 0) {
-                        transferTo = needEnergy[0].id;
-                    }
-                }
+				//If all structures are full, give energy to builders
+				var needEnergy = _.filter(Game.creeps, (creep) => (creep.memory.requireEnergy) && creep.carry.energy < (creep.carryCapacity / 2));
+				if (needEnergy.length > 0) {
+					transferTo = needEnergy[0].id;
+				}
                 
             }
         }
