@@ -12,8 +12,63 @@ function sortStructures(structure)
 		
 var action = {
 	
-    //get dropped energy, or energy from a container
+    //pick up energy from storage, container or dropped energy
     PickUpEnergy: function (creep) {
+        var sourceId = '';
+        //if the creep is moving, keep on moving, no need to find a new source
+        if (creep.memory.movingTo != undefined && creep.memory.movingTime != undefined && (Game.time - creep.memory.movingTime) < 20 ) {
+            sourceId = creep.memory.movingTo;
+        }
+        else {
+			var sourcestructure = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+					filter: (structure) => {
+						return (structure.structureType == STRUCTURE_CONTAINER
+  						        || structure.structureType == STRUCTURE_CONTAINER )
+								&& structure.store[RESOURCE_ENERGY] > 100);
+					}
+				});
+			if (sourcestructure != null) {
+					sourceId = sourceContainer.id;
+					creep.memory.movingTo = sourceId;
+					creep.memory.movingTime = Game.time;
+				}
+			else {
+				var sourceNew = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES);
+				if (sourceNew != null) {
+					sourceId = sourceNew.id;
+					creep.memory.movingTo = sourceId;
+					creep.memory.movingTime = Game.time;
+				}
+			}
+        }
+
+        if (sourceId != '') {
+            var source = Game.getObjectById(sourceId);
+            if (source !== null && source.amount != undefined) {
+                creep.moveTo(source);
+                creep.pickup(source, source.amount - 1);
+                return true;
+            }
+            //if the source is a contrainer or storage, transfer energy
+            if (source !== null && source.store != undefined) {
+                if (source.transfer(creep, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(source);
+                }
+                return true;
+            }
+
+            //if there is no source. look for a new one
+            creep.memory.movingTo = undefined;
+            creep.memory.movingTime = undefined;
+
+        }
+
+        return false;
+
+    },
+	
+	//Get Energy from either dropped, or container
+	GatherEnergy: function (creep) {
         var sourceId = '';
         //if the creep is moving, keep on moving, no need to find a new source
         if (creep.memory.movingTo != undefined && creep.memory.movingTime != undefined && (Game.time - creep.memory.movingTime) < 20 ) {
@@ -91,8 +146,7 @@ var action = {
         return false;
 
     },
-
-    //transfer energy to the spawn/extension/tower, else give it to a builder
+    //transfer energy to the spawn/extension/tower/storage, else give it to a builder
     GiveEnergy: function (creep) {
         var transferTo = '';
         //if the creep is moving, keep on moving, he already has a target for his transfer
@@ -106,7 +160,7 @@ var action = {
                     return ((structure.structureType == STRUCTURE_EXTENSION ||
                             structure.structureType == STRUCTURE_SPAWN) && structure.energy < structure.energyCapacity)
 							|| (structure.structureType == STRUCTURE_TOWER && structure.energy < structure.energyCapacity * 0.9)
-							|| (structure.structureType == STRUCTURE_STORAGE && structure.energy < structure.energyCapacity * 0.9);
+							|| (structure.structureType == STRUCTURE_STORAGE && structure.store[RESOURCE_ENERGY] < structure.storeCapacity * 0.9);
                 }
             });
             if (targets.length > 0) {
