@@ -214,14 +214,15 @@ var action = {
                 }
 			}				
             
-        var source = Game.getObjectById(sourceId);
-        if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
-            creep.moveTo(source);
-			if(buildRoads)
-			{
-				creep.room.createConstructionSite(creep.pos, STRUCTURE_ROAD);
+			var source = Game.getObjectById(sourceId);
+			if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
+				creep.moveTo(source);
+				if(buildRoads)
+				{
+					creep.room.createConstructionSite(creep.pos, STRUCTURE_ROAD);
+				}
 			}
-        }
+		}
     },
 	
     BuildStructures: function(creep)
