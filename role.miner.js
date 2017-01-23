@@ -1,4 +1,4 @@
-var action = require("action);
+var action = require("action");
                      
 var roleMiner = {
 
