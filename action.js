@@ -192,6 +192,38 @@ var action = {
         }
     },
 
+	MineEnergy: function (creep, buildRoads) {
+        //if the creep is moving, keep on moving, he already has a target for his transfer
+        var sourceId = '';
+        if (creep.memory.movingTo != undefined && creep.memory.movingTime != undefined && (Game.time - creep.memory.movingTime) < 20) {
+            sourceId = creep.memory.movingTo;
+        }
+        else {
+			if (creep.memory.mainSourceId != undefined) {
+				sourceId = creep.memory.mainSourceId;
+				creep.memory.movingTo = sourceId;
+                creep.memory.movingTime = Game.time;
+			}
+			else
+			{
+				var sourceNew = creep.pos.findClosestByRange(FIND_SOURCES);
+                if (sourceNew != null) {
+                    sourceId = sourceNew.id;
+                    creep.memory.movingTo = sourceId;
+                    creep.memory.movingTime = Game.time;
+                }
+			}				
+            
+        var source = Game.getObjectById(sourceId);
+        if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
+            creep.moveTo(source);
+			if(buildRoads)
+			{
+				creep.room.createConstructionSite(creep.pos, STRUCTURE_ROAD);
+			}
+        }
+    },
+	
     BuildStructures: function(creep)
     {
         //Build construction sites
