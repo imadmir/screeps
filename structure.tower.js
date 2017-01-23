@@ -8,7 +8,7 @@ var structureTower = {
         if (targets.length) {
             tower.attack(targets[0]);
         }
-        else if (tower.energy > tower.energyCapacity / 2) {
+        else if (tower.energy > tower.energyCapacity * 0.7) {
             //repair damaged units
             for (var name in Game.creeps) {
                 var creep = Game.creeps[name];
