@@ -212,8 +212,10 @@ var action = {
                     creep.memory.movingTo = sourceId;
                     creep.memory.movingTime = Game.time;
                 }
-			}				
-            
+			}
+		}
+		if(sourceId != '')
+		{ 
 			var source = Game.getObjectById(sourceId);
 			if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
 				creep.moveTo(source);
