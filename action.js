@@ -4,7 +4,7 @@ var action = {
     PickUpEnergy: function (creep) {
         var sourceId = '';
         //if the creep is moving, keep on moving, no need to find a new source
-        if (creep.memory.movingTo != undefined) {
+        if (creep.memory.movingTo != undefined && creep.memory.movingTime != undefined && (Game.time - creep.memory.movingTime) < 10 ) {
             sourceId = creep.memory.movingTo;
         }
         else {
@@ -15,6 +15,8 @@ var action = {
                 var droppedSources = sourceMain.pos.findInRange(FIND_DROPPED_RESOURCES, 2);
                 if (droppedSources.length > 0) {
                     sourceId = droppedSources[0].id;
+                    creep.memory.movingTo = sourceId;
+                    creep.memory.movingTime = Game.time;
                 }
                 else {
                     var containers = sourceMain.pos.findInRange(FIND_STRUCTURES, 2, {
@@ -25,6 +27,8 @@ var action = {
                     });
                     if (containers.length > 0) {
                         sourceId = containers[0].id;
+                        creep.memory.movingTo = sourceId;
+                        creep.memory.movingTime = Game.time;
                     }
                 }
             }
@@ -32,6 +36,8 @@ var action = {
                 var sourceNew = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES);
                 if (sourceNew != null) {
                     sourceId = sourceNew.id;
+                    creep.memory.movingTo = sourceId;
+                    creep.memory.movingTime = Game.time;
                 }
                 else {
                     var sourceContainer = creep.pos.findClosestByRange(FIND_STRUCTURES, {
@@ -42,13 +48,14 @@ var action = {
                     });
                     if (sourceContainer != null) {
                         sourceId = sourceContainer.id;
+                        creep.memory.movingTo = sourceId;
+                        creep.memory.movingTime = Game.time;
                     }
                 }
             }
         }
 
         if (sourceId != '') {
-            creep.memory.movingTo = sourceId;
             var source = Game.getObjectById(sourceId);
             if (source !== null && source.amount != undefined) {
                 creep.moveTo(source);
@@ -65,6 +72,7 @@ var action = {
 
             //if there is no source. look for a new one
             creep.memory.movingTo = undefined;
+            creep.memory.movingTime = undefined;
 
         }
 
@@ -76,7 +84,7 @@ var action = {
     GiveEnergy: function (creep) {
         var transferTo = '';
         //if the creep is moving, keep on moving, he already has a target for his transfer
-        if (creep.memory.movingTo != undefined) {
+        if (creep.memory.movingTo != undefined && creep.memory.movingTime != undefined && (Game.time - creep.memory.movingTime) < 10) {
             transferTo = creep.memory.movingTo;
         }
         else {
@@ -112,12 +120,15 @@ var action = {
 
         if (transferTo != '') {
             creep.memory.movingTo = transferTo;
+            creep.memory.movingTime = Game.time;
+
             var target = Game.getObjectById(transferTo);
             if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(target);
             }
             else { //if the target is full, clear the movingTo to look for a different target
                 creep.memory.movingTo = undefined;
+                creep.memory.movingTime = undefined;
             }
         }
     },
@@ -126,7 +137,7 @@ var action = {
     {
         //Build construction sites
         var targetId = '';
-        if (creep.memory.movingTo != undefined) {
+        if (creep.memory.movingTo != undefined && creep.memory.movingTime != undefined && (Game.time - creep.memory.movingTime) < 10) {
             targetId = creep.memory.movingTo;
         }
         else {
@@ -136,6 +147,7 @@ var action = {
             if (targets.length) {
                 targetId = targets[0].id;
                 creep.memory.movingTo = targetId;
+                creep.memory.movingTime = Game.time;
             }
             else {
                 targets = creep.room.find(FIND_CONSTRUCTION_SITES,
@@ -143,6 +155,7 @@ var action = {
                 if (targets.length) {
                     targetId = targets[0].id;
                     creep.memory.movingTo = targetId;
+                    creep.memory.movingTime = Game.time;
                 }
             }
         }
@@ -156,6 +169,7 @@ var action = {
                 } else {
                     //clear move to, building has been finished
                     creep.memory.movingTo = undefined;
+                    creep.memory.movingTime = undefined;
                 }
             }
             return true;

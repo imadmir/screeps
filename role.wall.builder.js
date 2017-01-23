@@ -18,7 +18,7 @@ var roleWallBuilder = {
         if (creep.memory.working) {
             //Repair walls and ramparts
             var targetId = '';
-            if (creep.memory.movingTo != undefined) {
+            if (creep.memory.movingTo != undefined && creep.memory.movingTime != undefined && (Game.time - creep.memory.movingTime) < 10) {
                 targetId = creep.memory.movingTo;
             }
             else {
@@ -29,6 +29,7 @@ var roleWallBuilder = {
                 if (targets.length) {
                     targetId = targets[0].id;
                     creep.memory.movingTo = targetId;
+                    creep.memory.movingTime = Game.time;
                     if (creep.repair(targets[0]) == ERR_NOT_IN_RANGE) {
                         creep.moveTo(targets[0]);
                     }
@@ -47,6 +48,7 @@ var roleWallBuilder = {
                 if (target == null || target.hits == target.hitsMax || creep.carry.energy == 0) {
                     //clear move to, building has been finished
                     creep.memory.movingTo = undefined;
+                    creep.memory.movingTime = undefined;
                 }
             }
 

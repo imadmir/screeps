@@ -11,10 +11,12 @@ var roleCarrier = {
         if (creep.memory.working && creep.carry.energy == 0) {
             creep.memory.working = false;
             creep.memory.movingTo = undefined;
+            creep.memory.movingTime = undefined;
         }
         if (!creep.memory.working && creep.carry.energy == creep.carryCapacity) {
             creep.memory.working = true;
             creep.memory.movingTo = undefined;
+            creep.memory.movingTime = undefined;
         }
 
         if (creep.memory.working) {

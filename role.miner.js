@@ -7,7 +7,7 @@ var roleMiner = {
         }
 
         var sourceId = '';
-        if (creep.memory.movingTo != undefined) {
+        if (creep.memory.movingTo != undefined && creep.memory.movingTime != undefined && (Game.time - creep.memory.movingTime) < 10) {
             sourceId = creep.memory.movingTo;
         }
         else {
@@ -18,12 +18,14 @@ var roleMiner = {
             var hostiles = sourceMain.pos.findInRange(FIND_HOSTILE_CREEPS, 3);
             if (hostiles.length == 0) {
                 creep.memory.movingTo = sourceId;
+                creep.memory.movingTime = Game.time;
             } else {
                 creep.say('Enemy');
                 var sourceNew = creep.pos.findClosestByRange(FIND_SOURCES);
                 if (sourceNew != null) {
                     sourceId = sourceNew.id;
                     creep.memory.movingTo = sourceId;
+                    creep.memory.movingTime = Game.time;
                 }
             }
         }
