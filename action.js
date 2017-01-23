@@ -28,7 +28,7 @@ var action = {
 					}
 				});
 			if (sourcestructure != null) {
-					sourceId = sourceContainer.id;
+					sourceId = sourcestructure.id;
 					creep.memory.movingTo = sourceId;
 					creep.memory.movingTime = Game.time;
 				}
