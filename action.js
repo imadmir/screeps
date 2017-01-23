@@ -141,9 +141,9 @@ var action = {
             targetId = creep.memory.movingTo;
         }
         else {
-            //Make sure to send only 1 builder per construction job.
+            //Make sure to send at most 2 for my construction jobs, and only 1 builder per road, wall.
             var targets = creep.room.find(FIND_MY_CONSTRUCTION_SITES,
-                                        { filter: (s) => !(_.filter(Game.creeps, (creep) => creep.memory.role == 'builder' && creep.memory.movingTo == s.id).length > 0) });
+                                        { filter: (s) => !(_.filter(Game.creeps, (creep) => creep.memory.role == 'builder' && creep.memory.movingTo == s.id).length > 1) });
             if (targets.length) {
                 targetId = targets[0].id;
                 creep.memory.movingTo = targetId;
