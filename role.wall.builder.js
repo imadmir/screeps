@@ -18,7 +18,7 @@ var roleWallBuilder = {
         if (creep.memory.working) {
             //Repair walls and ramparts
             var targetId = '';
-            if (creep.memory.movingTo != undefined && creep.memory.movingTime != undefined && (Game.time - creep.memory.movingTime) < 10) {
+            if (creep.memory.movingTo != undefined && creep.memory.movingTime != undefined && (Game.time - creep.memory.movingTime) < 20) {
                 targetId = creep.memory.movingTo;
             }
             else {

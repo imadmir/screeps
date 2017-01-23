@@ -7,7 +7,7 @@ var roleMiner = {
         }
 
         var sourceId = '';
-        if (creep.memory.movingTo != undefined && creep.memory.movingTime != undefined && (Game.time - creep.memory.movingTime) < 10) {
+        if (creep.memory.movingTo != undefined && creep.memory.movingTime != undefined && (Game.time - creep.memory.movingTime) < 20) {
             sourceId = creep.memory.movingTo;
         }
         else {

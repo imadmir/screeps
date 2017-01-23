@@ -4,7 +4,7 @@ var action = {
     PickUpEnergy: function (creep) {
         var sourceId = '';
         //if the creep is moving, keep on moving, no need to find a new source
-        if (creep.memory.movingTo != undefined && creep.memory.movingTime != undefined && (Game.time - creep.memory.movingTime) < 10 ) {
+        if (creep.memory.movingTo != undefined && creep.memory.movingTime != undefined && (Game.time - creep.memory.movingTime) < 20 ) {
             sourceId = creep.memory.movingTo;
         }
         else {
@@ -84,7 +84,7 @@ var action = {
     GiveEnergy: function (creep) {
         var transferTo = '';
         //if the creep is moving, keep on moving, he already has a target for his transfer
-        if (creep.memory.movingTo != undefined && creep.memory.movingTime != undefined && (Game.time - creep.memory.movingTime) < 10) {
+        if (creep.memory.movingTo != undefined && creep.memory.movingTime != undefined && (Game.time - creep.memory.movingTime) < 20) {
             transferTo = creep.memory.movingTo;
         }
         else {
@@ -137,7 +137,7 @@ var action = {
     {
         //Build construction sites
         var targetId = '';
-        if (creep.memory.movingTo != undefined && creep.memory.movingTime != undefined && (Game.time - creep.memory.movingTime) < 10) {
+        if (creep.memory.movingTo != undefined && creep.memory.movingTime != undefined && (Game.time - creep.memory.movingTime) < 20) {
             targetId = creep.memory.movingTo;
         }
         else {
