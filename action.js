@@ -11,18 +11,6 @@ function sortStructures(structure)
 		}
 		
 var action = {
-
-	var sortStructures = function(structure)
-		{
-			if(structure.structureType == STRUCTURE_SPAWN)
-				return 10;
-			if(structure.structureType == STRUCTURE_EXTENSION)
-				return 8;
-			if(structure.structureType == STRUCTURE_TOWER)
-				return 6;
-			if(structure.structureType == STRUCTURE_STORAGE)
-				return 0;
-		}
 	
     //get dropped energy, or energy from a container
     PickUpEnergy: function (creep) {
