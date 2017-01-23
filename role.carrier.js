@@ -23,7 +23,7 @@ var roleCarrier = {
             action.GiveEnergy(creep);
         }
         else {
-            action.PickUpEnergy(creep);
+            action.GatherEnergy(creep);
         }
 
     }
