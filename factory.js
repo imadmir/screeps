@@ -127,7 +127,7 @@ var factory = {
                                                                                                             && creep.ticksToLive > 100);
 
                                     if (claimers.length < 1) {
-                                        roleClaimer.spawnCreep(spawn, roomLevel, targetedRooms[i].targetRoom, sourceId);
+                                        roleClaimer.spawnCreep(spawn, roomLevel, targetedRooms[i].targetRoom);
                                         break;
                                     }
                                 }
