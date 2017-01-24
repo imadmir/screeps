@@ -105,7 +105,7 @@ var factory = {
                                 //send a level 0 worker to scout the area
                                 var workers = _.filter(Game.creeps, (creep) => creep.memory.role == 'worker' && creep.memory.roomName == roomInfo.name && creep.memory.targetRoom == targetedRooms[i].targetRoom);
                                 if (workers.length < 1) {
-                                    roleWorker.spawnCreep(spawn, 0, targetedRooms[i].targetRoom, sourceId);
+                                    roleWorker.spawnCreep(spawn, 0, targetedRooms[i].targetRoom);
                                 }
                                 break;
                             }
@@ -116,7 +116,7 @@ var factory = {
                                 var workers = _.filter(Game.creeps, (creep) => creep.memory.role == 'worker' && creep.memory.roomName == roomInfo.name && creep.memory.targetRoom == targetedRooms[i].targetRoom);
 
                                 if (workers.length < 1) {
-                                    roleWorker.spawnCreep(spawn, roomLevel, targetedRooms[i].targetRoom, sourceId);
+                                    roleWorker.spawnCreep(spawn, roomLevel, targetedRooms[i].targetRoom);
                                     break;
                                 }
 
