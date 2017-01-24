@@ -53,8 +53,14 @@ var settings = {
 
         Memory.Settings = settings;
         console.log('Initializing Completed. ');
-    }
+    },
 
+    addRoomInfo: function(room)
+    {
+        var roomInfo = GetRoomInfo(room);
+
+        Memory.Settings.rooms.push(roomInfo);
+    }
 
 
 };

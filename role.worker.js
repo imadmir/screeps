@@ -1,4 +1,5 @@
 var action = require('action');
+var settings = require('settings');
 
 var roleWorker = {
 
@@ -21,6 +22,11 @@ var roleWorker = {
 
         if (creep.memory.working) {
             if (creep.memory.targetRoom == creep.room.name) {
+                var roomInfo = _.filter(Memory.Settings.rooms, (roomInfo) => roomInfo.name == creep.room.name);
+                if (!roomInfo.length) {
+                    settings.addRoomInfo(creep.room);
+                }
+
                 action.BuildStructures(creep);
             } else if (creep.memory.targetRoom != creep.room.name) {
                 //travel to targetRoom
