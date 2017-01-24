@@ -57,6 +57,10 @@ var factory = {
                     var spawnName = roomInfo.spawnNames[spawnCount]
                     var spawn = Game.spawns[spawnName]
 
+                    if (spawn.spawning != null) {
+                        break;
+                    }
+
                     var spawning = false;
 
                     //Spawn miner

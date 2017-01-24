@@ -13,6 +13,7 @@ var roleMiner = {
             var exits = Game.map.findExit(creep.room, creep.memory.targetRoom);
             var exit = creep.pos.findClosestByRange(exits);
             creep.moveTo(exit);
+            creep.room.createConstructionSite(creep.pos, STRUCTURE_ROAD);
         }
         else {
             action.MineEnergy(creep, true);

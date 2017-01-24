@@ -39,7 +39,10 @@ var roleWorker = {
             
         }
         else {
-            action.GatherEnergy(creep);
+            var actionResult = action.GatherEnergy(creep);
+            if (!actionResult) {
+                action.MineEnergy(creep);
+            }
         }
 
     }
