@@ -12,11 +12,6 @@ function GetRoomInfo(room)
         spawnNames.push(spawns[i].name);
     }
 
-    var towers = room.find(FIND_MY_STRUCTURES, {
-        filter: (structure) => {
-            return (structure.structureType == STRUCTURE_TOWER);
-        }
-    });
     
     var roomInfo = { name: room.name, sourceIds: sourceIds, spawnNames: spawnNames }
     return roomInfo;
@@ -39,6 +34,12 @@ var settings = {
         for (var roomName in Game.rooms) {
             var room = Game.rooms[roomName];
             
+
+            var towers = room.find(FIND_MY_STRUCTURES, {
+                filter: (structure) => {
+                    return (structure.structureType == STRUCTURE_TOWER);
+                }
+            });
             for (var i in towers) {
                 settings.towerIds.push(towers[i].id);
             }
