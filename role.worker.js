@@ -21,20 +21,21 @@ var roleWorker = {
         }
 
         if (creep.memory.working) {
-            if (creep.memory.targetRoom == creep.room.name) {
-                var roomInfo = _.filter(Memory.Settings.rooms, (roomInfo) => roomInfo.name == creep.room.name);
-                if (!roomInfo.length) {
-                    settings.addRoomInfo(creep.room);
-                }
-
-                action.BuildStructures(creep);
-            } else if (creep.memory.targetRoom != creep.room.name) {
+            if (creep.memory.targetRoom != creep.room.name) {
                 //travel to targetRoom
                 creep.say(creep.memory.targetRoom);
                 var exits = Game.map.findExit(creep.room, creep.memory.targetRoom);
                 var exit = creep.pos.findClosestByRange(exits);
                 creep.moveTo(exit);
             }
+            else if (creep.memory.targetRoom == creep.room.name) {
+                var roomInfo = _.filter(Memory.Settings.rooms, (roomInfo) => roomInfo.name == creep.room.name);
+                if (!roomInfo.length) {
+                    settings.addRoomInfo(creep.room);
+                }
+
+                action.BuildStructures(creep);
+            } 
             
         }
         else {
