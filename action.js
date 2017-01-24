@@ -308,6 +308,20 @@ var action = {
         }
         //if no target found, return false;
         return false;
+    },
+
+    ReserveRoom(creep, buildRoads)
+    {
+        if (creep.room.controller) {
+            if (creep.reserveController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(creep.room.controller);
+
+                if (buildRoads) {
+                    creep.room.createConstructionSite(creep.pos, STRUCTURE_ROAD);
+                }
+            }
+        }
+
     }
 
 };

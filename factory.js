@@ -4,6 +4,7 @@ var roleCarrier = require('role.carrier');
 var roleWorker = require('role.worker');
 var roleGuard = require('role.guard');
 var roleWallBuilder = require('role.wall.builder');
+var roleClaimer = require('role.claimer');
 
 var factory = {
 
@@ -115,7 +116,12 @@ var factory = {
                                     roleWorker.spawnCreep(spawn, roomLevel, targetedRooms[i].targetRoom, sourceId);
                                     break;
                                 }
+                                var claimers = _.filter(Game.creeps, (creep) => creep.memory.role == 'claimer' && creep.memory.roomName == roomInfo.name && creep.memory.targetRoom == targetedRooms[i].targetRoom);
 
+                                if (claimers.length < 1) {
+                                    roleClaimer.spawnCreep(spawn, roomLevel, targetedRooms[i].targetRoom, sourceId);
+                                    break;
+                                }
 
                                 var targetRoomInfo = _.filter(Memory.Settings.rooms, (roomInfo) => roomInfo.name == targetedRooms[i].targetRoom);
                                 if (targetRoomInfo.length) {
