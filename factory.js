@@ -42,8 +42,8 @@ var factory = {
             if (roomInfo.spawnNames.length > 0) {
 
                 var room = Game.rooms[roomInfo.name];
-                var totalMiners = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && targetRoom == roomInfo.name);
-                var totalCarriers = _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier' && targetRoom == roomInfo.name);
+                var totalMiners = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && creep.memory.targetRoom == roomInfo.name);
+                var totalCarriers = _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier' && creep.memory.targetRoom == roomInfo.name);
                 if (totalMiners.length >= Memory.Settings.MinerPerSource && totalCarriers.length >= Memory.Settings.CarrierPerSource) {
                     if (room.energyCapacityAvailable >= 800) {
                         roomLevel = 2;

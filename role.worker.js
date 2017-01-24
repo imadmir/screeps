@@ -40,4 +40,4 @@ var roleWorker = {
 };
 
 
-module.exports = roleCarrier;
+module.exports = roleWorker;
