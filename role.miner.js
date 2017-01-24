@@ -3,9 +3,10 @@ var action = require("action");
 var roleMiner = {
     partsList: [[WORK, WORK, MOVE, MOVE],
                 [WORK, WORK, WORK, WORK, WORK, MOVE],
+                [WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE],
                 [WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE]],
 
-    partsCost: [300, 550, 700],
+    partsCost: [300, 550, 700, 700],
 
     role: 'miner',
 

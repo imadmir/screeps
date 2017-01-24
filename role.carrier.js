@@ -3,9 +3,10 @@ var action = require('action');
 var roleCarrier = {
     partsList: [[CARRY, CARRY, CARRY, MOVE, MOVE, MOVE],
                 [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],
+                [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
                 [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE]],
 
-    partsCost: [300, 550, 800],
+    partsCost: [300, 550, 800, 800],
 
     role: 'carrier',
 

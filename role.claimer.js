@@ -3,9 +3,10 @@ var action = require("action");
 var roleMiner = {
     partsList: [[MOVE],
                 [CLAIM, MOVE],
-                [CLAIM, MOVE]],
+                [CLAIM, MOVE],
+                [CLAIM, CLAIM, MOVE, MOVE]],
 
-    partsCost: [300, 550, 550],
+    partsCost: [300, 550, 550, 1100],
 
     role: 'claimer',
 

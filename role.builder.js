@@ -3,8 +3,9 @@ var action = require('action');
 var roleBuilder = {
     partsList : [[WORK, CARRY, CARRY, MOVE, MOVE],
                            [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE],
+                           [WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE],
                            [WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE]],
-    partsCost : [300, 550, 800],
+    partsCost: [300, 550, 800, 800],
 
     role: 'builder',
 

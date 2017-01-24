@@ -4,9 +4,10 @@ var settings = require('settings');
 var roleWorker = {
     partsList: [[WORK, CARRY, CARRY, MOVE, MOVE],
                 [WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],
+                [WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
                 [WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE]],
 
-    partsCost: [300, 550, 800],
+    partsCost: [300, 550, 800, 800],
 
     role: 'worker',
 
