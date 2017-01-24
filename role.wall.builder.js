@@ -1,6 +1,21 @@
 var action = require('action');
 
 var roleWallBuilder = {
+    partsList: [[WORK, CARRY, CARRY, MOVE, MOVE],
+                       [WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],
+                       [WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE]],
+    partsCost: [300, 550, 800],
+
+    role: 'wallBuilder',
+
+    spawnCreep: function (spawn, roomLevel, targetRoom) {
+        if (spawn.room.energyAvailable >= partsCost[roomLevel] && spawn.spawning == null) {
+            var newName = spawn.createCreep(partsList[roomLevel], undefined, { role: role, working: false, roomName: spawn.room.name, targetRoom: targetRoom });
+            console.log(newName + ': ' + spawn.room.name + ' ' + spawn.name + ' ' + role + ' ' + targetRoom);
+            return true;
+        }
+        return false;
+    },
 
     run: function (creep) {
 

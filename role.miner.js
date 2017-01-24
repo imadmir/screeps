@@ -1,6 +1,22 @@
 var action = require("action");
 
 var roleMiner = {
+    partsList: [[WORK, WORK, MOVE, MOVE],
+                [WORK, WORK, WORK, WORK, WORK, MOVE],
+                [WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE]],
+
+    partsCost: [300, 550, 700],
+
+    role: 'miner',
+
+    spawnCreep: function (spawn, roomLevel, targetRoom, sourceId) {
+        if (spawn.room.energyAvailable >= partsCost[roomLevel] && spawn.spawning == null) {
+            var newName = spawn.createCreep(partsList[roomLevel], undefined, { role: role, roomName: spawn.room.name, targetRoom: targetRoom, mainSourceId: sourceId });
+            console.log(newName + ': ' + spawn.room.name + ' ' + spawn.name + ' ' + role + ' ' + targetRoom + '' + sourceId);
+            return true;
+        }
+        return false;
+    },
 
     run: function (creep) {
 
