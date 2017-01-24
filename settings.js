@@ -5,7 +5,7 @@ var settings = {
         Memory.ReloadSettings = undefined;
 
         var settings = {};
-        settings.BuilderPerRoom = 4;
+        settings.BuilderPerRoom = 3;
         settings.WallBuilderPerRoom = 1;
         settings.MinerPerSource = 1;
         settings.CarrierPerSource = 2;
