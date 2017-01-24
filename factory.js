@@ -126,6 +126,32 @@ var factory = {
                                 break;
                             }
 
+
+                            var targetRoomInfo = _.filter(Memory.Settings.rooms, (roomInfo) => roomInfo.name == targetedRooms[i].targetRoom);
+                            if (targetRoomInfo.length) {
+                                for (var i in targetRoomInfo.sourceIds) {
+                                    var sourceId = targetRoomInfo.sourceIds[i];
+                                    var miners = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && creep.memory.mainSourceId == sourceId);
+
+                                    if (miners.length < Memory.Settings.MinerPerSource && room.energyAvailable >= minerPartsCost[roomLevel] && spawn.spawning == null) {
+                                        var newName = spawn.createCreep(minerParts[roomLevel], undefined, { role: 'miner', mainSourceId: sourceId, targetRoom: targetRoomInfo.name, roomName: roomInfo.name });
+                                        console.log('Spawning new miner: ' + newName + ' -  Room: ' + roomInfo.name + ' mainSourceId: ' + sourceId + ' targetRoom: ' + targetRoomInfo);
+                                        spawning = true;
+                                        break;
+                                    }
+                                    var carriers = _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier' && creep.memory.mainSourceId == sourceId);
+
+                                    if (carriers.length < Memory.Settings.CarrierPerSource && room.energyAvailable >= carrierPartsCost[roomLevel] && spawn.spawning == null) {
+                                        var newName = spawn.createCreep(carrierParts[roomLevel], undefined, { role: 'carrier', mainSourceId: sourceId, working: false, targetRoom: targetRoomInfo.name, roomName: roomInfo.name });
+                                        console.log('Spawning new carrier: ' + newName + ' -  Room: ' + roomInfo.name + ' mainSourceId: ' + sourceId + ' targetRoom: ' + targetRoomInfo);
+                                        spawning = true;
+                                        break;
+                                    }
+                                }
+                            }
+                            if (spawning) {
+                                break;
+                            }
                         }
                     }
                 }
