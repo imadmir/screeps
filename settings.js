@@ -22,7 +22,7 @@ function GetRoomInfo(room)
         settings.towerIds.push(towers[i].id);
     }
 
-    var roomInfo = { name: roomName, sourceIds: sourceIds, spawnNames: spawnNames }
+    var roomInfo = { name: room.name, sourceIds: sourceIds, spawnNames: spawnNames }
     return roominfo;
 }
 
