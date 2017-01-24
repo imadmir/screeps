@@ -121,7 +121,7 @@ var factory = {
                             var workers = _.filter(Game.creeps, (creep) => creep.memory.role == 'worker' && creep.room.name == roomInfo.name && creep.memory.targetRoom == targetedRooms[i].targetRoom);
                             
                             if (workers.length < 1 && room.energyAvailable >= workerPartsCost[roomLevel] && spawn.spawning == null) {
-                                var newName = spawn.createCreep(workerParts[roomLevel], undefined, { role: 'worker', working: true, roomName: roomInfo.name , targetRoom : targetedRooms[i].targetRoom});
+                                var newName = spawn.createCreep(workerParts[roomLevel], undefined, { role: 'worker', working: false, roomName: roomInfo.name , targetRoom : targetedRooms[i].targetRoom});
                                 console.log('Spawning new worker: ' + newName + ' -  Room: ' + roomInfo.name + ' -  targetRoom: ' + targetedRooms[i].targetRoom);
                                 break;
                             }

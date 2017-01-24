@@ -22,7 +22,7 @@ var roleWorker = {
         if (creep.memory.working) {
             if (creep.memory.targetRoom == creep.room.name) {
                 action.BuildStructures(creep);
-            } else {
+            } else if (creep.memory.targetRoom != creep.room.name) {
                 //travel to targetRoom
                 creep.say(creep.memory.targetRoom);
                 var exits = Game.map.findExit(creep.room, creep.memory.targetRoom);
