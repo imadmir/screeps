@@ -93,7 +93,7 @@ var factory = {
 
                         if (guards.length < hostileTargets.lenth + 1 && room.energyAvailable >= guardPartsCost[roomLevel] && spawn.spawning == null) {
                             var newName = spawn.createCreep(guardParts[roomLevel], undefined, { role: 'guard', roomName: roomInfo.name });
-                            console.log('Spawning new Guard: ' + newName + ' -  Room: ' + roomInfo.name);
+                            console.log('Spawning new Guard: ' + newName + ' -  Room: ' + roomInfo.name );
                             break;
                         }
                     }
@@ -103,7 +103,7 @@ var factory = {
 
                     if (builders.length < Memory.Settings.BuilderPerRoom && room.energyAvailable >= builderPartsCost[roomLevel] && spawn.spawning == null) {
                         var newName = spawn.createCreep(builderParts[roomLevel], undefined, { role: 'builder', working: false, requireEnergy: true, roomName: roomInfo.name });
-                        console.log('Spawning new Builder: ' + newName + ' -  Room: ' + roomInfo.name);
+                        console.log('Spawning new Builder: ' + newName + ' -  Room: ' + roomInfo.name );
                         break;
                     }
 
@@ -118,13 +118,14 @@ var factory = {
 
 
                     //Target another room
-                    for (var i in Memory.Settings.roomTargets) {
-                        if (Memory.Settings.roomTargets[i].room == roomInfo.name) {
-
+                    var targetedRooms = _.filter(Memory.Settings.roomTargets, (t) => t.room == roomInfo.name);
+                    if (targetedRooms.length) {
+                        for(var i in targetedRooms)
+                        {
                             var workers = _.filter(Game.creeps, (creep) => creep.memory.role == 'worker' && creep.memory.roomName == roomInfo.name && creep.memory.targetRoom == targetedRooms[i].targetRoom);
-
+                            
                             if (workers.length < 1 && room.energyAvailable >= workerPartsCost[roomLevel] && spawn.spawning == null) {
-                                var newName = spawn.createCreep(workerParts[roomLevel], undefined, { role: 'worker', working: false, roomName: roomInfo.name, targetRoom: targetedRooms[i].targetRoom });
+                                var newName = spawn.createCreep(workerParts[roomLevel], undefined, { role: 'worker', working: false, roomName: roomInfo.name , targetRoom : targetedRooms[i].targetRoom});
                                 console.log('Spawning new worker: ' + newName + ' -  Room: ' + roomInfo.name + ' -  targetRoom: ' + targetedRooms[i].targetRoom);
                                 break;
                             }
@@ -160,6 +161,7 @@ var factory = {
                 }
             }
         }
+
     }
 
 };
