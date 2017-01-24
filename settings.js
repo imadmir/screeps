@@ -17,11 +17,7 @@ function GetRoomInfo(room)
             return (structure.structureType == STRUCTURE_TOWER);
         }
     });
-
-    for (var i in towers) {
-        settings.towerIds.push(towers[i].id);
-    }
-
+    
     var roomInfo = { name: room.name, sourceIds: sourceIds, spawnNames: spawnNames }
     return roomInfo;
 }
@@ -43,6 +39,10 @@ var settings = {
         for (var roomName in Game.rooms) {
             var room = Game.rooms[roomName];
             
+            for (var i in towers) {
+                settings.towerIds.push(towers[i].id);
+            }
+
             var roomInfo = GetRoomInfo(room);
 
             settings.rooms.push(roomInfo);
