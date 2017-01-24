@@ -123,14 +123,14 @@ var factory = {
                                         var sourceId = targetRoomInfo[0].sourceIds[i];
                                         var miners = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && creep.memory.mainSourceId == sourceId);
 
-                                        if (miners.length < Memory.Settings.MinerPerSource && room.energyAvailable >= minerPartsCost[roomLevel] && spawn.spawning == null) {
+                                        if (miners.length < Memory.Settings.MinerPerSource) {
                                             roleMiner.spawnCreep(spawn, roomLevel, targetedRooms[i].targetRoom, sourceId);
                                             spawning = true;
                                             break;
                                         }
                                         var carriers = _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier' && creep.memory.mainSourceId == sourceId);
 
-                                        if (carriers.length < Memory.Settings.CarrierPerSource && room.energyAvailable >= carrierPartsCost[roomLevel] && spawn.spawning == null) {
+                                        if (carriers.length < Memory.Settings.CarrierPerSource) {
                                             roleCarrier.spawnCreep(spawn, roomLevel, targetedRooms[i].targetRoom, sourceId);
                                             spawning = true;
                                             break;
