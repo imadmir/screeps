@@ -122,7 +122,7 @@ var factory = {
                                 var claimers = _.filter(Game.creeps, (creep) => creep.memory.role == 'claimer'
                                                                              && creep.memory.roomName == roomInfo.name
                                                                              && creep.memory.targetRoom == targetedRooms[i].targetRoom
-                                                                             && creep.ticksToLive > 50);
+                                                                             && creep.ticksToLive > 100);
 
                                 if (claimers.length < 1) {
                                     roleClaimer.spawnCreep(spawn, roomLevel, targetedRooms[i].targetRoom, sourceId);
