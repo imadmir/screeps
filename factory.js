@@ -122,7 +122,7 @@ var factory = {
                             
                             if (workers.length < 1 && room.energyAvailable >= workerPartsCost[roomLevel] && spawn.spawning == null) {
                                 var newName = spawn.createCreep(workerParts[roomLevel], undefined, { role: 'worker', working: true, roomName: roomInfo.name , targetRoom : targetedRooms[i].targetRoom});
-                                console.log('Spawning new wallBuilder: ' + newName + ' -  Room: ' + roomInfo.name);
+                                console.log('Spawning new worker: ' + newName + ' -  Room: ' + roomInfo.name + ' -  targetRoom: ' + targetedRooms[i].targetRoom);
                                 break;
                             }
 
