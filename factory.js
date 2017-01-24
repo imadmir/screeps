@@ -2,7 +2,7 @@ var factory = {
 
     spawn: function () {
         //Remove dead creeps
-        for (var name in Game.creeps) {
+        for (var name in Memory.creeps) {
             if (!Game.creeps[name]) {
                 delete Memory.creeps[name];
             }
