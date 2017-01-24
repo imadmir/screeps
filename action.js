@@ -237,7 +237,7 @@ var action = {
         else {
             //Make sure to send at most 2 for my construction jobs, and only 1 builder per road, wall.
             var targets = creep.room.find(FIND_MY_CONSTRUCTION_SITES,
-                                        { filter: (s) => !(_.filter(Game.creeps, (creep) => creep.memory.role == 'builder' && creep.memory.movingTo == s.id).length > 1) });
+                                        { filter: (s) => !(_.filter(Game.creeps, (creep) => (creep.memory.role == 'builder' || creep.memory.role == 'worker') && creep.memory.movingTo == s.id).length > 1) });
             if (targets.length) {
                 targetId = targets[0].id;
                 creep.memory.movingTo = targetId;
@@ -245,7 +245,7 @@ var action = {
             }
             else {
                 targets = creep.room.find(FIND_CONSTRUCTION_SITES,
-                                        { filter: (s) => !(_.filter(Game.creeps, (creep) => creep.memory.role == 'builder' && creep.memory.movingTo == s.id).length > 0) });
+                                        { filter: (s) => !(_.filter(Game.creeps, (creep) => (creep.memory.role == 'builder' || creep.memory.role == 'worker') && creep.memory.movingTo == s.id).length > 0) });
                 if (targets.length) {
                     targetId = targets[0].id;
                     creep.memory.movingTo = targetId;
@@ -259,6 +259,44 @@ var action = {
             var buildResult = creep.build(target);
             if (buildResult != OK) {
                 if (buildResult == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(target);
+                } else {
+                    //clear move to, building has been finished
+                    creep.memory.movingTo = undefined;
+                    creep.memory.movingTime = undefined;
+                }
+            }
+            return true;
+        }
+        //if no target found, return false;
+        return false;
+    },
+
+    RepairRoadsAndContainers: function (creep) {
+        //Build construction sites
+        var targetId = '';
+        if (creep.memory.movingTo != undefined && creep.memory.movingTime != undefined && (Game.time - creep.memory.movingTime) < 20) {
+            targetId = creep.memory.movingTo;
+        }
+        else {
+            //Make sure to send only 1 builder.
+            var targets = creep.room.find(FIND_STRUCTURES,
+                                        {
+                                            filter: (s) => s.hits < s.maxhits/2 && (x.structure == STRUCTURE_CONTAINER || s.structure == STRUCTURE_ROAD)
+                                                && !(_.filter(Game.creeps, (creep) => (creep.memory.role == 'builder' || creep.memory.role == 'worker') && creep.memory.movingTo == s.id).length > 0)
+                                        });
+            if (targets.length) {
+                targetId = targets[0].id;
+                creep.memory.movingTo = targetId;
+                creep.memory.movingTime = Game.time;
+            }
+        }
+
+        if (targetId != '') {
+            var target = Game.getObjectById(targetId);
+            var repairResult = creep.repair(target);
+            if (repairResult != OK) {
+                if (repairResult == ERR_NOT_IN_RANGE) {
                     creep.moveTo(target);
                 } else {
                     //clear move to, building has been finished

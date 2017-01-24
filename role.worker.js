@@ -50,7 +50,10 @@ var roleWorker = {
                     settings.addRoomInfo(creep.room);
                 }
 
-                action.BuildStructures(creep);
+                var actionResult = action.BuildStructures(creep);
+                if (!actionResult) {
+                    action.RepairRoadsAndContainers(creep);
+                }
             } 
             
         }
