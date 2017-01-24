@@ -45,8 +45,8 @@ var factory = {
                     var spawning = false;
 
                     //Spawn miner
-                    for (var i in roomInfo.sourceIds) {
-                        var sourceId = roomInfo.sourceIds[i];
+                    for (var j in roomInfo.sourceIds) {
+                        var sourceId = roomInfo.sourceIds[j];
                         var miners = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && creep.memory.mainSourceId == sourceId);
 
                         if (miners.length < Memory.Settings.MinerPerSource) {
@@ -119,8 +119,8 @@ var factory = {
 
                                 var targetRoomInfo = _.filter(Memory.Settings.rooms, (roomInfo) => roomInfo.name == targetedRooms[i].targetRoom);
                                 if (targetRoomInfo.length) {
-                                    for (var i in targetRoomInfo[0].sourceIds) {
-                                        var sourceId = targetRoomInfo[0].sourceIds[i];
+                                    for (var j in targetRoomInfo[0].sourceIds) {
+                                        var sourceId = targetRoomInfo[0].sourceIds[j];
                                         var miners = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && creep.memory.mainSourceId == sourceId);
 
                                         if (miners.length < Memory.Settings.MinerPerSource) {
