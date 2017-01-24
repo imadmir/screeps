@@ -37,15 +37,13 @@ var settings = {
                 settings.towerIds.push(towers[i].id);
             }
 
-            var roomInfo = { name: roomName, sourceIds: sourceIds, spawnNames: spawnNames, targets: [] }
+            var roomInfo = { name: roomName, sourceIds: sourceIds, spawnNames: spawnNames }
 
             settings.rooms.push(roomInfo);
         }
 
-        var roomE83S33 = _.filter(settings.rooms, (room) => room.name == 'E83S33');
-        if (roomE83S33.length) {
-            roomE83S33[0].targets.push('E83S34');
-        }
+        var roomTargets = { room: 'E83S33', targetRoom: 'E83S34', targetType: 'Harvest' }
+        settings.roomTargets = roomTargets;
 
         Memory.Settings = settings;
         console.log('Initializing Completed. ');

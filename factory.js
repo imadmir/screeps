@@ -24,6 +24,11 @@ var factory = {
                            [WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE]];
         var builderPartsCost = [300, 550, 800];
 
+        var workerParts = [[WORK, CARRY, CARRY, MOVE, MOVE],
+                          [WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],
+                          [WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE]];
+        var workerPartsCost = [300, 550, 800];
+
         var guardParts = [[ATTACK, ATTACK, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE],
                            [ATTACK, ATTACK, ATTACK, ATTACK, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE, MOVE],
                            [RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, RANGED_ATTACK, MOVE, MOVE, MOVE, MOVE]];
@@ -37,8 +42,8 @@ var factory = {
             if (roomInfo.spawnNames.length > 0) {
 
                 var room = Game.rooms[roomInfo.name];
-                var totalMiners = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && creep.room.name == roomInfo.name);
-                var totalCarriers = _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier' && creep.room.name == roomInfo.name);
+                var totalMiners = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && targetRoom == roomInfo.name);
+                var totalCarriers = _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier' && targetRoom == roomInfo.name);
                 if (totalMiners.length >= Memory.Settings.MinerPerSource && totalCarriers.length >= Memory.Settings.CarrierPerSource) {
                     if (room.energyCapacityAvailable >= 800) {
                         roomLevel = 2;
@@ -106,6 +111,23 @@ var factory = {
                         break;
                     }
 
+
+
+                    //Target another room
+                    var targetedRooms = _.filter(Memory.Settings.roomTargets, (t) => t.room == roomInfo.name);
+                    if (targetedRooms.length) {
+                        for(var i in targetedRooms)
+                        {
+                            var workers = _.filter(Game.creeps, (creep) => creep.memory.role == 'worker' && creep.room.name == roomInfo.name && creep.memory.targetRoom == targetedRooms[i].targetRoom);
+                            
+                            if (workers.length < 1 && room.energyAvailable >= workerPartsCost[roomLevel] && spawn.spawning == null) {
+                                var newName = spawn.createCreep(workerParts[roomLevel], undefined, { role: 'worker', working: true, roomName: roomInfo.name , targetRoom : targetedRooms[i].targetRoom});
+                                console.log('Spawning new wallBuilder: ' + newName + ' -  Room: ' + roomInfo.name);
+                                break;
+                            }
+
+                        }
+                    }
                 }
             }
         }

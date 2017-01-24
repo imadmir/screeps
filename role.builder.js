@@ -29,7 +29,8 @@ var roleBuilder = {
             }
 
             //Build construction sites
-           var actionResult = action.BuildStructures(creep);
+            var actionResult = action.BuildStructures(creep);
+
            if (!actionResult) {
                //upgrade controller
                if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
