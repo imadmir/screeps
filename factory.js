@@ -47,7 +47,7 @@ var factory = {
                             spawning = true;
                             break;
                         }
-                        var carriersCount = roomMonitor.GetMinerCountBySource(sourceId);
+                        var carriersCount = roomMonitor.GetCarrierCountBySource(sourceId);
 
                         if (carriersCount < Memory.Settings.CarrierPerSource) {
                             roleCarrier.spawnCreep(spawn, roomLevel, roomInfo.name, sourceId);
