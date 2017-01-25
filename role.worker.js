@@ -47,7 +47,7 @@ var roleWorker = {
         }
 
         if (creep.memory.targetRoom == creep.room.name) {
-            var roomInfo = roomMonitor.getRoomInfo(creep.room.name);
+            var roomInfo = roomMonitor.GetRoomInfo(creep.room.name);
             if (!roomInfo.length) {
                 settings.addRoomInfo(creep.room);
             }
