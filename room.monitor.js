@@ -56,6 +56,7 @@ var roomMonitor = {
                 roomLevel = 1;
             }
         }
+        return roomLevel;
     }
 
 };
