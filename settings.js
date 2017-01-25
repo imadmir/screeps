@@ -50,7 +50,7 @@ var settings = {
         }
 
         settings.roomTargets = [];
-        settings.roomTargets.push({ room: 'E83S33', targetRoom: 'E83S34', targetType: 'Harvest' });
+        settings.roomTargets.push({ room: 'E83S33', targetRoom: 'E83S34', targetType: 'Reserve' });
 
         Memory.Settings = settings;
         console.log('Initializing Completed. ');
