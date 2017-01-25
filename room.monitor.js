@@ -20,33 +20,34 @@ var roomMonitor = {
         return constructionSites.length;
     },
 
-    GetCreepCountByRole: function(roomName, role)
+    GetCreepCountByRole: function(roomName, role, ticksToLive)
     {
-        var totals = _.filter(Game.creeps, (creep) => creep.memory.role == role && creep.memory.targetRoom == roomName);
+        if (ticksToLive == undefined) {
+            ticksToLive = 0;
+        }
+        var totals = _.filter(Game.creeps, (creep) => creep.memory.role == role
+                                                    && creep.memory.targetRoom == roomName
+                                                    && creep.ticksToLive > ticksToLive);
+
         return totals.length;
     },
 
-    GetMinerCountBySource: function (sourceId) {
-        var totals = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && creep.memory.mainSourceId == sourceId);
+    GetCountBySource: function (sourceId, role, ticksToLive) {
+        if (ticksToLive == undefined) {
+            ticksToLive = 0;
+        }
+        var totals = _.filter(Game.creeps, (creep) => creep.memory.role == role
+                                                    && creep.memory.mainSourceId == sourceId
+                                                    && creep.ticksToLive > ticksToLive);
         return totals.length;
     },
 
-    GetCarrierCountBySource: function (sourceId) {
-        var totals = _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier' && creep.memory.mainSourceId == sourceId);
-        return totals.length;
-    },
 
     GetTargetedRooms: function (roomName) {
         var targetedRooms = _.filter(Memory.Settings.roomTargets, (t) => t.room == roomName);
         return targetedRooms;
     },
 
-    GetClaimersCount: function (roomName) {
-        var totals = _.filter(Game.creeps, (creep) => creep.memory.role == 'claimer'
-                                                    && creep.memory.targetRoom == roomName
-                                                    && creep.ticksToLive > 100);
-        return totals.length;
-    },
 
     GetRoomLevel: function(room)
     {

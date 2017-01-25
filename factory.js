@@ -62,7 +62,7 @@ var factory = {
                     //spawn Guards if there is any hostiles
                     var hostileTargets = roomMonitor.GetHostilesInRoom(room);
                     if (hostileTargets.length) {
-                        var guardsCount = roomMonitor.GetCreepCountByRole(room.name, 'guard');
+                        var guardsCount = roomMonitor.GetCreepCountByRole(room.name, 'guard', 50);
 
                         if (guardsCount < hostileTargets.length + 1) {
                             roleGuard.spawnCreep(spawn, roomLevel, roomInfo.name);
@@ -71,7 +71,7 @@ var factory = {
                     }
 
                     //spawn builder
-                    var upgradersCount = roomMonitor.GetCreepCountByRole(room.name, 'upgrader');
+                    var upgradersCount = roomMonitor.GetCreepCountByRole(room.name, 'upgrader', 50);
 
                     if (upgradersCount < Memory.Settings.UpgraderPerRoom) {
                         roleUpgrader.spawnCreep(spawn, roomLevel, roomInfo.name);
@@ -81,7 +81,7 @@ var factory = {
                     //spawn builder
                     var ConstructionSitesCount = roomMonitor.GetConstructionSitesCount(room);
                     if (ConstructionSitesCount > 0) {
-                        var buildersCount = roomMonitor.GetCreepCountByRole(room.name, 'builder');
+                        var buildersCount = roomMonitor.GetCreepCountByRole(room.name, 'builder', 50);
                         var buildersPerRoom = Math.ceil(ConstructionSitesCount / 4);
                         if (buildersPerRoom > Memory.Settings.MaxBuilderPerRoom) {
                             buildersPerRoom = Memory.Settings.MaxBuilderPerRoom;
@@ -92,7 +92,7 @@ var factory = {
                         }
                     }
 
-                    var WallBuildersCount = roomMonitor.GetCreepCountByRole(room.name, 'wallBuilder');
+                    var WallBuildersCount = roomMonitor.GetCreepCountByRole(room.name, 'wallBuilder', 50);
 
                     if (WallBuildersCount < Memory.Settings.WallBuilderPerRoom) {
                         roleWallBuilder.spawnCreep(spawn, roomLevel, roomInfo.name);
@@ -113,7 +113,7 @@ var factory = {
 
                             if (Game.rooms[targetedRoomName] == undefined) {
                                 //send a level 0 worker to scout the area
-                                var workerCount = roomMonitor.GetCreepCountByRole(targetedRoomName, 'worker'); 
+                                var workerCount = roomMonitor.GetCreepCountByRole(targetedRoomName, 'worker', 0); 
                                 if (workerCount < 1) {
                                     roleWorker.spawnCreep(spawn, 0, targetedRoomName);
                                     break;
@@ -128,7 +128,7 @@ var factory = {
                             if (hostileTargets.length == 0) {
 
                                 if (worker) {
-                                    var workerCount = roomMonitor.GetCreepCountByRole(targetedRoomName, 'worker');
+                                    var workerCount = roomMonitor.GetCreepCountByRole(targetedRoomName, 'worker', 50);
 
                                     if (workerCount < 1) {
                                         roleWorker.spawnCreep(spawn, roomLevel, targetedRoomName);
@@ -137,7 +137,7 @@ var factory = {
                                 }
                                 if (reserve) {
                                     if (targetedRoom.controller.reservation == undefined || targetedRoom.controller.reservation.ticksToEnd < 4000) {
-                                        var claimerCount = roomMonitor.GetClaimersCount(targetedRoomName);
+                                        var claimerCount = roomMonitor.GetCreepCountByRole(targetedRoomName, 'claimer', 100);
 
                                         if (claimerCount < 1) {
                                             roleClaimer.spawnCreep(spawn, roomLevel, targetedRoomName, buildRoads);
@@ -151,14 +151,14 @@ var factory = {
                                 if (targetedRoomInfo.length) {
                                     for (var j in targetedRoomInfo[0].sourceIds) {
                                         var sourceId = targetedRoomInfo[0].sourceIds[j];
-                                        var minersCount = roomMonitor.GetMinerCountBySource(sourceId);
+                                        var minersCount = roomMonitor.GetCountBySource(sourceId, 'miner', 50);
 
                                         if (minersCount < 1) {
                                             roleMiner.spawnCreep(spawn, roomLevel, targetedRooms[i].targetRoom, sourceId, buildRoads);
                                             spawning = true;
                                             break;
                                         }
-                                        var carriersCount = roomMonitor.GetCarrierCountBySource(sourceId);
+                                        var carriersCount = roomMonitor.GetCountBySource(sourceId, 'carrier', 50);
 
                                         if (carriersCount < 2) {
                                             roleCarrier.spawnCreep(spawn, roomLevel, targetedRooms[i].targetRoom, sourceId);
