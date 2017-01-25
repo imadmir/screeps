@@ -2,6 +2,23 @@ var action = require('action');
 var settings = require('settings');
 
 var roleWorker = {
+    partsList: [[WORK, CARRY, CARRY, MOVE, MOVE],
+                [WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],
+                [WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
+                [WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE]],
+
+    partsCost: [300, 550, 800, 800],
+
+    role: 'worker',
+
+    spawnCreep: function (spawn, roomLevel, targetRoom) {
+        if (spawn.room.energyAvailable >= this.partsCost[roomLevel] && spawn.spawning == null) {
+            var newName = spawn.createCreep(this.partsList[roomLevel], undefined, { role: this.role, roomName: spawn.room.name, targetRoom: targetRoom });
+            console.log(newName + ': ' + spawn.room.name + ' ' + spawn.name + ' ' + this.role + ' ' + targetRoom);
+            return true;
+        }
+        return false;
+    },
 
     run: function (creep) {
 
@@ -34,7 +51,10 @@ var roleWorker = {
                     settings.addRoomInfo(creep.room);
                 }
 
-                action.BuildStructures(creep);
+                var actionResult = action.BuildStructures(creep);
+                if (!actionResult) {
+                    action.RepairRoadsAndContainers(creep);
+                }
             } 
             
         }
