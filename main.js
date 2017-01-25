@@ -40,6 +40,9 @@ module.exports.loop = function () {
         if (creep.memory.role == 'claimer') {
             roleClaimer.run(creep);
         }
+        if (creep.memory.role == 'upgrader') {
+            roleClaimer.run(creep);
+        }
     }
 
     for (var i in Memory.Settings.towerIds) {

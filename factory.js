@@ -70,11 +70,25 @@ var factory = {
                     }
 
                     //spawn builder
-                    var buildersCount = roomMonitor.GetCreepCountByRole(room.name, 'builder');
+                    var upgradersCount = roomMonitor.GetCreepCountByRole(room.name, 'upgrader');
 
-                    if (buildersCount < Memory.Settings.BuilderPerRoom) {
-                        roleBuilder.spawnCreep(spawn, roomLevel, roomInfo.name);
+                    if (upgradersCount < Memory.Settings.UpgraderPerRoom) {
+                        roleUpgrader.spawnCreep(spawn, roomLevel, roomInfo.name);
                         break;
+                    }
+
+                    //spawn builder
+                    var ConstructionSitesCount = roomMonitor.GetConstructionSitesCount(room);
+                    if (ConstructionSitesCount > 0) {
+                        var buildersCount = roomMonitor.GetCreepCountByRole(room.name, 'builder');
+                        var buildersPerRoom = math.ceil(ConstructionSitesCount / 4);
+                        if (buildersPerRoom > Memory.Settings.MaxBuilderPerRoom) {
+                            buildersPerRoom = Memory.Settings.MaxBuilderPerRoom;
+                        }
+                        if (buildersCount < buildersPerRoom) {
+                            roleBuilder.spawnCreep(spawn, roomLevel, roomInfo.name);
+                            break;
+                        }
                     }
 
                     var WallBuildersCount = roomMonitor.GetCreepCountByRole(room.name, 'wallBuilder');

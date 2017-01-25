@@ -23,7 +23,8 @@ var settings = {
         console.log('Initializing Settings ....');
 
         var settings = {};
-        settings.BuilderPerRoom = 3;
+        settings.MaxBuilderPerRoom = 4;
+        settings.UpgraderPerRoom = 1;
         settings.WallBuilderPerRoom = 1;
         settings.MinerPerSource = 1;
         settings.CarrierPerSource = 1;

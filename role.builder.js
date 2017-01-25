@@ -2,9 +2,9 @@ var action = require('action');
 
 var roleBuilder = {
     partsList : [[WORK, CARRY, CARRY, MOVE, MOVE],
-                           [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE],
-                           [WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE],
-                           [WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE]],
+                           [WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE],
+                           [WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
+                           [WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE]],
     partsCost: [300, 550, 800, 1300],
 
     role: 'builder',

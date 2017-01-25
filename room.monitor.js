@@ -15,6 +15,11 @@ var roomMonitor = {
         return targets;
     },
 
+    GetConstructionSitesCount: function (room) {
+        var constructionSites = room.find(FIND_MY_CONSTRUCTION_SITES);
+        return constructionSites.length;
+    },
+
     GetCreepCountByRole: function(roomName, role)
     {
         var totals = _.filter(Game.creeps, (creep) => creep.memory.role == role && creep.memory.targetRoom == roomName);
