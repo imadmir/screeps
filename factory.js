@@ -5,6 +5,7 @@ var roleWorker = require('role.worker');
 var roleGuard = require('role.guard');
 var roleWallBuilder = require('role.wall.builder');
 var roleClaimer = require('role.claimer');
+var roleUpgrader = require('role.upgrader');
 var roomMonitor = require('room.monitor');
 
 var factory = {
