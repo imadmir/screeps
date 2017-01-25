@@ -1,19 +1,19 @@
 var action = require('action');
 
 var roleCarrier = {
-    partsList: [[CARRY, CARRY, CARRY, MOVE, MOVE, MOVE],
+    partsList: [[CARRY, CARRY, CARRY, CARRY, MOVE, MOVE],
                 [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],
-                [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE],
-                [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE]],
+                [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
+                [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE]],
 
-    partsCost: [300, 550, 800, 800],
+    partsCost: [300, 550, 750, 1050],
 
     role: 'carrier',
 
     spawnCreep: function (spawn, roomLevel, targetRoom, sourceId) {
         if (spawn.room.energyAvailable >= this.partsCost[roomLevel] && spawn.spawning == null) {
             var newName = spawn.createCreep(this.partsList[roomLevel], undefined, { role: this.role, working: false, roomName: spawn.room.name, targetRoom: targetRoom, mainSourceId: sourceId });
-            console.log(spawn.room.name + ' ' + spawn.name + ' ' + this.role + '[' + roomLevel + '] ' + ' ' + targetRoom + '' + sourceId + ' - ' + newName);
+            console.log(spawn.room.name + ' ' + spawn.name + ' ' + this.role + '[' + roomLevel + '] ' + ' ' + targetRoom + ' ' + sourceId + ' - ' + newName);
             return true;
         }
         return false;
