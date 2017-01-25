@@ -193,7 +193,7 @@ var action = {
         }
     },
 
-    MineEnergy: function (creep, buildRoads) {
+    MineEnergy: function (creep) {
         //if the creep is moving, keep on moving, he already has a target for his transfer
         var sourceId = '';
         if (creep.memory.movingTo != undefined && creep.memory.movingTime != undefined && (Game.time - creep.memory.movingTime) < 20) {
@@ -218,7 +218,7 @@ var action = {
             var source = Game.getObjectById(sourceId);
             if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(source);
-                if (buildRoads) {
+                if (creep.memory.buildRoads) {
                     creep.room.createConstructionSite(creep.pos, STRUCTURE_ROAD);
                 }
             }
@@ -307,12 +307,12 @@ var action = {
         return false;
     },
 
-    ReserveRoom(creep, buildRoads) {
+    ReserveRoom(creep) {
         if (creep.room.controller) {
             if (creep.reserveController(creep.room.controller) == ERR_NOT_IN_RANGE) {
                 creep.moveTo(creep.room.controller);
 
-                if (buildRoads) {
+                if (creep.memory.buildRoads) {
                     creep.room.createConstructionSite(creep.pos, STRUCTURE_ROAD);
                 }
             }

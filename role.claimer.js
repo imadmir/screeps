@@ -10,10 +10,12 @@ var roleMiner = {
 
     role: 'claimer',
 
-    spawnCreep: function (spawn, roomLevel, targetRoom) {
+    spawnCreep: function (spawn, roomLevel, targetRoom, buildRoads) {
         if (spawn.room.energyAvailable >= this.partsCost[roomLevel] && spawn.spawning == null) {
-            var newName = spawn.createCreep(this.partsList[roomLevel], undefined, { role: this.role, roomName: spawn.room.name, targetRoom: targetRoom });
-            console.log(newName + ': ' + spawn.room.name + ' ' + spawn.name + ' ' + this.role + ' ' + targetRoom);
+            var newName = spawn.createCreep(this.partsList[roomLevel], undefined,
+                            { role: this.role, roomName: spawn.room.name, targetRoom: targetRoom, buildRoads: buildRoads });
+
+            console.log(spawn.room.name + ' ' + spawn.name + ' ' + this.role + ' ' + targetRoom + ' - ' + newName);
             return true;
         }
         return false;
@@ -32,7 +34,7 @@ var roleMiner = {
             creep.moveTo(exit);
         }
         else {
-            action.ReserveRoom(creep, true);
+            action.ReserveRoom(creep);
         }
 
     }

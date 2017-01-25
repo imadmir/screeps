@@ -12,7 +12,7 @@ var roleGuard = {
     spawnCreep: function (spawn, roomLevel, targetRoom) {
         if (spawn.room.energyAvailable >= this.partsCost[roomLevel] && spawn.spawning == null) {
             var newName = spawn.createCreep(this.partsList[roomLevel], undefined, { role: this.role, working: false, roomName: spawn.room.name, targetRoom: targetRoom });
-            console.log(newName + ': ' + spawn.room.name + ' ' + spawn.name + ' ' + this.role + ' ' + targetRoom);
+            console.log(spawn.room.name + ' ' + spawn.name + ' ' + this.role + ' ' + targetRoom + ' - ' + newName);
             return true;
         }
         return false;
