@@ -21,7 +21,6 @@ var settings = {
 
     init: function () {
         console.log('Initializing Settings ....');
-        Memory.ReloadSettings = undefined;
 
         var settings = {};
         settings.BuilderPerRoom = 4;
@@ -52,6 +51,9 @@ var settings = {
         settings.roomTargets = [];
         settings.roomTargets.push({ room: 'E83S33', targetRoom: 'E83S34', targetType: 'Reserve' });
         settings.roomTargets.push({ room: 'E83S33', targetRoom: 'E82S33', targetType: 'Harvest' });
+
+        settings.alliedPlayers = [];
+        settings.alliedPlayers.push('Orocket');
 
         Memory.Settings = settings;
         console.log('Initializing Completed. ');

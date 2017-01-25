@@ -1,10 +1,12 @@
+var roomMonitor = require('room.monitor');
+
 var structureTower = {
 
     run: function (tower) {
         if (tower == null) {
             return;
         }
-        var targets = tower.room.find(FIND_HOSTILE_CREEPS);
+        var targets = roomMonitor.GetHostilesInRoom(tower.room); 
         if (targets.length) {
             tower.attack(targets[0]);
         }

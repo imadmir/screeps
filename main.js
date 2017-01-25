@@ -11,7 +11,7 @@ var structureTower = require('structure.tower');
 
 module.exports.loop = function () {
 
-    if (Memory.Settings == undefined || Memory.ReloadSettings != undefined) {
+    if (Memory.Settings == undefined) {
         settings.init();
     }
 

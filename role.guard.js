@@ -1,3 +1,5 @@
+var roomMonitor = require('room.monitor');
+
 var roleGuard = {
 
     partsList: [[ATTACK, ATTACK, TOUGH, TOUGH, TOUGH, TOUGH, MOVE, MOVE],
@@ -12,7 +14,7 @@ var roleGuard = {
     spawnCreep: function (spawn, roomLevel, targetRoom) {
         if (spawn.room.energyAvailable >= this.partsCost[roomLevel] && spawn.spawning == null) {
             var newName = spawn.createCreep(this.partsList[roomLevel], undefined, { role: this.role, working: false, roomName: spawn.room.name, targetRoom: targetRoom });
-            console.log(spawn.room.name + ' ' + spawn.name + ' ' + this.role + ' ' + targetRoom + ' - ' + newName);
+            console.log(spawn.room.name + ' ' + spawn.name + ' ' + this.role + '[' + roomLevel + '] ' + targetRoom + ' - ' + newName);
             return true;
         }
         return false;
@@ -24,7 +26,7 @@ var roleGuard = {
             return;
         }
 
-        var targets = creep.room.find(FIND_HOSTILE_CREEPS);
+        var targets = roomMonitor.GetHostilesInRoom(creep.room);
         if (targets.length) {
             creep.moveTo(targets[0]);
             creep.attack(targets[0]);

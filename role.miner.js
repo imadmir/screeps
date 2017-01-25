@@ -15,7 +15,7 @@ var roleMiner = {
             var newName = spawn.createCreep(this.partsList[roomLevel], undefined,
                             { role: this.role, roomName: spawn.room.name, targetRoom: targetRoom, mainSourceId: sourceId, buildRoads: buildRoads });
 
-            console.log(spawn.room.name + ' ' + spawn.name + ' ' + this.role + ' ' + targetRoom + '' + sourceId + ' - ' + newName);
+            console.log(spawn.room.name + ' ' + spawn.name + ' ' + this.role + '[' + roomLevel + '] ' + ' ' + targetRoom + '' + sourceId + ' - ' + newName);
             return true;
         }
         return false;
