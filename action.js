@@ -155,24 +155,35 @@ var action = {
             transferTo = creep.memory.movingTo;
         }
         else {
-
-            var targets = creep.room.find(FIND_STRUCTURES, {
+            var target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (structure) => {
-                    return ((structure.structureType == STRUCTURE_EXTENSION ||
-                            structure.structureType == STRUCTURE_SPAWN) && structure.energy < structure.energyCapacity)
-							|| (structure.structureType == STRUCTURE_TOWER && structure.energy < structure.energyCapacity * 0.9)
-							|| (structure.structureType == STRUCTURE_STORAGE && structure.store[RESOURCE_ENERGY] < structure.storeCapacity * 0.9);
+                    return (structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN)
+                        && structure.energy < structure.energyCapacity
+                       && _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier' && creep.memory.movingTo == s.id).length == 0;
                 }
             });
-            if (targets.length > 0) {
-                targets.sort(function (a, b) { return sortStructures(b) - sortStructures(a) });
-                transferTo = targets[0].id;
+
+            if (target != null) {
+                transferTo = target.id;
             }
             else {
-                //If all structures are full, give energy to builders
-                var needEnergy = _.filter(Game.creeps, (creep) => (creep.memory.requireEnergy) && creep.carry.energy < (creep.carryCapacity / 2));
-                if (needEnergy.length > 0) {
-                    transferTo = needEnergy[0].id;
+                var targets = creep.room.find(FIND_STRUCTURES, {
+                    filter: (structure) => {
+                        return ((structure.structureType == STRUCTURE_TOWER && structure.energy < structure.energyCapacity * 0.9)
+                                || (structure.structureType == STRUCTURE_STORAGE && structure.store[RESOURCE_ENERGY] < structure.storeCapacity * 0.9);
+                    }
+                });
+                if (targets.length > 0) {
+                    targets.sort(function (a, b) { return sortStructures(b) - sortStructures(a) });
+                    transferTo = targets[0].id;
+                }
+                else {
+                    //If all structures are full, give energy to builders
+                    var needEnergy = _.filter(Game.creeps, (creep) => (creep.memory.requireEnergy) && creep.carry.energy < (creep.carryCapacity / 2));
+                    if (needEnergy.length > 0) {
+                        transferTo = needEnergy[0].id;
+                    }
+
                 }
 
             }
