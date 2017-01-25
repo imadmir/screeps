@@ -41,14 +41,14 @@ var factory = {
                     //Spawn miner
                     for (var j in roomInfo.sourceIds) {
                         var sourceId = roomInfo.sourceIds[j];
-                        var minersCount = roomMonitor.GetMinerCountBySource(sourceId);
+                        var minersCount = roomMonitor.GetCountBySource(sourceId, 'miner', 50);
 
                         if (minersCount < Memory.Settings.MinerPerSource) {
                             roleMiner.spawnCreep(spawn, roomLevel, roomInfo.name, sourceId, true);
                             spawning = true;
                             break;
                         }
-                        var carriersCount = roomMonitor.GetCarrierCountBySource(sourceId);
+                        var carriersCount = roomMonitor.GetCountBySource(sourceId, 'carrier', 50);
 
                         if (carriersCount < Memory.Settings.CarrierPerSource) {
                             roleCarrier.spawnCreep(spawn, roomLevel, roomInfo.name, sourceId);
