@@ -232,23 +232,31 @@ var action = {
             targetId = creep.memory.movingTo;
         }
         else {
-            //Make sure to send at most 2 for my construction jobs, and only 1 builder per road, wall.
-            var targets = creep.room.find(FIND_MY_CONSTRUCTION_SITES,
-                                        { filter: (s) => !(_.filter(Game.creeps, (creep) => (creep.memory.role == 'builder' || creep.memory.role == 'worker') && creep.memory.movingTo == s.id).length > 1) });
-            if (targets.length) {
-                targetId = targets[0].id;
+
+            var target = creep.pos.findClosestByRange(FIND_MY_CONSTRUCTION_SITES);
+            if (target != null) {
+                targetId = target.id;
                 creep.memory.movingTo = targetId;
                 creep.memory.movingTime = Game.time;
             }
-            else {
-                targets = creep.room.find(FIND_CONSTRUCTION_SITES,
-                                        { filter: (s) => !(_.filter(Game.creeps, (creep) => (creep.memory.role == 'builder' || creep.memory.role == 'worker') && creep.memory.movingTo == s.id).length > 0) });
-                if (targets.length) {
-                    targetId = targets[0].id;
-                    creep.memory.movingTo = targetId;
-                    creep.memory.movingTime = Game.time;
-                }
-            }
+
+            //Make sure to send at most 2 for my construction jobs, and only 1 builder per road, wall.
+            //var targets = creep.room.find(FIND_MY_CONSTRUCTION_SITES,
+            //                            { filter: (s) => !(_.filter(Game.creeps, (creep) => (creep.memory.role == 'builder' || creep.memory.role == 'worker') && creep.memory.movingTo == s.id).length > 1) });
+            //if (targets.length) {
+            //    targetId = targets[0].id;
+            //    creep.memory.movingTo = targetId;
+            //    creep.memory.movingTime = Game.time;
+            //}
+            //else {
+            //    targets = creep.room.find(FIND_CONSTRUCTION_SITES,
+            //                            { filter: (s) => !(_.filter(Game.creeps, (creep) => (creep.memory.role == 'builder' || creep.memory.role == 'worker') && creep.memory.movingTo == s.id).length > 0) });
+            //    if (targets.length) {
+            //        targetId = targets[0].id;
+            //        creep.memory.movingTo = targetId;
+            //        creep.memory.movingTime = Game.time;
+            //    }
+            //}
         }
 
         if (targetId != '') {
