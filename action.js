@@ -279,7 +279,7 @@ var action = {
             //Make sure to send only 1 builder.
             var targets = creep.room.find(FIND_STRUCTURES,
                                         {
-                                            filter: (s) => s.hits < s.maxhits / 2 && (x.structure == STRUCTURE_CONTAINER || s.structure == STRUCTURE_ROAD)
+                                            filter: (s) => s.hits < s.hitsMax / 2 && (s.structureType == STRUCTURE_CONTAINER || s.structureType == STRUCTURE_ROAD)
                                                 && !(_.filter(Game.creeps, (creep) => (creep.memory.role == 'builder' || creep.memory.role == 'worker') && creep.memory.movingTo == s.id).length > 0)
                                         });
             if (targets.length) {
