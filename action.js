@@ -159,7 +159,7 @@ var action = {
                 filter: (structure) => {
                     return (structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN)
                         && structure.energy < structure.energyCapacity
-                       && _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier' && creep.memory.movingTo == s.id).length == 0;
+                       && _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier' && creep.memory.movingTo == structure.id).length == 0;
                 }
             });
 
