@@ -1,8 +1,8 @@
 function sortStructures(structure) {
     if (structure.structureType == STRUCTURE_SPAWN)
-        return 10;
+        return 100;
     if (structure.structureType == STRUCTURE_EXTENSION)
-        return 8;
+        return 10 + structure.pos.y;
     if (structure.structureType == STRUCTURE_TOWER)
         return 6;
     if (structure.structureType == STRUCTURE_STORAGE)
