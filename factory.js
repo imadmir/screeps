@@ -81,7 +81,7 @@ var factory = {
                     var ConstructionSitesCount = roomMonitor.GetConstructionSitesCount(room);
                     if (ConstructionSitesCount > 0) {
                         var buildersCount = roomMonitor.GetCreepCountByRole(room.name, 'builder');
-                        var buildersPerRoom = math.ceil(ConstructionSitesCount / 4);
+                        var buildersPerRoom = Math.ceil(ConstructionSitesCount / 4);
                         if (buildersPerRoom > Memory.Settings.MaxBuilderPerRoom) {
                             buildersPerRoom = Memory.Settings.MaxBuilderPerRoom;
                         }
