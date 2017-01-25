@@ -7,9 +7,11 @@ var roomMonitor = {
     },
 
     GetHostilesInRoom: function (room) {
-        var targets = room.find(FIND_HOSTILE_CREEPS);
-        //,
-        //                                { filter: (s) => !(_.filter(Game.creeps, (creep) => (creep.memory.role == 'builder' || creep.memory.role == 'worker') && creep.memory.movingTo == s.id).length > 1) });
+        var targets = room.find(FIND_HOSTILE_CREEPS,
+                                {
+                                    filter: (creep) =>
+                                        _.contains(Memory.Settings.alliedPlayers, creep.owner.username) == false
+                                });
         return targets;
     },
 
