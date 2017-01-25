@@ -91,36 +91,41 @@ var factory = {
                     if (targetedRooms.length) {
                         for (var i in targetedRooms) {
                             var targetedRoomName = targetedRooms[i].targetRoom;
-                            var targetType = targetedRooms[i].targetType;
+                            var claim = targetedRooms[i].claim;
+                            var reserve = targetedRooms[i].reserve;
+                            var buildRoads = targetedRooms[i].buildRoads;
+                            var worker = targetedRooms[i].worker;
 
                             if (Game.rooms[targetedRoomName] == undefined) {
                                 //send a level 0 worker to scout the area
-                                var workers = roomMonitor.GetCreepCountByRole(targetedRoomName, 'worker'); 
-                                if (workers.length < 1) {
+                                var workerCount = roomMonitor.GetCreepCountByRole(targetedRoomName, 'worker'); 
+                                if (workerCount < 1) {
                                     roleWorker.spawnCreep(spawn, 0, targetedRoomName);
+                                    break;
                                 }
-                                break;
+                                continue;
                             }
 
                             var targetedRoom = Game.rooms[targetedRoomName];
 
                             //send creeps if there is no hostiles detected there
                             var hostileTargets = roomMonitor.GetHostilesInRoom(targetedRoom);
-                            if (hostileTargets.lenth == 0) {
+                            if (hostileTargets.length == 0) {
 
-                                if (targetType != "Harvest") {
-                                    var workers = roomMonitor.GetCreepCountByRole(targetedRoomName, 'worker');
+                                if (worker) {
+                                    var workerCount = roomMonitor.GetCreepCountByRole(targetedRoomName, 'worker');
 
-                                    if (workers.length < 1) {
+                                    if (workerCount < 1) {
                                         roleWorker.spawnCreep(spawn, roomLevel, targetedRoomName);
                                         break;
                                     }
+                                }
+                                if (reserve) {
+                                    if (targetedRoom.controller.reservation == undefined || targetedRoom.controller.reservation.ticksToEnd < 4000) {
+                                        var claimerCount = roomMonitor.GetClaimersCount(targetedRoomName);
 
-                                    if (targetedRoom.controller.reservation.ticksToEnd < 4000) {
-                                        var claimers = roomMonitor.GetClaimersCount(targetedRoomName);
-
-                                        if (claimers.length < 1) {
-                                            roleClaimer.spawnCreep(spawn, roomLevel, targetedRoomName, true);
+                                        if (claimerCount < 1) {
+                                            roleClaimer.spawnCreep(spawn, roomLevel, targetedRoomName, buildRoads);
                                             break;
                                         }
                                     }
@@ -134,7 +139,6 @@ var factory = {
                                         var minersCount = roomMonitor.GetMinerCountBySource(sourceId);
 
                                         if (minersCount < Memory.Settings.MinerPerSource) {
-                                            var buildRoads = targetType != "Harvest";
                                             roleMiner.spawnCreep(spawn, roomLevel, targetedRooms[i].targetRoom, sourceId, buildRoads);
                                             spawning = true;
                                             break;

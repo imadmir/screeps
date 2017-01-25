@@ -23,10 +23,10 @@ var settings = {
         console.log('Initializing Settings ....');
 
         var settings = {};
-        settings.BuilderPerRoom = 4;
+        settings.BuilderPerRoom = 2;
         settings.WallBuilderPerRoom = 1;
         settings.MinerPerSource = 1;
-        settings.CarrierPerSource = 2;
+        settings.CarrierPerSource = 1;
 
         settings.towerIds = [];
         settings.rooms = [];
@@ -49,8 +49,8 @@ var settings = {
         }
 
         settings.roomTargets = [];
-        settings.roomTargets.push({ room: 'E83S33', targetRoom: 'E83S34', targetType: 'Reserve' });
-        settings.roomTargets.push({ room: 'E83S33', targetRoom: 'E82S33', targetType: 'Harvest' });
+        settings.roomTargets.push({ room: 'E83S33', targetRoom: 'E83S34', claim: false, reserve: true, buildRoads: true, worker: true });
+        settings.roomTargets.push({ room: 'E83S33', targetRoom: 'E82S33', claim: false, reserve: false, buildRoads: false, worker: false });
 
         settings.alliedPlayers = [];
         settings.alliedPlayers.push('Orocket');
