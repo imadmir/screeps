@@ -5,6 +5,7 @@ var roleWorker = require('role.worker');
 var roleGuard = require('role.guard');
 var roleWallBuilder = require('role.wall.builder');
 var roleClaimer = require('role.claimer');
+var roomMonitor = require('room.monitor');
 
 var factory = {
 
@@ -16,28 +17,16 @@ var factory = {
             }
         }
 
-        var roomLevel = 0;
+        
         for (var roomCount in Memory.Settings.rooms) {
             var roomInfo = Memory.Settings.rooms[roomCount];
 
             //if the room has a spawn
             if (roomInfo.spawnNames.length > 0) {
-
                 var room = Game.rooms[roomInfo.name];
-                var totalMiners = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && creep.memory.targetRoom == roomInfo.name);
-                var totalCarriers = _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier' && creep.memory.targetRoom == roomInfo.name);
-                if (totalMiners.length >= Memory.Settings.MinerPerSource && totalCarriers.length >= Memory.Settings.CarrierPerSource) {
-                    if (room.energyCapacityAvailable >= 1300) {
-                        roomLevel = 3;
-                    }
-                    else if (room.energyCapacityAvailable >= 800) {
-                        roomLevel = 2;
-                    }
-                    else if (room.energyCapacityAvailable >= 550) {
-                        roomLevel = 1;
-                    }
-                }
 
+                var roomLevel = roomMonitor.GetRoomLevel(room);
+                
                 for (var spawnCount in roomInfo.spawnNames) {
                     var spawnName = roomInfo.spawnNames[spawnCount]
                     var spawn = Game.spawns[spawnName]
@@ -51,16 +40,16 @@ var factory = {
                     //Spawn miner
                     for (var j in roomInfo.sourceIds) {
                         var sourceId = roomInfo.sourceIds[j];
-                        var miners = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && creep.memory.mainSourceId == sourceId);
+                        var minersCount = roomMonitor.GetMinerCountBySource(sourceId);
 
-                        if (miners.length < Memory.Settings.MinerPerSource) {
+                        if (minersCount < Memory.Settings.MinerPerSource) {
                             roleMiner.spawnCreep(spawn, roomLevel, roomInfo.name, sourceId, true);
                             spawning = true;
                             break;
                         }
-                        var carriers = _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier' && creep.memory.mainSourceId == sourceId);
+                        var carriersCount = roomMonitor.GetMinerCountBySource(sourceId);
 
-                        if (carriers.length < Memory.Settings.CarrierPerSource) {
+                        if (carriersCount < Memory.Settings.CarrierPerSource) {
                             roleCarrier.spawnCreep(spawn, roomLevel, roomInfo.name, sourceId);
                             spawning = true;
                             break;
@@ -70,27 +59,27 @@ var factory = {
                         break;
                     }
                     //spawn Guards if there is any hostiles
-                    var hostileTargets = room.find(FIND_HOSTILE_CREEPS);
-                    if (hostileTargets.lenth) {
-                        var guards = _.filter(Game.creeps, (creep) => creep.memory.role == 'guard' && creep.room.name == roomInfo.name);
+                    var hostileTargets = roomMonitor.GetHostilesInRoom(room);
+                    if (hostileTargets.length) {
+                        var guardsCount = roomMonitor.GetCreepCountByRole(room.name, 'guard');
 
-                        if (guards.length < hostileTargets.lenth + 1) {
+                        if (guardsCount < hostileTargets.length + 1) {
                             roleGuard.spawnCreep(spawn, roomLevel, roomInfo.name);
                             break;
                         }
                     }
 
                     //spawn builder
-                    var builders = _.filter(Game.creeps, (creep) => creep.memory.role == 'builder' && creep.room.name == roomInfo.name);
+                    var buildersCount = roomMonitor.GetCreepCountByRole(room.name, 'builder');
 
-                    if (builders.length < Memory.Settings.BuilderPerRoom) {
+                    if (buildersCount < Memory.Settings.BuilderPerRoom) {
                         roleBuilder.spawnCreep(spawn, roomLevel, roomInfo.name);
                         break;
                     }
 
-                    var wallBuilders = _.filter(Game.creeps, (creep) => creep.memory.role == 'wallBuilder' && creep.room.name == roomInfo.name);
+                    var WallBuildersCount = roomMonitor.GetCreepCountByRole(room.name, 'wallBuilder');
 
-                    if (wallBuilders.length < Memory.Settings.WallBuilderPerRoom) {
+                    if (WallBuildersCount < Memory.Settings.WallBuilderPerRoom) {
                         roleWallBuilder.spawnCreep(spawn, roomLevel, roomInfo.name);
                         break;
                     }
@@ -98,61 +87,61 @@ var factory = {
 
 
                     //Target another room
-                    var targetedRooms = _.filter(Memory.Settings.roomTargets, (t) => t.room == roomInfo.name);
+                    var targetedRooms = roomMonitor.GetTargetedRooms(roomInfo.name);
                     if (targetedRooms.length) {
                         for (var i in targetedRooms) {
-                            if (Game.rooms[targetedRooms[i].targetRoom] == undefined) {
+                            var targetedRoomName = targetedRooms[i].targetRoom;
+                            var targetType = targetedRooms[i].targetType;
+
+                            if (Game.rooms[targetedRoomName] == undefined) {
                                 //send a level 0 worker to scout the area
-                                var workers = _.filter(Game.creeps, (creep) => creep.memory.role == 'worker' && creep.memory.roomName == roomInfo.name && creep.memory.targetRoom == targetedRooms[i].targetRoom);
+                                var workers = roomMonitor.GetCreepCountByRole(targetedRoomName, 'worker'); 
                                 if (workers.length < 1) {
-                                    roleWorker.spawnCreep(spawn, 0, targetedRooms[i].targetRoom);
+                                    roleWorker.spawnCreep(spawn, 0, targetedRoomName);
                                 }
                                 break;
                             }
 
-                            var targetType = targetedRooms[i].targetType;
+                            var targetedRoom = Game.rooms[targetedRoomName];
 
                             //send creeps if there is no hostiles detected there
-                            var hostileTargets = Game.rooms[targetedRooms[i].targetRoom].find(FIND_HOSTILE_CREEPS);
-                            if (!hostileTargets.lenth) {
+                            var hostileTargets = roomMonitor.GetHostilesInRoom(targetedRoom);
+                            if (hostileTargets.lenth == 0) {
 
                                 if (targetType != "Harvest") {
-                                    var workers = _.filter(Game.creeps, (creep) => creep.memory.role == 'worker' && creep.memory.roomName == roomInfo.name && creep.memory.targetRoom == targetedRooms[i].targetRoom);
+                                    var workers = roomMonitor.GetCreepCountByRole(targetedRoomName, 'worker');
 
                                     if (workers.length < 1) {
-                                        roleWorker.spawnCreep(spawn, roomLevel, targetedRooms[i].targetRoom);
+                                        roleWorker.spawnCreep(spawn, roomLevel, targetedRoomName);
                                         break;
                                     }
 
-                                    if (Game.rooms[targetedRooms[i].targetRoom].controller.reservation.ticksToEnd < 2000) {
-                                        var claimers = _.filter(Game.creeps, (creep) => creep.memory.role == 'claimer'
-                                                                                                                && creep.memory.roomName == roomInfo.name
-                                                                                                                && creep.memory.targetRoom == targetedRooms[i].targetRoom
-                                                                                                                && creep.ticksToLive > 100);
+                                    if (targetedRoom.controller.reservation.ticksToEnd < 4000) {
+                                        var claimers = roomMonitor.GetClaimersCount(targetedRoomName);
 
                                         if (claimers.length < 1) {
-                                            roleClaimer.spawnCreep(spawn, roomLevel, targetedRooms[i].targetRoom, true);
+                                            roleClaimer.spawnCreep(spawn, roomLevel, targetedRoomName, true);
                                             break;
                                         }
                                     }
 
                                 }
 
-                                var targetRoomInfo = _.filter(Memory.Settings.rooms, (roomInfo) => roomInfo.name == targetedRooms[i].targetRoom);
-                                if (targetRoomInfo.length) {
-                                    for (var j in targetRoomInfo[0].sourceIds) {
-                                        var sourceId = targetRoomInfo[0].sourceIds[j];
-                                        var miners = _.filter(Game.creeps, (creep) => creep.memory.role == 'miner' && creep.memory.mainSourceId == sourceId);
+                                var targetedRoomInfo = roomMonitor.GetRoomInfo(targetedRoomName);
+                                if (targetedRoomInfo.length) {
+                                    for (var j in targetedRoomInfo[0].sourceIds) {
+                                        var sourceId = targetedRoomInfo[0].sourceIds[j];
+                                        var minersCount = roomMonitor.GetMinerCountBySource(sourceId);
 
-                                        if (miners.length < Memory.Settings.MinerPerSource) {
+                                        if (minersCount < Memory.Settings.MinerPerSource) {
                                             var buildRoads = targetType != "Harvest";
                                             roleMiner.spawnCreep(spawn, roomLevel, targetedRooms[i].targetRoom, sourceId, buildRoads);
                                             spawning = true;
                                             break;
                                         }
-                                        var carriers = _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier' && creep.memory.mainSourceId == sourceId);
+                                        var carriersCount = roomMonitor.GetCarrierCountBySource(sourceId);
 
-                                        if (carriers.length < Memory.Settings.CarrierPerSource) {
+                                        if (carriersCount < Memory.Settings.CarrierPerSource) {
                                             roleCarrier.spawnCreep(spawn, roomLevel, targetedRooms[i].targetRoom, sourceId);
                                             spawning = true;
                                             break;

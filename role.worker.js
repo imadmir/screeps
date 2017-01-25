@@ -1,5 +1,6 @@
 var action = require('action');
 var settings = require('settings');
+var roomMonitor = require('room.monitor');
 
 var roleWorker = {
     partsList: [[WORK, CARRY, CARRY, MOVE, MOVE],
@@ -36,27 +37,27 @@ var roleWorker = {
             creep.memory.movingTo = undefined;
             creep.memory.movingTime = undefined;
         }
+        if (creep.memory.targetRoom != creep.room.name) {
+            //travel to targetRoom
+            creep.say(creep.memory.targetRoom);
+            var exits = Game.map.findExit(creep.room, creep.memory.targetRoom);
+            var exit = creep.pos.findClosestByRange(exits);
+            creep.moveTo(exit);
+            return;
+        }
+
+        if (creep.memory.targetRoom == creep.room.name) {
+            var roomInfo = roomMonitor.getRoomInfo(creep.room.name);
+            if (!roomInfo.length) {
+                settings.addRoomInfo(creep.room);
+            }
+        }
 
         if (creep.memory.working) {
-            if (creep.memory.targetRoom != creep.room.name) {
-                //travel to targetRoom
-                creep.say(creep.memory.targetRoom);
-                var exits = Game.map.findExit(creep.room, creep.memory.targetRoom);
-                var exit = creep.pos.findClosestByRange(exits);
-                creep.moveTo(exit);
+            var actionResult = action.BuildStructures(creep);
+            if (!actionResult) {
+                action.RepairRoadsAndContainers(creep);
             }
-            else if (creep.memory.targetRoom == creep.room.name) {
-                var roomInfo = _.filter(Memory.Settings.rooms, (roomInfo) => roomInfo.name == creep.room.name);
-                if (!roomInfo.length) {
-                    settings.addRoomInfo(creep.room);
-                }
-
-                var actionResult = action.BuildStructures(creep);
-                if (!actionResult) {
-                    action.RepairRoadsAndContainers(creep);
-                }
-            } 
-            
         }
         else {
             var actionResult = action.GatherEnergy(creep);
