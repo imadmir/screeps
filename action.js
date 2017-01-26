@@ -89,7 +89,7 @@ var action = {
             var source = Game.getObjectById(destinationId);
 
             //if the source is a contrainer or storage, transfer energy
-            if (source !== null && source.store != undefined && structure.store[RESOURCE_ENERGY] > 0) {
+            if (source !== null && source.store != undefined && source.store[RESOURCE_ENERGY] > 0) {
                 if (source.transfer(creep, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(source);
                 }
@@ -351,7 +351,7 @@ var action = {
         }
 
         if (destinationId != '') {
-            var target = Game.getObjectById(targetId);
+            var target = Game.getObjectById(destinationId);
             var repairResult = creep.repair(target);
             if (repairResult != OK) {
                 if (repairResult == ERR_NOT_IN_RANGE) {
