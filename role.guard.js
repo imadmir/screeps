@@ -30,6 +30,14 @@ var roleGuard = {
         if (targets.length) {
             creep.moveTo(targets[0]);
             creep.attack(targets[0]);
+            return;
+        }
+
+
+        if (creep.memory.targetRoom != creep.room.name) {
+            //travel to targetRoom
+            action.TravelToRoom(creep.memory.targetRoom);
+            return;
         }
 
     }

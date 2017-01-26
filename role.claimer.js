@@ -13,7 +13,7 @@ var roleMiner = {
     spawnCreep: function (spawn, roomLevel, targetRoom, buildRoads) {
         if (spawn.room.energyAvailable >= this.partsCost[roomLevel] && spawn.spawning == null) {
             var newName = spawn.createCreep(this.partsList[roomLevel], undefined,
-                            { role: this.role, roomName: spawn.room.name, targetRoom: targetRoom, buildRoads: buildRoads });
+                            { role: this.role, roomName: spawn.room.name, targetRoom: targetRoom, buildRoads: buildRoads, status: 'claiming' });
 
             console.log(spawn.room.name + ' ' + spawn.name + ' ' + this.role + '[' + roomLevel + '] ' + targetRoom + ' - ' + newName);
             return true;
@@ -28,10 +28,8 @@ var roleMiner = {
         }
         if (creep.memory.targetRoom != creep.room.name) {
             //travel to targetRoom
-            creep.say(creep.memory.targetRoom);
-            var exits = Game.map.findExit(creep.room, creep.memory.targetRoom);
-            var exit = creep.pos.findClosestByRange(exits);
-            creep.moveTo(exit);
+            action.TravelToRoom(creep.memory.targetRoom);
+            return;
         }
         else {
             action.ReserveRoom(creep);

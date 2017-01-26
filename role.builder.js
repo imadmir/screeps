@@ -11,7 +11,7 @@ var roleBuilder = {
 
     spawnCreep: function (spawn, roomLevel, targetRoom) {
         if (spawn.room.energyAvailable >= this.partsCost[roomLevel] && spawn.spawning == null) {
-            var newName = spawn.createCreep(this.partsList[roomLevel], undefined, { role: this.role, working: false, requireEnergy: true, roomName: spawn.room.name, targetRoom: targetRoom });
+            var newName = spawn.createCreep(this.partsList[roomLevel], undefined, { role: this.role, status: 'Getting Energy', requireEnergy: true, roomName: spawn.room.name, targetRoom: targetRoom });
             console.log(spawn.room.name + ' ' + spawn.name + ' ' + this.role + '[' + roomLevel + '] ' + targetRoom + ' - ' + newName);
             return true;
         }
@@ -24,26 +24,23 @@ var roleBuilder = {
             return;
         }
 
-        if (creep.memory.working && creep.carry.energy == 0) {
-            creep.memory.working = false;
-            creep.memory.movingTo = undefined;
-            creep.memory.movingTime = undefined;
-        }
-        if (!creep.memory.working && creep.carry.energy == creep.carryCapacity) {
-            creep.memory.working = true;
-            creep.memory.movingTo = undefined;
-            creep.memory.movingTime = undefined;
+        //builder will only work in the target room
+        if (creep.memory.targetRoom != creep.room.name) {
+            //travel to targetRoom
+            action.TravelToRoom(creep.memory.targetRoom);
+            return;
         }
 
-        if (creep.memory.working) {
-            if (creep.room.controller.ticksToDowngrade < 2000) {
-                //upgrade controller
-                if (creep.upgradeController(creep.room.controller) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(creep.room.controller);
-                }
-                return;
-            }
+        if (creep.memory.status != 'Getting Energy' && creep.carry.energy == 0) {
+            creep.memory.status = 'Getting Energy';
+            action.ClearDestination(creep);
+        }
+        if (creep.memory.status != 'Building' && creep.carry.energy == creep.carryCapacity) {
+            creep.memory.status = 'Building';
+            action.ClearDestination(creep);
+        }
 
+        if (creep.memory.status == 'Building') {
             //Build construction sites
             var actionResult = action.BuildStructures(creep);
 
@@ -56,7 +53,10 @@ var roleBuilder = {
 
         }
         else {
-            action.PickUpEnergy(creep);
+            var actionResult = action.PickUpStoredEnergy(creep);
+            if (!actionResult) {
+                action.PickUpDroppedEnergy(creep);
+            }
         }
     }
 };

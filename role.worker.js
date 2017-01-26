@@ -14,8 +14,8 @@ var roleWorker = {
 
     spawnCreep: function (spawn, roomLevel, targetRoom) {
         if (spawn.room.energyAvailable >= this.partsCost[roomLevel] && spawn.spawning == null) {
-            var newName = spawn.createCreep(this.partsList[roomLevel], undefined, { role: this.role, roomName: spawn.room.name, targetRoom: targetRoom });
-            console.log(spawn.room.name + ' ' + spawn.name + ' ' + this.role + '[' + roomLevel + '] '+ targetRoom + ' - ' + newName);
+            var newName = spawn.createCreep(this.partsList[roomLevel], undefined, { role: this.role, roomName: spawn.room.name, targetRoom: targetRoom, status: 'Getting Energy' });
+            console.log(spawn.room.name + ' ' + spawn.name + ' ' + this.role + '[' + roomLevel + '] ' + targetRoom + ' - ' + newName);
             return true;
         }
         return false;
@@ -27,23 +27,20 @@ var roleWorker = {
             return;
         }
 
-        if (creep.memory.working && creep.carry.energy == 0) {
-            creep.memory.working = false;
-            creep.memory.movingTo = undefined;
-            creep.memory.movingTime = undefined;
-        }
-        if (!creep.memory.working && creep.carry.energy == creep.carryCapacity) {
-            creep.memory.working = true;
-            creep.memory.movingTo = undefined;
-            creep.memory.movingTime = undefined;
-        }
+        //workers will only work in the target room
         if (creep.memory.targetRoom != creep.room.name) {
             //travel to targetRoom
-            creep.say(creep.memory.targetRoom);
-            var exits = Game.map.findExit(creep.room, creep.memory.targetRoom);
-            var exit = creep.pos.findClosestByRange(exits);
-            creep.moveTo(exit);
+            action.TravelToRoom(creep.memory.targetRoom);
             return;
+        }
+
+        if (creep.memory.status != 'Getting Energy' && creep.carry.energy == 0) {
+            creep.memory.status = 'Getting Energy';
+            action.ClearDestination(creep);
+        }
+        if (creep.memory.status != 'Working' && creep.carry.energy == creep.carryCapacity) {
+            creep.memory.status = 'Working';
+            action.ClearDestination(creep);
         }
 
         if (creep.memory.targetRoom == creep.room.name) {
@@ -53,16 +50,20 @@ var roleWorker = {
             }
         }
 
-        if (creep.memory.working) {
+        if (creep.memory.status == 'Working') {
             var actionResult = action.BuildStructures(creep);
             if (!actionResult) {
                 action.RepairRoadsAndContainers(creep);
             }
         }
         else {
-            var actionResult = action.GatherEnergy(creep);
+            var actionResult = false;
+            actionResult = action.PickUpDroppedEnergy(creep);
             if (!actionResult) {
-                action.MineEnergy(creep);
+                actionResult = action.PickUpStoredEnergy(creep);
+            }
+            if (!actionResult) {
+                actionResult = action.MineEnergy(creep);
             }
         }
 
