@@ -382,7 +382,7 @@ var action = {
         }
 
         if (destinationId != '') {
-            var target = Game.getObjectById(targetId);
+            var target = Game.getObjectById(destinationId);
             if (target != null) {
                 var repairResult = creep.repair(target);
                 if (repairResult == ERR_NOT_IN_RANGE) {
