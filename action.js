@@ -76,7 +76,7 @@ var action = {
                 filter: (structure) => {
                     return ((structure.structureType == STRUCTURE_CONTAINER
                             || structure.structureType == STRUCTURE_STORAGE)
-                            && structure.store[RESOURCE_ENERGY] > 0);
+                            && structure.store[RESOURCE_ENERGY] > 100);
                 }
             });
             if (sourcestructure != null) {
@@ -89,7 +89,7 @@ var action = {
             var source = Game.getObjectById(destinationId);
 
             //if the source is a contrainer or storage, transfer energy
-            if (source !== null && source.store != undefined && source.store[RESOURCE_ENERGY] > 0) {
+            if (source !== null && source.store != undefined && source.store[RESOURCE_ENERGY] > 10) {
                 if (source.transfer(creep, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(source);
                 }
