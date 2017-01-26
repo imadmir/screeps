@@ -29,7 +29,7 @@ var roleMiner = {
    
         if (creep.memory.targetRoom != creep.room.name) {
             //travel to targetRoom
-            action.TravelToRoom(creep.memory.targetRoom);
+            action.TravelToRoom(creep, creep.memory.targetRoom);
             if (creep.memory.buildRoads) {
                 creep.room.createConstructionSite(creep.pos, STRUCTURE_ROAD);
             }

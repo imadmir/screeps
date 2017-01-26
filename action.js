@@ -31,7 +31,7 @@ var action = {
         creep.memory.movingTime = undefined;
     },
 
-    TravelToRoom: function (roomName) {
+    TravelToRoom: function (creep, roomName) {
         var roomFlag = Game.flags[roomName];
         creep.moveTo(roomFlag.pos);
     },

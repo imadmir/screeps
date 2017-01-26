@@ -28,7 +28,7 @@ var roleMiner = {
         }
         if (creep.memory.targetRoom != creep.room.name) {
             //travel to targetRoom
-            action.TravelToRoom(creep.memory.targetRoom);
+            action.TravelToRoom(creep, creep.memory.targetRoom);
             return;
         }
         else {

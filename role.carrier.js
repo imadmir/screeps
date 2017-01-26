@@ -38,7 +38,7 @@ var roleCarrier = {
         if (creep.memory.status = 'Delivering') {
             //The carrier will deliver to the dropOffRoom
             if (creep.memory.dropOffRoom != creep.room.name) {
-                action.TravelToRoom(creep.memory.dropOffRoom);
+                action.TravelToRoom(creep, creep.memory.dropOffRoom);
                 return;
             }
 
@@ -55,7 +55,7 @@ var roleCarrier = {
             //The carrier will gather energy from the target room
             if (creep.memory.targetRoom != creep.room.name) {
                 //travel to targetRoom
-                action.TravelToRoom(creep.memory.targetRoom);
+                action.TravelToRoom(creep, creep.memory.targetRoom);
                 return;
             }
             action.PickUpMinedEnergy(creep);

@@ -27,7 +27,7 @@ var roleUpgrader = {
         //upgrader will only work in the target room
         if (creep.memory.targetRoom != creep.room.name) {
             //travel to targetRoom
-            action.TravelToRoom(creep.memory.targetRoom);
+            action.TravelToRoom(creep, creep.memory.targetRoom);
             return;
         }
 
