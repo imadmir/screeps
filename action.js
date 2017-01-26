@@ -32,7 +32,7 @@ var action = {
     },
 
     TravelToRoom: function (roomName) {
-        var roomFlag = Game.flags[creep.memory.targetRoom];
+        var roomFlag = Game.flags[roomName];
         creep.moveTo(roomFlag.pos);
     },
 
