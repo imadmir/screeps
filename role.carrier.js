@@ -35,7 +35,7 @@ var roleCarrier = {
             action.ClearDestination(creep);
         }
 
-        if (creep.memory.status = 'Delivering') {
+        if (creep.memory.status == 'Delivering') {
             //The carrier will deliver to the dropOffRoom
             if (creep.memory.dropOffRoom != creep.room.name) {
                 action.TravelToRoom(creep, creep.memory.dropOffRoom);
