@@ -72,7 +72,7 @@ var settings = {
         settings.CarrierPerSource = 1;
 
         settings.towerIds = [];
-        settings.rooms = [];
+        settings.roomsInfo = [];
         for (var roomName in Game.rooms) {
             var room = Game.rooms[roomName];
             
@@ -88,9 +88,9 @@ var settings = {
 
             var roomInfo = GetRoomInfo(room);
 
-            settings.rooms.push(roomInfo);
+            settings.roomsInfo.push(roomInfo);
         }
-        settings.links = GetLinks(settings.rooms);
+        settings.links = GetLinks(settings.roomsInfo);
 
         settings.roomTargets = [];
         settings.roomTargets.push({ room: 'E83S33', targetRoom: 'E83S34', claim: false, reserve: true, buildRoads: true, worker: true });
@@ -109,7 +109,7 @@ var settings = {
     {
         var roomInfo = GetRoomInfo(room);
 
-        Memory.Settings.rooms.push(roomInfo);
+        Memory.Settings.roomsInfo.push(roomInfo);
         return true;
     }
 

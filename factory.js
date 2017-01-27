@@ -19,8 +19,8 @@ var factory = {
         }
 
         
-        for (var roomCount in Memory.Settings.rooms) {
-            var roomInfo = Memory.Settings.rooms[roomCount];
+        for (var roomCount in Memory.Settings.roomsInfo) {
+            var roomInfo = Memory.Settings.roomsInfo[roomCount];
 
             //if the room has a spawn
             if (roomInfo.spawnNames.length > 0) {

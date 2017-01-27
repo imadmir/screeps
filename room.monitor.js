@@ -1,7 +1,7 @@
 var roomMonitor = {
 
     GetRoomInfo: function (roomName) {
-        var roomInfo = _.filter(Memory.Settings.rooms, (roomInfo) => roomInfo.name == roomName);
+        var roomInfo = _.filter(Memory.Settings.roomsInfo, (roomInfo) => roomInfo.name == roomName);
 
         return roomInfo;
     },
