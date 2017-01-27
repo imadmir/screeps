@@ -12,13 +12,16 @@ function GetRoomInfo(room)
         spawnNames.push(spawns[i].name);
     }
 
+    //find the link that is next to a storage, and set that as the storageLink
     var storage = room.find(FIND_MY_STRUCTURES, {
         filter: (structure) => {
             return (structure.structureType == STRUCTURE_STORAGE);
         }
     });
+    var storageId = undefined;
     var storageLinkId = undefined;
     if (storage.length) {
+        storageId = storage[0].id;
         var storageLink = storage[0].pos.findInRange(FIND_STRUCTURES, 1, {
             filter: (structure) => {
                 return (structure.structureType == STRUCTURE_LINK);
@@ -28,9 +31,32 @@ function GetRoomInfo(room)
               storageLinkId = storageLink[0].id;
           }
     }
-
-    var roomInfo = { name: room.name, sourceIds: sourceIds, spawnNames: spawnNames, storageLinkId: storageLinkId }
+    var roomInfo = { name: room.name, sourceIds: sourceIds, spawnNames: spawnNames, storageLinkId: storageLinkId, storageId: storageId }
     return roomInfo;
+}
+
+function GetLinks(roomsInfo) {
+    var links = [];
+
+    for (var roomName in Game.rooms) {
+        var room = Game.rooms[roomName];
+        var roomInfo = _.filter(roomsInfo, (roomInfo) => roomInfo.name == roomName);
+        if (roomInfo.length) {
+            var storageLinkId = roomInfo[0].storageLinkId;
+            if (storageLinkId != undefined) {
+                var allLinks = room.find(FIND_MY_STRUCTURES, {
+                    filter: (structure) => {
+                        return (structure.structureType == STRUCTURE_LINK);
+                    }
+                });
+                for (var i in allLinks) {
+                    links.push({ id: allLinks[i].id, storageLinkId: storageLinkId });
+                }
+            }
+        }
+    }
+
+    return link;
 }
 
 var settings = {
@@ -64,6 +90,7 @@ var settings = {
 
             settings.rooms.push(roomInfo);
         }
+        settings.links = GetLinks(settings.rooms);
 
         settings.roomTargets = [];
         settings.roomTargets.push({ room: 'E83S33', targetRoom: 'E83S34', claim: false, reserve: true, buildRoads: true, worker: true });
