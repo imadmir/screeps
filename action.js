@@ -94,7 +94,7 @@ var action = {
 
             //if the source is a contrainer or storage, transfer energy
             if (source !== null && source.store != undefined && source.store[RESOURCE_ENERGY] > 10) {
-                if (source.transfer(creep, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                if (creep.withdraw(source, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(source);
                 }
                 return true;
