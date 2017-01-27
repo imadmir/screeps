@@ -11,15 +11,22 @@ function GetRoomInfo(room)
     for (var i in spawns) {
         spawnNames.push(spawns[i].name);
     }
-    var storageLinkId = undefined;
-    if (Game.flags['StorageLink'] != undefined) {
-        var structures = Game.flags['StorageLink'].pos.lookFor(LOOK_STRUCTURES);
-        if (structures.length) {
-            var linkStructure = _.filter(structures, s => s.structureType == STRUCTURE_LINK);
-            if (linkStructure.length) {
-                storageLinkId = linkStructure[0].Id;
-            }
+
+    var storage = room.find(FIND_MY_STRUCTURES, {
+        filter: (structure) => {
+            return (structure.structureType == STRUCTURE_STORAGE);
         }
+    });
+    var storageLinkId = undefined;
+    if (storage.length) {
+        storageLink = storage[0].pos.findInRange(FIND_STRUCTURES, 1, {
+            filter: (structure) => {
+                return (structure.structureType == STRUCTURE_LINK);
+            }
+          });
+          if (storageLink != null) {
+              storageLinkId = storageLink.id;
+          }
     }
 
     var roomInfo = { name: room.name, sourceIds: sourceIds, spawnNames: spawnNames, storageLinkId: storageLinkId }
