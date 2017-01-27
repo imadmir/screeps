@@ -161,17 +161,18 @@ var action = {
 
     },
 
-    //transfer energy to the spawn/extension/tower/storage, else give it to a builder
-    FeedSpawn: function (creep) {
+    //deliver energy to the closest of spawn and extenstion if not full, or to link or storage
+    DeliverEnergy: function (creep) {
 
         var destinationId = this.GetDestinationId(creep);
 
         if (destinationId == '') {
             var target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (structure) => {
-                    return (structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN)
+                    return ((structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN)
                         && structure.energy < structure.energyCapacity
-                       && _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier' && creep.memory.movingTo == structure.id).length == 0;
+                       && _.filter(Game.creeps, (creep) => creep.memory.movingTo == structure.id).length == 0)
+                    || structure.structureType == STRUCTURE_LINK || structure.structureType == STRUCTURE_STORAGE;
                 }
             });
 
@@ -193,6 +194,36 @@ var action = {
         return false;
     },
 
+    FeedSpawn: function (creep) {
+
+        var destinationId = this.GetDestinationId(creep);
+
+        if (destinationId == '') {
+            var target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                filter: (structure) => {
+                    return (structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN)
+                        && structure.energy < structure.energyCapacity
+                       && _.filter(Game.creeps, (creep) => creep.memory.movingTo == structure.id).length == 0;
+                }
+            });
+
+            if (target != null) {
+                destinationId = target.id;
+                this.SetDestination(creep, destinationId);
+            }
+        }
+
+        if (destinationId != '') {
+            var target = Game.getObjectById(destinationId);
+            if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(target);
+            } else {
+                this.ClearDestination(creep);
+            }
+            return true;
+        }
+        return false;
+    },
     FeedTower: function (creep) {
 
         var destinationId = this.GetDestinationId(creep);

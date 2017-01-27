@@ -1,6 +1,6 @@
 var action = require('action');
 
-var roleCarrier = {
+var roleDistributor = {
     partsList: [[CARRY, CARRY, CARRY, CARRY, MOVE, MOVE],
                 [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],
                 [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
@@ -8,7 +8,7 @@ var roleCarrier = {
 
     partsCost: [300, 550, 750, 1050],
 
-    role: 'carrier',
+    role: 'distributor',
 
     spawnCreep: function (spawn, roomLevel, targetRoom, sourceId) {
         if (spawn.room.energyAvailable >= this.partsCost[roomLevel] && spawn.spawning == null) {
@@ -25,44 +25,35 @@ var roleCarrier = {
             return;
         }
 
-        //Get the energy from the target Room
+        //The distributor will only work in the target room
+        if (creep.memory.targetRoom != creep.room.name) {
+            //travel to targetRoom
+            action.TravelToRoom(creep, creep.memory.targetRoom);
+            return;
+        }
+
         if (creep.memory.status != 'Getting Energy' && creep.carry.energy == 0) {
             creep.memory.status = 'Getting Energy';
             action.ClearDestination(creep);
         }
-        if (creep.memory.status != 'Delivering' && creep.carry.energy == creep.carryCapacity) {
-            creep.memory.status = 'Delivering';
+        if (creep.memory.status != 'Distributing' && creep.carry.energy == creep.carryCapacity) {
+            creep.memory.status = 'Distributing';
             action.ClearDestination(creep);
         }
 
-        if (creep.memory.status == 'Delivering') {
-            //The carrier will deliver to the dropOffRoom
-            if (creep.memory.dropOffRoom != creep.room.name) {
-                action.TravelToRoom(creep, creep.memory.dropOffRoom);
-                return;
-            }
-
+        if (creep.memory.status == 'Distributing') {
             var actionResult = false;
-            actionResult = action.DeliverEnergy(creep);
+            actionResult = action.FeedSpawn(creep);
             if (!actionResult) {
                 actionResult = action.FeedTower(creep);
             }
+            if (!actionResult) {
+                actionResult = action.FeedCreeps(creep);
+            }
         }
         else {
-            //The carrier will gather energy from the target room
-            if (creep.memory.targetRoom != creep.room.name) {
-                //travel to targetRoom
-                action.TravelToRoom(creep, creep.memory.targetRoom);
-                return;
-            }
-            //if a main source is assigned, get the energy from the miners
-            if (creep.memory.mainSourceId != undefined) {
-                action.PickUpMinedEnergy(creep);
-            }
-            else {
-                //else get the energy from storage
-                action.PickUpStoredEnergy(creep);
-            }
+
+            action.PickUpStoredEnergy(creep);
         }
 
     }
@@ -70,4 +61,4 @@ var roleCarrier = {
 };
 
 
-module.exports = roleCarrier;
+module.exports = roleDistributor;

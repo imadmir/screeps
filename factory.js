@@ -5,7 +5,9 @@ var roleWorker = require('role.worker');
 var roleGuard = require('role.guard');
 var roleWallBuilder = require('role.wall.builder');
 var roleClaimer = require('role.claimer');
+var roleStorageFeeder = require('role.storage.feeder');
 var roleUpgrader = require('role.upgrader');
+var roleDistributor = require('role.distributor');
 var roomMonitor = require('room.monitor');
 
 var factory = {
@@ -70,6 +72,23 @@ var factory = {
                         }
                     }
 
+                    if (roomInfo.storageLinkId != undefined && roomInfo.storageId != undefined) {
+                        //spawn storageFeeder
+                        var storageFeederCount = roomMonitor.GetCreepCountByRole(room.name, 'storageFeeder', 20);
+                        if (storageFeederCount == 0) {
+                            roleStorageFeeder.spawnCreep(spawn, roomLevel, roomInfo.name);
+                            break;
+                        }
+                    }
+
+                    if (roomInfo.storageId != undefined) {
+                        //spawn distributors
+                        var distributorCount = roomMonitor.GetCreepCountByRole(room.name, 'distributor', 20);
+                        if (distributorCount < Memory.Settings.DistributorPerRoom) {
+                            roleDistributor.spawnCreep(spawn, roomLevel, roomInfo.name);
+                            break;
+                        }
+                    }
                     //spawn builder
                     var upgradersCount = roomMonitor.GetCreepCountByRole(room.name, 'upgrader', 50);
 
