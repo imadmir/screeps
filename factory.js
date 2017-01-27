@@ -158,7 +158,7 @@ var factory = {
                                         var claimerCount = roomMonitor.GetCreepCountByRole(targetedRoomName, 'claimer', 100);
 
                                         if (claimerCount < 1) {
-                                            roleClaimer.spawnCreep(spawn, roomLevel, targetedRoomName, buildRoads, claim);
+                                            roleClaimer.spawnCreep(spawn, roomLevel, targetedRoomName, buildRoads, type == 'claim');
                                             break;
                                         }
                                     }
