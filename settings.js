@@ -94,9 +94,10 @@ var settings = {
         settings.links = GetLinks(settings.roomsInfo);
 
         settings.roomTargets = [];
-        settings.roomTargets.push({ room: 'E83S33', targetRoom: 'E83S34', claim: false, reserve: true, buildRoads: true, worker: true });
-        settings.roomTargets.push({ room: 'E83S33', targetRoom: 'E82S33', claim: false, reserve: true, buildRoads: true, worker: true });
-        settings.roomTargets.push({ room: 'E83S33', targetRoom: 'E84S33', claim: false, reserve: true, buildRoads: true, worker: true });
+        settings.roomTargets.push({ room: 'E83S33', targetRoom: 'E83S34', type: 'reserve', buildRoads: true, worker: true });
+        settings.roomTargets.push({ room: 'E83S33', targetRoom: 'E82S33', type: 'reserve', buildRoads: true, worker: true });
+        settings.roomTargets.push({ room: 'E83S33', targetRoom: 'E84S33', type: 'reserve', buildRoads: true, worker: true });
+        settings.roomTargets.push({ room: 'E83S33', targetRoom: 'E83S32', type: 'claim', buildRoads: true, worker: true });
 
         settings.alliedPlayers = [];
         settings.alliedPlayers.push('Orocket');

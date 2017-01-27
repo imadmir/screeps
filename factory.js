@@ -125,8 +125,7 @@ var factory = {
                     if (targetedRooms.length) {
                         for (var i in targetedRooms) {
                             var targetedRoomName = targetedRooms[i].targetRoom;
-                            var claim = targetedRooms[i].claim;
-                            var reserve = targetedRooms[i].reserve;
+                            var type = targetedRooms[i].type;
                             var buildRoads = targetedRooms[i].buildRoads;
                             var worker = targetedRooms[i].worker;
 
@@ -154,40 +153,59 @@ var factory = {
                                         break;
                                     }
                                 }
-                                if (reserve) {
+                                if (type == 'claim' || type =='reserve') {
                                     if (targetedRoom.controller.reservation == undefined || targetedRoom.controller.reservation.ticksToEnd < 4000) {
                                         var claimerCount = roomMonitor.GetCreepCountByRole(targetedRoomName, 'claimer', 100);
 
                                         if (claimerCount < 1) {
-                                            roleClaimer.spawnCreep(spawn, roomLevel, targetedRoomName, buildRoads);
+                                            roleClaimer.spawnCreep(spawn, roomLevel, targetedRoomName, buildRoads, claim);
                                             break;
                                         }
                                     }
 
                                 }
 
-                                var targetedRoomInfo = roomMonitor.GetRoomInfo(targetedRoomName);
-                                if (targetedRoomInfo.length) {
-                                    for (var j in targetedRoomInfo[0].sourceIds) {
-                                        var sourceId = targetedRoomInfo[0].sourceIds[j];
-                                        var minersCount = roomMonitor.GetCountBySource(sourceId, 'miner', 50);
+                                if (type == 'reserve') {
+                                    var targetedRoomInfo = roomMonitor.GetRoomInfo(targetedRoomName);
+                                    if (targetedRoomInfo.length) {
+                                        for (var j in targetedRoomInfo[0].sourceIds) {
+                                            var sourceId = targetedRoomInfo[0].sourceIds[j];
+                                            var minersCount = roomMonitor.GetCountBySource(sourceId, 'miner', 50);
 
-                                        if (minersCount < 1) {
-                                            roleMiner.spawnCreep(spawn, roomLevel, targetedRooms[i].targetRoom, sourceId, buildRoads);
-                                            spawning = true;
-                                            break;
-                                        }
-                                        var carriersCount = roomMonitor.GetCountBySource(sourceId, 'carrier', 50);
+                                            if (minersCount < 1) {
+                                                roleMiner.spawnCreep(spawn, roomLevel, targetedRooms[i].targetRoom, sourceId, buildRoads);
+                                                spawning = true;
+                                                break;
+                                            }
+                                            var carriersCount = roomMonitor.GetCountBySource(sourceId, 'carrier', 50);
 
-                                        if (carriersCount < 2) {
-                                            roleCarrier.spawnCreep(spawn, roomLevel, targetedRooms[i].targetRoom, sourceId);
-                                            spawning = true;
-                                            break;
+                                            if (carriersCount < Memory.Settings.CarrierPerSource) {
+                                                var dropOffRoom = spawn.room.name
+                                                if (type == 'claim' || type == 'help') {
+                                                    dropOffRoom = targetedRooms[i].targetRoom;
+                                                }
+                                                roleCarrier.spawnCreep(spawn, roomLevel, targetedRooms[i].targetRoom, dropOffRoom, sourceId);
+                                                spawning = true;
+                                                break;
+                                            }
                                         }
                                     }
+                                    if (spawning) {
+                                        break;
+                                    }
                                 }
-                                if (spawning) {
-                                    break;
+                                
+                                if (type == 'help') {
+                                    var helpersCount = roomMonitor.GethelpersCount(sourceId, 'carrier', 50);
+
+                                    if (helpersCount < 1) {
+                                        var dropOffRoom = targetedRooms[i].targetRoom;
+                                        var targetRoom = spawn.room.name;
+
+                                        roleCarrier.spawnCreep(spawn, roomLevel, targetRoom, dropOffRoom, undefined);
+                                        spawning = true;
+                                        break;
+                                    }
                                 }
                             }
                         }

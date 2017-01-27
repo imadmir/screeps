@@ -42,6 +42,13 @@ var roomMonitor = {
         return totals.length;
     },
 
+    GethelpersCount: function (targetRoom, dropOffRoom) {
+        var totals = _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier'
+                                                    && creep.memory.mainSourceId == undefined
+                                                    && creep.memory.targetRoom == targetRoom
+                                                    && creep.memory.dropOffRoom == dropOffRoom);
+        return totals.length;
+    },
 
     GetTargetedRooms: function (roomName) {
         var targetedRooms = _.filter(Memory.Settings.roomTargets, (t) => t.room == roomName);

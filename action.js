@@ -441,7 +441,18 @@ var action = {
                 }
             }
         }
+    },
 
+    ClaimRoom(creep) {
+        if (creep.room.controller) {
+            if (creep.claimController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(creep.room.controller);
+
+                if (creep.memory.buildRoads) {
+                    creep.room.createConstructionSite(creep.pos, STRUCTURE_ROAD);
+                }
+            }
+        }
     }
 
 };

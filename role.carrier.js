@@ -10,7 +10,7 @@ var roleCarrier = {
 
     role: 'carrier',
 
-    spawnCreep: function (spawn, roomLevel, targetRoom, sourceId) {
+    spawnCreep: function (spawn, roomLevel, targetRoom, dropOffRoom, sourceId) {
         if (spawn.room.energyAvailable >= this.partsCost[roomLevel] && spawn.spawning == null) {
             var newName = spawn.createCreep(this.partsList[roomLevel], undefined, { role: this.role, status: 'Getting Energy', roomName: spawn.room.name, targetRoom: targetRoom, dropOffRoom: spawn.room.name, mainSourceId: sourceId });
             console.log(spawn.room.name + ' ' + spawn.name + ' ' + this.role + '[' + roomLevel + '] ' + targetRoom + ' ' + sourceId + ' - ' + newName);
