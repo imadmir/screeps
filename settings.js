@@ -11,9 +11,18 @@ function GetRoomInfo(room)
     for (var i in spawns) {
         spawnNames.push(spawns[i].name);
     }
+    var storageLinkId = undefined;
+    if (Game.flags['StorageLink'] != undefined) {
+        var structures = Game.flags['StorageLink'].pos.lookFor(LOOK_STRUCTURES);
+        if (structures.length) {
+            var linkStructure = _.filter(structures, s => s.structureType == STRUCTURE_LINK);
+            if (linkStructure.length) {
+                storageLinkId = linkStructure[0].Id;
+            }
+        }
+    }
 
-    
-    var roomInfo = { name: room.name, sourceIds: sourceIds, spawnNames: spawnNames }
+    var roomInfo = { name: room.name, sourceIds: sourceIds, spawnNames: spawnNames, storageLinkId: storageLinkId }
     return roomInfo;
 }
 
