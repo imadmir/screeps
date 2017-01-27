@@ -70,7 +70,7 @@ var settings = {
         settings.WallBuilderPerRoom = 1;
         settings.MinerPerSource = 1;
         settings.CarrierPerSource = 1;
-        settings.DistributorPerRoom = 3;
+        settings.DistributorPerRoom = 2;
 
         settings.towerIds = [];
         settings.roomsInfo = [];
