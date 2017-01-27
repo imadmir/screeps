@@ -24,7 +24,7 @@ var settings = {
 
         var settings = {};
         settings.MaxBuilderPerRoom = 4;
-        settings.UpgraderPerRoom = 1;
+        settings.UpgraderPerRoom = 2;
         settings.WallBuilderPerRoom = 1;
         settings.MinerPerSource = 1;
         settings.CarrierPerSource = 1;
