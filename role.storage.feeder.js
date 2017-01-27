@@ -1,4 +1,5 @@
 var action = require('action');
+var roomMonitor = require('room.monitor');
 
 var roleStorageFeeder = {
     partsList: [[CARRY, CARRY, CARRY, CARRY, MOVE, MOVE]],
