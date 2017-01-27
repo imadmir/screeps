@@ -56,7 +56,7 @@ function GetLinks(roomsInfo) {
         }
     }
 
-    return link;
+    return links;
 }
 
 var settings = {
