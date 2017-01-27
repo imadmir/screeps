@@ -4,7 +4,7 @@ var roleUpgrader = {
     partsList : [[WORK, CARRY, CARRY, MOVE, MOVE],
                            [WORK, WORK, WORK, CARRY, CARRY, CARRY, MOVE, MOVE],
                            [WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE],
-                           [WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE]],
+                           [WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE]],
     partsCost: [300, 550, 800, 1300],
 
     role: 'upgrader',
