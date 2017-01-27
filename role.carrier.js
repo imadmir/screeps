@@ -46,6 +46,8 @@ var roleCarrier = {
             actionResult = action.DeliverEnergy(creep);
             if (!actionResult) {
                 actionResult = action.FeedTower(creep);
+            } if (!actionResult) {
+                actionResult = action.FeedCreeps(creep);
             }
         }
         else {

@@ -4,8 +4,12 @@ function sortStructures(structure) {
     if (structure.structureType == STRUCTURE_EXTENSION)
         return 10 + structure.pos.y;
     if (structure.structureType == STRUCTURE_TOWER)
-        return 6;
+        return 8;
     if (structure.structureType == STRUCTURE_STORAGE)
+        return 6;
+    if (structure.structureType == STRUCTURE_CONTAINER)
+        return 4;
+    if (structure.structureType == STRUCTURE_ROAD)
         return 0;
 }
 
@@ -341,9 +345,10 @@ var action = {
 
         if (destinationId == '') {
 
-            var target = creep.pos.findClosestByRange(FIND_MY_CONSTRUCTION_SITES);
-            if (target != null) {
-                destinationId = target.id;
+            var targets = creep.room.find(FIND_MY_CONSTRUCTION_SITES);
+            targets.sort(function (a, b) { return (sortStructures(b) - sortStructures(a)) });
+            if (targets.length) {
+                destinationId = targets[0].id;
                 this.SetDestination(creep, destinationId);
             }
         }
