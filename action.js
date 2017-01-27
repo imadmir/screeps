@@ -263,7 +263,9 @@ var action = {
         var destinationId = this.GetDestinationId(creep);
 
         if (destinationId == '') {
-            var needEnergy = _.filter(Game.creeps, (creep) => (creep.memory.requireEnergy) && creep.carry.energy < (creep.carryCapacity / 2));
+            var needEnergy = _.filter(Game.creeps, (c) => (c.memory.requireEnergy)
+                                        && c.room.name == creep.room.name
+                                        && c.carry.energy < (c.carryCapacity / 2));
             if (needEnergy.length > 0) {
                 destinationId = needEnergy[0].id;
                 this.SetDestination(creep, destinationId);

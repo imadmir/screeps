@@ -14,7 +14,7 @@ var roleWorker = {
 
     spawnCreep: function (spawn, roomLevel, targetRoom) {
         if (spawn.room.energyAvailable >= this.partsCost[roomLevel] && spawn.spawning == null) {
-            var newName = spawn.createCreep(this.partsList[roomLevel], undefined, { role: this.role, roomName: spawn.room.name, targetRoom: targetRoom, status: 'Getting Energy' });
+            var newName = spawn.createCreep(this.partsList[roomLevel], undefined, { role: this.role, roomName: spawn.room.name, targetRoom: targetRoom, status: 'Getting Energy', requireEnergy:true });
             console.log(spawn.room.name + ' ' + spawn.name + ' ' + this.role + '[' + roomLevel + '] ' + targetRoom + ' - ' + newName);
             return true;
         }
