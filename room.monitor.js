@@ -44,7 +44,6 @@ var roomMonitor = {
 
     GethelpersCount: function (targetRoom, dropOffRoom) {
         var totals = _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier'
-                                                    && creep.memory.mainSourceId == undefined
                                                     && creep.memory.targetRoom == targetRoom
                                                     && creep.memory.dropOffRoom == dropOffRoom);
         return totals.length;
