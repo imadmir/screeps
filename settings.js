@@ -19,13 +19,13 @@ function GetRoomInfo(room)
     });
     var storageLinkId = undefined;
     if (storage.length) {
-        storageLink = storage[0].pos.findInRange(FIND_STRUCTURES, 1, {
+        var storageLink = storage[0].pos.findInRange(FIND_STRUCTURES, 1, {
             filter: (structure) => {
                 return (structure.structureType == STRUCTURE_LINK);
             }
           });
           if (storageLink != null) {
-              storageLinkId = storageLink.id;
+              storageLinkId = storageLink[0].id;
           }
     }
 
