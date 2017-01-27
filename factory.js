@@ -53,7 +53,7 @@ var factory = {
                         var carriersCount = roomMonitor.GetCountBySource(sourceId, 'carrier', 50);
 
                         if (carriersCount < Memory.Settings.CarrierPerSource) {
-                            roleCarrier.spawnCreep(spawn, roomLevel, roomInfo.name, sourceId);
+                            roleCarrier.spawnCreep(spawn, roomLevel, roomInfo.name, roomInfo.name, sourceId);
                             spawning = true;
                             break;
                         }
