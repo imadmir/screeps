@@ -4,8 +4,12 @@ function sortStructures(structure) {
     if (structure.structureType == STRUCTURE_EXTENSION)
         return 10 + structure.pos.y;
     if (structure.structureType == STRUCTURE_TOWER)
-        return 6;
+        return 8;
     if (structure.structureType == STRUCTURE_STORAGE)
+        return 6;
+    if (structure.structureType == STRUCTURE_CONTAINER)
+        return 4;
+    if (structure.structureType == STRUCTURE_ROAD)
         return 0;
 }
 
@@ -90,7 +94,7 @@ var action = {
 
             //if the source is a contrainer or storage, transfer energy
             if (source !== null && source.store != undefined && source.store[RESOURCE_ENERGY] > 10) {
-                if (source.transfer(creep, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                if (creep.withdraw(source, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(source);
                 }
                 return true;
@@ -161,17 +165,18 @@ var action = {
 
     },
 
-    //transfer energy to the spawn/extension/tower/storage, else give it to a builder
-    FeedSpawn: function (creep) {
+    //deliver energy to the closest of spawn and extenstion if not full, or to link or storage
+    DeliverEnergy: function (creep) {
 
         var destinationId = this.GetDestinationId(creep);
 
         if (destinationId == '') {
             var target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
                 filter: (structure) => {
-                    return (structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN)
+                    return ((structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN)
                         && structure.energy < structure.energyCapacity
-                       && _.filter(Game.creeps, (creep) => creep.memory.role == 'carrier' && creep.memory.movingTo == structure.id).length == 0;
+                       && _.filter(Game.creeps, (creep) => creep.memory.movingTo == structure.id).length == 0)
+                    || structure.structureType == STRUCTURE_LINK || structure.structureType == STRUCTURE_STORAGE;
                 }
             });
 
@@ -193,6 +198,36 @@ var action = {
         return false;
     },
 
+    FeedSpawn: function (creep) {
+
+        var destinationId = this.GetDestinationId(creep);
+
+        if (destinationId == '') {
+            var target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                filter: (structure) => {
+                    return (structure.structureType == STRUCTURE_EXTENSION || structure.structureType == STRUCTURE_SPAWN)
+                        && structure.energy < structure.energyCapacity
+                       && _.filter(Game.creeps, (creep) => creep.memory.movingTo == structure.id).length == 0;
+                }
+            });
+
+            if (target != null) {
+                destinationId = target.id;
+                this.SetDestination(creep, destinationId);
+            }
+        }
+
+        if (destinationId != '') {
+            var target = Game.getObjectById(destinationId);
+            if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(target);
+            } else {
+                this.ClearDestination(creep);
+            }
+            return true;
+        }
+        return false;
+    },
     FeedTower: function (creep) {
 
         var destinationId = this.GetDestinationId(creep);
@@ -228,7 +263,9 @@ var action = {
         var destinationId = this.GetDestinationId(creep);
 
         if (destinationId == '') {
-            var needEnergy = _.filter(Game.creeps, (creep) => (creep.memory.requireEnergy) && creep.carry.energy < (creep.carryCapacity / 2));
+            var needEnergy = _.filter(Game.creeps, (c) => (c.memory.requireEnergy)
+                                        && c.room.name == creep.room.name
+                                        && c.carry.energy < (c.carryCapacity / 2));
             if (needEnergy.length > 0) {
                 destinationId = needEnergy[0].id;
                 this.SetDestination(creep, destinationId);
@@ -310,9 +347,10 @@ var action = {
 
         if (destinationId == '') {
 
-            var target = creep.pos.findClosestByRange(FIND_MY_CONSTRUCTION_SITES);
-            if (target != null) {
-                destinationId = target.id;
+            var targets = creep.room.find(FIND_MY_CONSTRUCTION_SITES);
+            targets.sort(function (a, b) { return (sortStructures(b) - sortStructures(a)) });
+            if (targets.length) {
+                destinationId = targets[0].id;
                 this.SetDestination(creep, destinationId);
             }
         }
@@ -410,7 +448,18 @@ var action = {
                 }
             }
         }
+    },
 
+    ClaimRoom(creep) {
+        if (creep.room.controller) {
+            if (creep.claimController(creep.room.controller) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(creep.room.controller);
+
+                if (creep.memory.buildRoads) {
+                    creep.room.createConstructionSite(creep.pos, STRUCTURE_ROAD);
+                }
+            }
+        }
     }
 
 };

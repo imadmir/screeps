@@ -10,9 +10,9 @@ var roleCarrier = {
 
     role: 'carrier',
 
-    spawnCreep: function (spawn, roomLevel, targetRoom, sourceId) {
+    spawnCreep: function (spawn, roomLevel, targetRoom, dropOffRoom, sourceId) {
         if (spawn.room.energyAvailable >= this.partsCost[roomLevel] && spawn.spawning == null) {
-            var newName = spawn.createCreep(this.partsList[roomLevel], undefined, { role: this.role, status: 'Getting Energy', roomName: spawn.room.name, targetRoom: targetRoom, dropOffRoom: spawn.room.name, mainSourceId: sourceId });
+            var newName = spawn.createCreep(this.partsList[roomLevel], undefined, { role: this.role, status: 'Getting Energy', roomName: spawn.room.name, targetRoom: targetRoom, dropOffRoom: dropOffRoom, mainSourceId: sourceId });
             console.log(spawn.room.name + ' ' + spawn.name + ' ' + this.role + '[' + roomLevel + '] ' + targetRoom + ' ' + sourceId + ' - ' + newName);
             return true;
         }
@@ -43,12 +43,11 @@ var roleCarrier = {
             }
 
             var actionResult = false;
-            actionResult = action.FeedSpawn(creep);
+            actionResult = action.DeliverEnergy(creep);
             if (!actionResult) {
                 actionResult = action.FeedTower(creep);
-            }
-            if (!actionResult) {
-                actionResult = action.StoreEnergy(creep);
+            } if (!actionResult) {
+                actionResult = action.FeedCreeps(creep);
             }
         }
         else {
@@ -58,7 +57,14 @@ var roleCarrier = {
                 action.TravelToRoom(creep, creep.memory.targetRoom);
                 return;
             }
-            action.PickUpMinedEnergy(creep);
+            //if a main source is assigned, get the energy from the miners
+            if (creep.memory.mainSourceId != undefined) {
+                action.PickUpMinedEnergy(creep);
+            }
+            else {
+                //else get the energy from storage
+                action.PickUpStoredEnergy(creep);
+            }
         }
 
     }

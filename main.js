@@ -6,9 +6,12 @@ var roleGuard = require('role.guard');
 var roleWallBuilder = require('role.wall.builder');
 var roleClaimer = require('role.claimer');
 var roleUpgrader = require('role.upgrader');
+var roleStorageFeeder = require('role.storage.feeder');
+var roleDistributor = require('role.distributor');
 var settings = require('settings');
 var factory = require('factory');
 var structureTower = require('structure.tower');
+var structureLink = require('structure.link');
 
 module.exports.loop = function () {
 
@@ -44,11 +47,22 @@ module.exports.loop = function () {
         if (creep.memory.role == 'upgrader') {
             roleUpgrader.run(creep);
         }
+        if (creep.memory.role == 'storageFeeder') {
+            roleStorageFeeder.run(creep);
+        }
+        if (creep.memory.role == 'distributor') {
+            roleDistributor.run(creep);
+        }
     }
 
     for (var i in Memory.Settings.towerIds) {
         var towerId = Memory.Settings.towerIds[i];
         var tower = Game.getObjectById(towerId);
         structureTower.run(tower);
+    }
+    for (var i in Memory.Settings.links) {
+        var linkInfo = Memory.Settings.links[i];
+        var link = Game.getObjectById(linkInfo.id);
+        structureLink.run(link);
     }
 }
