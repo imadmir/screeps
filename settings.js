@@ -94,7 +94,7 @@ var settings = {
         settings.links = GetLinks(settings.roomsInfo);
 
         settings.roomTargets = [];
-        settings.roomTargets.push({ room: 'E83S33', targetRoom: 'E83S32', type: 'help', buildRoads: true, worker: true });
+        settings.roomTargets.push({ room: 'E83S32', targetRoom: 'E84S32', type: 'reserve', buildRoads: true, worker: true });
         settings.roomTargets.push({ room: 'E83S33', targetRoom: 'E83S34', type: 'reserve', buildRoads: true, worker: true });
         settings.roomTargets.push({ room: 'E83S33', targetRoom: 'E82S33', type: 'reserve', buildRoads: true, worker: true });
         settings.roomTargets.push({ room: 'E83S33', targetRoom: 'E84S33', type: 'reserve', buildRoads: true, worker: true });
