@@ -165,7 +165,7 @@ var factory = {
                                         break;
                                     }
                                 }
-                                if (type == 'claim' || type =='reserve') {
+                                if (roomLevel > 1 && (type == 'claim' || type =='reserve')) {
                                     if (targetedRoom.controller.reservation == undefined || targetedRoom.controller.reservation.ticksToEnd < 4000) {
                                         var claimerCount = roomMonitor.GetCreepCountByRole(targetedRoomName, 'claimer', 100);
 
