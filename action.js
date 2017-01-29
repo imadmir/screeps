@@ -46,7 +46,11 @@ var action = {
         var destinationId = this.GetDestinationId(creep);
 
         if (destinationId == '') {
-            var sourceNew = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES);
+            var sourceNew = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {
+                filter: (s) => {
+                    return (s.amount >50);
+                }
+            });
             if (sourceNew != null) {
                 destinationId = sourceNew.id;
                 this.SetDestination(creep, destinationId);
