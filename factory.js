@@ -40,6 +40,15 @@ var factory = {
 
                     var spawning = false;
 
+                    if (roomInfo.storageId != undefined) {
+                        //spawn distributors
+                        var distributorCount = roomMonitor.GetCreepCountByRole(room.name, 'distributor', 20);
+                        if (distributorCount < Memory.Settings.DistributorPerRoom) {
+                            roleDistributor.spawnCreep(spawn, roomLevel, roomInfo.name);
+                            break;
+                        }
+                    }
+
                     //Spawn miner
                     for (var j in roomInfo.sourceIds) {
                         var sourceId = roomInfo.sourceIds[j];
@@ -81,14 +90,7 @@ var factory = {
                         }
                     }
 
-                    if (roomInfo.storageId != undefined) {
-                        //spawn distributors
-                        var distributorCount = roomMonitor.GetCreepCountByRole(room.name, 'distributor', 20);
-                        if (distributorCount < Memory.Settings.DistributorPerRoom) {
-                            roleDistributor.spawnCreep(spawn, roomLevel, roomInfo.name);
-                            break;
-                        }
-                    }
+                    
                     //spawn builder
                     var upgradersCount = roomMonitor.GetCreepCountByRole(room.name, 'upgrader', 50);
 
