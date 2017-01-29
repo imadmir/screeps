@@ -46,7 +46,10 @@ var roleUpgrader = {
             }
         }
         else {
-            action.PickUpStoredEnergy(creep);
+            var actionResult = action.PickUpStoredEnergy(creep);
+            if (!actionResult) {
+                action.PickUpDroppedEnergy(creep);
+            }
         }
     }
 };
