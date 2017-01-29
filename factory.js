@@ -43,7 +43,7 @@ var factory = {
                     if (roomInfo.storageId != undefined) {
                         //spawn distributors
                         var distributorCount = roomMonitor.GetCreepCountByRole(room.name, 'distributor', 20);
-                        if (distributorCount < Memory.Settings.DistributorPerRoom) {
+                        if (distributorCount == 0) {
                             roleDistributor.spawnCreep(spawn, roomLevel, roomInfo.name);
                             break;
                         }
@@ -77,6 +77,16 @@ var factory = {
 
                         if (guardsCount < hostileTargets.length + 1) {
                             roleGuard.spawnCreep(spawn, roomLevel, roomInfo.name);
+                            break;
+                        }
+                    }
+
+
+                    if (roomInfo.storageId != undefined) {
+                        //spawn distributors
+                        var distributorCount = roomMonitor.GetCreepCountByRole(room.name, 'distributor', 20);
+                        if (distributorCount < Memory.Settings.DistributorPerRoom) {
+                            roleDistributor.spawnCreep(spawn, roomLevel, roomInfo.name);
                             break;
                         }
                     }

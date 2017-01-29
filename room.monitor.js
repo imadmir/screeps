@@ -60,7 +60,15 @@ var roomMonitor = {
         var roomLevel = 0;
         var totalMiners = this.GetCreepCountByRole(room.name, 'miner');
         var totalCarriers = this.GetCreepCountByRole(room.name, 'carrier');
-        if (totalMiners >= Memory.Settings.MinerPerSource && totalCarriers >= Memory.Settings.CarrierPerSource) {
+        var totalDistributor = this.GetCreepCountByRole(room.name, 'distributor');
+        var roomsInfo = this.GetRoomInfo(room.name);
+        var storageId = undefined;
+        if (roomsInfo.length) {
+            storageId = roomsInfo[0].storageId;
+        }
+        if (totalMiners >= Memory.Settings.MinerPerSource
+            && totalCarriers >= Memory.Settings.CarrierPerSource
+            &&(storageId == undefined || totalDistributor >= 1)) {
             if (room.energyCapacityAvailable >= 1300) {
                 roomLevel = 3;
             }
