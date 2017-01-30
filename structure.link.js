@@ -11,7 +11,7 @@ var structureLink = {
         if (linkInfo.length) {
             var storageLinkId = linkInfo[0].storageLinkId;
             if (storageLinkId != undefined && link.id != storageLinkId) {
-                if (link.cooldown == 0 && link.energy == link.energyCapacity)
+                if (link.cooldown == 0 && link.energy > link.energyCapacity/2)
                 {
                     var storageLink = Game.getObjectById(storageLinkId);
                     link.transferEnergy(storageLink);
