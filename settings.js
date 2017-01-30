@@ -27,7 +27,7 @@ function GetRoomInfo(room)
                 return (structure.structureType == STRUCTURE_LINK);
             }
           });
-          if (storageLink != null) {
+          if (storageLink.length) {
               storageLinkId = storageLink[0].id;
           }
     }
