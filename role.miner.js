@@ -36,7 +36,7 @@ var roleMiner = {
             return;
         }
         else {
-            if (creep.memory.mineType == 'Mineral') {
+            if (creep.memory.mineType != undefined && creep.memory.mineType == 'Mineral') {
                 action.MineMineral(creep);
             }
             else {
