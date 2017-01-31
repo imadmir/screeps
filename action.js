@@ -48,7 +48,7 @@ var action = {
         if (destinationId == '') {
             var sourceNew = creep.pos.findClosestByRange(FIND_DROPPED_RESOURCES, {
                 filter: (s) => {
-                    return (s.amount >50);
+                    return (s.amount > 50);
                 }
             });
             if (sourceNew != null) {
@@ -168,7 +168,60 @@ var action = {
         return false;
 
     },
+    PickUpMinedMinerals: function (creep) {
 
+        var destinationId = this.GetDestinationId(creep);
+
+        if (destinationId == '') {
+            //if the creep has a mainSource id in memory
+            if (creep.memory.mainSourceId != undefined) {
+                var sourceMain = Game.getObjectById(creep.memory.mainSourceId);
+                if (sourceMain != null) {
+                    var droppedSources = sourceMain.pos.findInRange(FIND_DROPPED_RESOURCES, 2);
+                    if (droppedSources.length > 0) {
+                        destinationId = droppedSources[0].id;
+                        this.SetDestination(creep, destinationId);
+                    }
+                    else {
+                        var containers = sourceMain.pos.findInRange(FIND_STRUCTURES, 2, {
+                            filter: (structure) => {
+                                return (structure.structureType == STRUCTURE_CONTAINER &&
+                                        structure.store[creep.memory.mineralType] > 0);
+                            }
+                        });
+                        if (containers.length > 0) {
+                            destinationId = containers[0].id;
+                            this.SetDestination(creep, destinationId);
+                        }
+                    }
+
+                }
+            }
+        }
+
+        if (destinationId != '') {
+            var source = Game.getObjectById(destinationId);
+            if (source !== null && source.amount != undefined && source.amount > 0) {
+                creep.moveTo(source);
+                creep.pickup(source, source.amount - 1);
+                return true;
+            }
+            //if the source is a contrainer, transfer energy
+            if (source !== null && source.store != undefined && source.store[creep.memory.mineralType] > 0) {
+                if (source.transfer(creep, creep.memory.mineralType) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(source);
+                }
+                return true;
+            }
+
+            //if there is no source. look for a new one
+            this.ClearDestination(creep);
+
+        }
+
+        return false;
+
+    },
     //deliver energy to the closest of spawn and extenstion if not full, or to link or storage
     DeliverEnergy: function (creep) {
 
@@ -201,7 +254,34 @@ var action = {
         }
         return false;
     },
+    DeliverMinerals: function (creep) {
 
+        var destinationId = this.GetDestinationId(creep);
+
+        if (destinationId == '') {
+            var target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                filter: (structure) => {
+                    return structure.structureType == STRUCTURE_TERMINAL || structure.structureType == STRUCTURE_STORAGE;
+                }
+            });
+
+            if (target != null) {
+                destinationId = target.id;
+                this.SetDestination(creep, destinationId);
+            }
+        }
+
+        if (destinationId != '') {
+            var target = Game.getObjectById(destinationId);
+            if (creep.transfer(target, creep.memory.mineralType) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(target);
+            } else {
+                this.ClearDestination(creep);
+            }
+            return true;
+        }
+        return false;
+    },
     FeedSpawn: function (creep) {
 
         var destinationId = this.GetDestinationId(creep);
@@ -344,6 +424,28 @@ var action = {
             }
         }
     },
+    MineMinerals: function (creep) {
+        //if the creep is moving, keep on moving, he already has a target for his transfer
+        var destinationId = this.GetDestinationId(creep);
+
+        if (destinationId == '') {
+            if (creep.memory.mainSourceId != undefined) {
+                destinationId = creep.memory.mainSourceId;
+                this.SetDestination(creep, destinationId);
+            }
+        }
+        if (destinationId != '') {
+            var extractor = Game.getObjectById(destinationId);
+            if (extractor.cooldown == 0) {
+                if (creep.harvest(extractor) == ERR_NOT_IN_RANGE) {
+                    creep.moveTo(extractor);
+                    if (creep.memory.buildRoads) {
+                        creep.room.createConstructionSite(creep.pos, STRUCTURE_ROAD);
+                    }
+                }
+            }
+        }
+    },
 
     BuildStructures: function (creep) {
         //Build construction sites
@@ -432,7 +534,7 @@ var action = {
                 }
             }
 
-            if (target == null || target.hits == target.hitsMax ) {
+            if (target == null || target.hits == target.hitsMax) {
                 //clear move to, building has been finished 
                 this.ClearDestination(creep);
             }

@@ -12,6 +12,20 @@ function GetRoomInfo(room)
         spawnNames.push(spawns[i].name);
     }
 
+    var extractorId = undefined;
+    var mineralType = undefined;
+    var extractors = room.find(FIND_MY_STRUCTURES, {
+        filter: (structure) => {
+            return (structure.structureType == STRUCTURE_EXTRACTOR);
+        }
+    });
+    if (extractors.length) {
+        extractorId = extractors[0].id;
+        var minerals = room.find(FIND_MINERALS);
+        if (minerals.length) {
+            mineralType = minerals[0].mineralType;
+        }
+    }
     //find the link that is next to a storage, and set that as the storageLink
     var storage = room.find(FIND_MY_STRUCTURES, {
         filter: (structure) => {
@@ -31,7 +45,10 @@ function GetRoomInfo(room)
               storageLinkId = storageLink[0].id;
           }
     }
-    var roomInfo = { name: room.name, sourceIds: sourceIds, spawnNames: spawnNames, storageLinkId: storageLinkId, storageId: storageId }
+    var roomInfo = {
+        name: room.name, sourceIds: sourceIds, spawnNames: spawnNames, storageLinkId: storageLinkId, storageId: storageId,
+        extractorId: extractorId, mineralType: mineralType
+    }
     return roomInfo;
 }
 
