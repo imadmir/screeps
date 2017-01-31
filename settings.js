@@ -82,6 +82,7 @@ var settings = {
         console.log('Initializing Settings ....');
 
         var settings = {};
+        settings.time = Game.time;
         settings.MaxBuilderPerRoom = 4;
         settings.UpgraderPerRoom = 2;
         settings.WallBuilderPerRoom = 1;

@@ -15,7 +15,7 @@ var structureLink = require('structure.link');
 
 module.exports.loop = function () {
 
-    if (Memory.Settings == undefined) {
+    if (Memory.Settings == undefined || Memory.Settings.time == undefined || Memory.Settings.time > Game.time - 1000) {
         settings.init();
     }
 
