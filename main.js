@@ -7,6 +7,7 @@ var roleWallBuilder = require('role.wall.builder');
 var roleClaimer = require('role.claimer');
 var roleUpgrader = require('role.upgrader');
 var roleStorageFeeder = require('role.storage.feeder');
+var roleMineralCarrier = require('role.mineral.carrier');
 var roleDistributor = require('role.distributor');
 var settings = require('settings');
 var factory = require('factory');
@@ -52,6 +53,9 @@ module.exports.loop = function () {
         }
         if (creep.memory.role == 'distributor') {
             roleDistributor.run(creep);
+        }
+        if (creep.memory.role == 'mineralCarrier') {
+            roleMineralCarrier.run(creep);
         }
     }
 

@@ -6,6 +6,7 @@ var roleGuard = require('role.guard');
 var roleWallBuilder = require('role.wall.builder');
 var roleClaimer = require('role.claimer');
 var roleStorageFeeder = require('role.storage.feeder');
+var roleMineralCarrier = require('role.mineral.carrier');
 var roleUpgrader = require('role.upgrader');
 var roleDistributor = require('role.distributor');
 var roomMonitor = require('room.monitor');
@@ -100,7 +101,22 @@ var factory = {
                         }
                     }
 
-                    
+                    if (roomInfo.extractorId != undefined) {
+                        //spawn mineral miners
+                        var mineralMinersCount = roomMonitor.GetCountBySource(roomInfo.extractorId, 'miner', 20);
+                        if (mineralMinersCount < 1) {
+                            roleMiner.spawnCreep(spawn, roomLevel, roomInfo.name, roomInfo.extractorId, true, roomInfo.mineType);
+                            break;
+                        }
+
+                        var mineralCarriersCount = roomMonitor.GetCountBySource(roomInfo.extractorId, 'mineralCarrier', 20);
+                        if (carriersCount < Memory.Settings.CarrierPerSource) {
+                            roleMineralCarrier.spawnCreep(spawn, roomLevel, roomInfo.name, roomInfo.name, roomInfo.extractorId, roomInfo.mineType);
+                            spawning = true;
+                            break;
+                        }
+                    }
+
                     //spawn builder
                     var upgradersCount = roomMonitor.GetCreepCountByRole(room.name, 'upgrader', 50);
 
