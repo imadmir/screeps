@@ -50,6 +50,9 @@ var roleDistributor = {
             if (!actionResult) {
                 actionResult = action.FeedCreeps(creep);
             }
+            if (!actionResult) {
+                actionResult = action.FeedTerminal(creep);
+            }
         }
         else {
 

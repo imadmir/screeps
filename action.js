@@ -254,6 +254,7 @@ var action = {
         }
         return false;
     },
+
     DeliverMinerals: function (creep) {
 
         var destinationId = this.GetDestinationId(creep);
@@ -282,6 +283,7 @@ var action = {
         }
         return false;
     },
+
     FeedSpawn: function (creep) {
 
         var destinationId = this.GetDestinationId(creep);
@@ -312,6 +314,7 @@ var action = {
         }
         return false;
     },
+
     FeedTower: function (creep) {
 
         var destinationId = this.GetDestinationId(creep);
@@ -352,6 +355,35 @@ var action = {
                                         && c.carry.energy < (c.carryCapacity / 2));
             if (needEnergy.length > 0) {
                 destinationId = needEnergy[0].id;
+                this.SetDestination(creep, destinationId);
+            }
+        }
+
+        if (destinationId != '') {
+            var target = Game.getObjectById(destinationId);
+            if (creep.transfer(target, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(target);
+            } else {
+                this.ClearDestination(creep);
+            }
+            return true;
+        }
+        return false;
+    },
+
+    FeedTerminal: function (creep) {
+
+        var destinationId = this.GetDestinationId(creep);
+
+        if (destinationId == '') {
+            var target = creep.pos.findClosestByRange(FIND_STRUCTURES, {
+                filter: (structure) => {
+                    return (structure.structureType == STRUCTURE_TERMINAL && structure.store[RESOURCE_ENERGY] < structure.storeCapacity * 0.5)
+                }
+            });
+
+            if (target != null) {
+                destinationId = target.id;
                 this.SetDestination(creep, destinationId);
             }
         }
