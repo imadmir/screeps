@@ -28,8 +28,9 @@ module.exports.loop = function () {
     factory.spawn();
     var cpuAfterFactory = Game.cpu.getUsed();
     cpuStats.totalFactory = Game.cpu.getUsed() - cpuStats.start;
-
+    cpuStats.creeps = [];
     for (var name in Game.creeps) {
+        var cpuCreepStart = Game.cpu.getUsed();
         var creep = Game.creeps[name];
         if (creep.memory.role == 'builder') {
             roleBuilder.run(creep);
@@ -67,6 +68,7 @@ module.exports.loop = function () {
         if (creep.memory.role == 'mineralMiner') {
             roleMineralMiner.run(creep);
         }
+        cpuStats.creeps.push(creep.memory.role + ' ' + name + ' ' + (Game.cpu.getUsed() - cpuCreepStart))
     }
 
     var cpuAftercreeps = Game.cpu.getUsed();
