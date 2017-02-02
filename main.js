@@ -19,9 +19,7 @@ const cpuAtLoad = Game.cpu.getUsed();
 var cpuAtFirstLoop;
 
 module.exports.loop = function () {
-
-    if (!cpuAtFirstLoop) cpuAtFirstLoop = cpuAtLoop;
-
+    
     if (Memory.Settings == undefined || Memory.Settings.time == undefined || Memory.Settings.time < Game.time - 1000) {
         settings.init();
     }
