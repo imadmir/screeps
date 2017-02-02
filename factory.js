@@ -110,9 +110,9 @@ var factory = {
                             break;
                         }
 
-                        var mineralCarriersCount = roomMonitor.GetCountBySource(roomInfo.extractorId, 'mineralCarrier', 20);
+                        var mineralCarriersCount = roomMonitor.GetCountBySource(roomInfo.mineralSourceId, 'mineralCarrier', 20);
                         if (carriersCount < 1) {
-                            roleMineralCarrier.spawnCreep(spawn, 0, roomInfo.name, roomInfo.name, roomInfo.extractorId, roomInfo.mineType);
+                            roleMineralCarrier.spawnCreep(spawn, 0, roomInfo.name, roomInfo.name, roomInfo.mineralSourceId, roomInfo.mineType);
                             spawning = true;
                             break;
                         }
