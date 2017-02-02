@@ -14,6 +14,7 @@ function GetRoomInfo(room)
 
     var extractorId = undefined;
     var mineralType = undefined;
+    var mineralSourceId = undefined;
     var extractors = room.find(FIND_MY_STRUCTURES, {
         filter: (structure) => {
             return (structure.structureType == STRUCTURE_EXTRACTOR);
@@ -23,6 +24,7 @@ function GetRoomInfo(room)
         extractorId = extractors[0].id;
         var minerals = room.find(FIND_MINERALS);
         if (minerals.length) {
+            mineralSourceId = minerals[0].mineralSourceId;
             mineralType = minerals[0].mineralType;
         }
     }
@@ -47,7 +49,7 @@ function GetRoomInfo(room)
     }
     var roomInfo = {
         name: room.name, sourceIds: sourceIds, spawnNames: spawnNames, storageLinkId: storageLinkId, storageId: storageId,
-        extractorId: extractorId, mineralType: mineralType
+        mineralSourceId: mineralSourceId, extractorId: extractorId, mineralType: mineralType
     }
     return roomInfo;
 }

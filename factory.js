@@ -101,11 +101,11 @@ var factory = {
                         }
                     }
 
-                    if (roomInfo.extractorId != undefined) {
+                    if (roomInfo.extractorId != undefined && roomInfo.mineralSourceId != undefined) {
                         //spawn mineral miners
-                        var mineralMinersCount = roomMonitor.GetCountBySource(roomInfo.extractorId, 'miner', 20);
+                        var mineralMinersCount = roomMonitor.GetCountBySource(roomInfo.mineralSourceId, 'miner', 20);
                         if (mineralMinersCount < 1) {
-                            roleMiner.spawnCreep(spawn, roomLevel, roomInfo.name, roomInfo.extractorId, true, roomInfo.mineType);
+                            roleMiner.spawnCreep(spawn, roomLevel, roomInfo.name, roomInfo.mineralSourceId, true, roomInfo.mineType);
                             break;
                         }
 
@@ -117,7 +117,7 @@ var factory = {
                         }
                     }
 
-                    //spawn builder
+                    //spawn upgrader
                     var upgradersCount = roomMonitor.GetCreepCountByRole(room.name, 'upgrader', 50);
 
                     if (upgradersCount < Memory.Settings.UpgraderPerRoom) {
