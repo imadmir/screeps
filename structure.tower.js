@@ -22,6 +22,8 @@ var structureTower = {
             //repair damaged building
             var damagedBuildings = tower.room.find(FIND_STRUCTURES,
                 { filter: (s) => s.hits < s.hitsMax && s.structureType != STRUCTURE_WALL && s.structureType != STRUCTURE_RAMPART });
+            damagedBuildings.sort(function (a, b) { return (a.hits - b.hits) });
+
             if (damagedBuildings.length) {
                 tower.repair(damagedBuildings[0])
             }
