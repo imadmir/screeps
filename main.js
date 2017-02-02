@@ -15,18 +15,18 @@ var factory = require('factory');
 var structureTower = require('structure.tower');
 var structureLink = require('structure.link');
 
-const cpuAtLoad = Game.cpu.getUsed();
-var cpuAtFirstLoop;
+
+var cpuStats = {};
 
 module.exports.loop = function () {
     
     if (Memory.Settings == undefined || Memory.Settings.time == undefined || Memory.Settings.time < Game.time - 1000) {
         settings.init();
     }
-    var startCpu = Game.cpu.getUsed();
+    cpuStats.startCpu = Game.cpu.getUsed();
 
     factory.spawn();
-    var spawnCpu = Game.cpu.getUsed();
+    cpuStats.spawnCpu = Game.cpu.getUsed();
 
     for (var name in Game.creeps) {
         var creep = Game.creeps[name];
@@ -68,7 +68,7 @@ module.exports.loop = function () {
         }
     }
 
-    var creepsCpu = Game.cpu.getUsed();
+    cpuStats.creepsCpu = Game.cpu.getUsed();
 
     for (var i in Memory.Settings.towerIds) {
         var towerId = Memory.Settings.towerIds[i];
@@ -81,7 +81,8 @@ module.exports.loop = function () {
         structureLink.run(link);
     }
 
-    var structureCpu = Game.cpu.getUsed();
+    cpuStats.structureCpu = Game.cpu.getUsed();
 
-    console.log('Start: ' + startCpu + ' Factory: ' + (spawnCpu - startCpu) + ' Creeps: ' + (creepsCpu - spawnCpu) + ' structures: ' + (structureCpu - creepsCpu) + ' End: ' + Game.cpu.getUsed())
+    console.log(cpuStats)
+    //console.log('Start: ' + startCpu + ' Factory: ' + (spawnCpu - startCpu) + ' Creeps: ' + (creepsCpu - spawnCpu) + ' structures: ' + (structureCpu - creepsCpu) + ' End: ' + Game.cpu.getUsed())
 }
