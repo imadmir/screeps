@@ -10,10 +10,10 @@ var roleMiner = {
 
     role: 'mineralMiner',
 
-    spawnCreep: function (spawn, roomLevel, targetRoom, sourceId, buildRoads, mineType) {
+    spawnCreep: function (spawn, roomLevel, targetRoom, sourceId, buildRoads, mineralType) {
         if (spawn.room.energyAvailable >= this.partsCost[roomLevel] && spawn.spawning == null) {
             var newName = spawn.createCreep(this.partsList[roomLevel], undefined,
-                            { role: this.role, roomName: spawn.room.name, targetRoom: targetRoom, mainSourceId: sourceId, buildRoads: buildRoads, mineType: mineType });
+                            { role: this.role, roomName: spawn.room.name, targetRoom: targetRoom, mainSourceId: sourceId, buildRoads: buildRoads, mineralType: mineralType });
 
             console.log(spawn.room.name + ' ' + spawn.name + ' ' + this.role + '[' + roomLevel + '] ' + targetRoom + ' ' + sourceId + ' - ' + newName);
             return true;
