@@ -1,55 +1,77 @@
-function GetRoomInfo(room)
-{
-    var sources = room.find(FIND_SOURCES);
-    var sourceIds = [];
-    for (var i in sources) {
-        sourceIds.push(sources[i].id);
+function GetRoomInfo(room) {
+    var sourceList = room.find(FIND_SOURCES);
+    var sources = {};
+    for (var i in sourceList) {
+        var containerId = undefined;
+        var linkId = undefined;
+        var source = Game.getObjectById(sourceList[i].id);
+        if (source != undefined) {
+            var surroundingStructures = source.pos.findInRange(FIND_STRUCTURES, 2, {
+                filter: (structure) => {
+                    return (structure.structureType == STRUCTURE_LINK || structure.structureType == STRUCTURE_CONTAINER);
+                }
+            });
+            if (surroundingStructures.length) {
+                for (var i in surroundingStructures) {
+                    if (surroundingStructures[i].structureType == STRUCTURE_CONTAINER) {
+                        containerId = surroundingStructures[i].id;
+                    } else if (surroundingStructures[i].structureType == STRUCTURE_LINK) {
+                        linkId = surroundingStructures[i].id;
+                    }
+                }
+            }
+        }
+
+        sources.push({ id: source.id, containerId: containerId, linkId: linkId });
     }
 
-    var spawns = room.find(FIND_MY_SPAWNS);
     var spawnNames = [];
-    for (var i in spawns) {
-        spawnNames.push(spawns[i].name);
-    }
-
-    var extractorId = undefined;
-    var mineralType = undefined;
-    var mineralSourceId = undefined;
-    var extractors = room.find(FIND_MY_STRUCTURES, {
-        filter: (structure) => {
-            return (structure.structureType == STRUCTURE_EXTRACTOR);
-        }
-    });
-    if (extractors.length) {
-        extractorId = extractors[0].id;
-        var minerals = room.find(FIND_MINERALS);
-        if (minerals.length) {
-            mineralSourceId = minerals[0].id;
-            mineralType = minerals[0].mineralType;
-        }
-    }
-    //find the link that is next to a storage, and set that as the storageLink
-    var storage = room.find(FIND_MY_STRUCTURES, {
-        filter: (structure) => {
-            return (structure.structureType == STRUCTURE_STORAGE);
-        }
-    });
+    var minerals = {};
     var storageId = undefined;
     var storageLinkId = undefined;
-    if (storage.length) {
-        storageId = storage[0].id;
-        var storageLink = storage[0].pos.findInRange(FIND_STRUCTURES, 1, {
+
+    var spawns = room.find(FIND_MY_SPAWNS);
+    if (spawns.length) {
+        for (var i in spawns) {
+            spawnNames.push(spawns[i].name);
+        }
+
+        var extractors = room.find(FIND_MY_STRUCTURES, {
             filter: (structure) => {
-                return (structure.structureType == STRUCTURE_LINK);
+                return (structure.structureType == STRUCTURE_EXTRACTOR);
             }
-          });
-          if (storageLink.length) {
-              storageLinkId = storageLink[0].id;
-          }
+        });
+        if (extractors.length) {
+            
+            var mineralsList = room.find(FIND_MINERALS);
+            if (mineralsList.length) {
+                minerals.Id = mineralsList[0].id;
+                minerals.mineralType = mineralsList[0].mineralType;
+                minerals.extractorId = extractors[0].id;
+            }
+        }
+        //find the link that is next to a storage, and set that as the storageLink
+        var storage = room.find(FIND_MY_STRUCTURES, {
+            filter: (structure) => {
+                return (structure.structureType == STRUCTURE_STORAGE);
+            }
+        });
+        if (storage.length) {
+            storageId = storage[0].id;
+            var storageLink = storage[0].pos.findInRange(FIND_STRUCTURES, 1, {
+                filter: (structure) => {
+                    return (structure.structureType == STRUCTURE_LINK);
+                }
+            });
+            if (storageLink.length) {
+                storageLinkId = storageLink[0].id;
+            }
+        }
+
     }
     var roomInfo = {
-        name: room.name, sourceIds: sourceIds, spawnNames: spawnNames, storageLinkId: storageLinkId, storageId: storageId,
-        mineralSourceId: mineralSourceId, extractorId: extractorId, mineralType: mineralType
+        name: room.name, sources: sources, spawnNames: spawnNames, storageLinkId: storageLinkId, storageId: storageId,
+        minerals: minerals
     }
     return roomInfo;
 }
@@ -96,7 +118,7 @@ var settings = {
         settings.roomsInfo = [];
         for (var roomName in Game.rooms) {
             var room = Game.rooms[roomName];
-            
+
 
             var towers = room.find(FIND_MY_STRUCTURES, {
                 filter: (structure) => {
@@ -111,6 +133,7 @@ var settings = {
 
             settings.roomsInfo.push(roomInfo);
         }
+
         settings.links = GetLinks(settings.roomsInfo);
 
         settings.roomTargets = [];
@@ -128,8 +151,7 @@ var settings = {
         return true;
     },
 
-    addRoomInfo: function(room)
-    {
+    addRoomInfo: function (room) {
         var roomInfo = GetRoomInfo(room);
 
         Memory.Settings.roomsInfo.push(roomInfo);

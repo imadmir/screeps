@@ -1,21 +1,24 @@
 var action = require("action");
 
 var roleMiner = {
-    partsList: [[WORK, WORK, MOVE, MOVE],
-                [WORK, WORK, WORK, WORK, WORK, MOVE],
-                [WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE],
-                [WORK, WORK, WORK, WORK, WORK, MOVE, MOVE, MOVE, MOVE]],
+    partsList: [[WORK, WORK, CARRY, MOVE],
+                [WORK, WORK, WORK, WORK, CARRY, MOVE],
+                [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE],
+                [WORK, WORK, WORK, WORK, WORK, CARRY, MOVE, MOVE, MOVE, MOVE]],
 
-    partsCost: [300, 550, 700, 700],
+    partsCost: [300, 500, 750, 750],
 
     role: 'miner',
 
-    spawnCreep: function (spawn, roomLevel, targetRoom, sourceId, buildRoads) {
+    spawnCreep: function (spawn, roomLevel, targetRoom, sourceId, containerId, linkId, buildRoads) {
         if (spawn.room.energyAvailable >= this.partsCost[roomLevel] && spawn.spawning == null) {
             var newName = spawn.createCreep(this.partsList[roomLevel], undefined,
-                            { role: this.role, roomName: spawn.room.name, targetRoom: targetRoom, mainSourceId: sourceId, buildRoads: buildRoads });
+                            {
+                                role: this.role, roomName: spawn.room.name, targetRoom: targetRoom, buildRoads: buildRoads,
+                                mainSourceId: sourceId, containerId: containerId, linkId: linkId
+                            });
 
-            console.log(spawn.room.name + ' ' + spawn.name + ' ' + this.role + '[' + roomLevel + '] ' + targetRoom + ' ' + sourceId + ' - ' + newName);
+            console.log(spawn.room.name + ' ' + spawn.name + ' ' + this.role + '[' + roomLevel + '] ' + targetRoom + ' ' + sourceId + ' ' + containerId + ' ' + linkId + ' - ' + newName);
             return true;
         }
         return false;

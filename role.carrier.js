@@ -3,17 +3,20 @@ var action = require('action');
 var roleCarrier = {
     partsList: [[CARRY, CARRY, CARRY, CARRY, MOVE, MOVE],
                 [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],
-                [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
-                [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE]],
+                [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, WORK, MOVE, MOVE, MOVE, MOVE, MOVE],
+                [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, WORK, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE]],
 
-    partsCost: [300, 550, 750, 1200],
+    partsCost: [300, 550, 800, 1250],
 
     role: 'carrier',
 
-    spawnCreep: function (spawn, roomLevel, targetRoom, dropOffRoom, sourceId) {
+    spawnCreep: function (spawn, roomLevel, targetRoom, dropOffRoom, sourceId, containerId) {
         if (spawn.room.energyAvailable >= this.partsCost[roomLevel] && spawn.spawning == null) {
-            var newName = spawn.createCreep(this.partsList[roomLevel], undefined, { role: this.role, status: 'Getting Energy', roomName: spawn.room.name, targetRoom: targetRoom, dropOffRoom: dropOffRoom, mainSourceId: sourceId });
-            console.log(spawn.room.name + ' ' + spawn.name + ' ' + this.role + '[' + roomLevel + '] ' + targetRoom + ' ' + sourceId + ' - ' + newName);
+            var newName = spawn.createCreep(this.partsList[roomLevel], undefined, {
+                role: this.role, status: 'Getting Energy', roomName: spawn.room.name, targetRoom: targetRoom, dropOffRoom: dropOffRoom,
+                mainSourceId: sourceId, containerId: containerId
+            });
+            console.log(spawn.room.name + ' ' + spawn.name + ' ' + this.role + '[' + roomLevel + '] ' + targetRoom + ' ' + sourceId + ' ' + containerId + ' - ' + newName);
             return true;
         }
         return false;
