@@ -435,13 +435,11 @@ var action = {
             }
         }
         if (destinationId != '') {
-            var extractor = Game.getObjectById(destinationId);
-            if (extractor.cooldown == 0) {
-                if (creep.harvest(extractor) == ERR_NOT_IN_RANGE) {
-                    creep.moveTo(extractor);
-                    if (creep.memory.buildRoads) {
-                        creep.room.createConstructionSite(creep.pos, STRUCTURE_ROAD);
-                    }
+            var mineralSource = Game.getObjectById(destinationId);
+            if (creep.harvest(mineralSource) == ERR_NOT_IN_RANGE) {
+                creep.moveTo(mineralSource);
+                if (creep.memory.buildRoads) {
+                    creep.room.createConstructionSite(creep.pos, STRUCTURE_ROAD);
                 }
             }
         }

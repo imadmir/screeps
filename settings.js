@@ -24,7 +24,7 @@ function GetRoomInfo(room)
         extractorId = extractors[0].id;
         var minerals = room.find(FIND_MINERALS);
         if (minerals.length) {
-            mineralSourceId = minerals[0].mineralSourceId;
+            mineralSourceId = minerals[0].id;
             mineralType = minerals[0].mineralType;
         }
     }

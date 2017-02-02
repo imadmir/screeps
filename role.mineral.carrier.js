@@ -1,12 +1,12 @@
 var action = require('action');
 
 var roleCarrier = {
-    partsList: [[CARRY, CARRY, CARRY, CARRY, MOVE, MOVE],
+    partsList: [[CARRY, CARRY, MOVE],
                 [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE],
                 [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE],
                 [CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, CARRY, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE, MOVE]],
 
-    partsCost: [300, 550, 750, 1200],
+    partsCost: [150, 550, 750, 1200],
 
     role: 'mineralCarrier',
 
