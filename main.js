@@ -19,15 +19,16 @@ const cpuAtLoad = Game.cpu.getUsed();
 var cpuAtFirstLoop;
 
 module.exports.loop = function () {
-    const cpuAtLoop = Game.cpu.getUsed();
 
     if (!cpuAtFirstLoop) cpuAtFirstLoop = cpuAtLoop;
 
     if (Memory.Settings == undefined || Memory.Settings.time == undefined || Memory.Settings.time < Game.time - 1000) {
         settings.init();
     }
+    var startCpu = Game.cpu.getUsed();
 
     factory.spawn();
+    var spawnCpu = Game.cpu.getUsed();
 
     for (var name in Game.creeps) {
         var creep = Game.creeps[name];
@@ -69,6 +70,8 @@ module.exports.loop = function () {
         }
     }
 
+    var creepsCpu = Game.cpu.getUsed();
+
     for (var i in Memory.Settings.towerIds) {
         var towerId = Memory.Settings.towerIds[i];
         var tower = Game.getObjectById(towerId);
@@ -80,5 +83,7 @@ module.exports.loop = function () {
         structureLink.run(link);
     }
 
-    console.log('cpuAtLoad ' + cpuAtLoad + ' cpuAtFirstLoop ' + cpuAtFirstLoop + ' cpuAtLoop ' + cpuAtLoop + ' cpuAtEnd ' + Game.cpu.getUsed())
+    var structureCpu = Game.cpu.getUsed();
+
+    console.log('Start: ' + startCpu + ' Factory: ' + (spawnCpu - startCpu) + ' Creeps: ' + (creepsCpu - spawnCpu) + ' structures: ' + (structureCpu - creepsCpu) + ' End: ' + Game.cpu.getUsed())
 }
