@@ -80,5 +80,5 @@ module.exports.loop = function () {
         structureLink.run(link);
     }
 
-    console.log('cpuAtLoad ' + cpuAtLoad + ' cpuAtFirstLoop ' + cpuAtFirstLoop + ' cpuAtLoop ' + cpuAtLoop)
+    console.log('cpuAtLoad ' + cpuAtLoad + ' cpuAtFirstLoop ' + cpuAtFirstLoop + ' cpuAtLoop ' + cpuAtLoop + ' cpuAtEnd ' + Game.cpu.getUsed())
 }
