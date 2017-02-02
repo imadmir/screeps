@@ -15,17 +15,23 @@ var factory = require('factory');
 var structureTower = require('structure.tower');
 var structureLink = require('structure.link');
 
+const cpuAtLoad = Game.cpu.getUsed();
+var cpuAtFirstLoop;
+
 module.exports.loop = function () {
+    const cpuAtLoop = Game.cpu.getUsed();
+
+    if (!cpuAtFirstLoop) cpuAtFirstLoop = cpuAtLoop;
 
     if (Memory.Settings == undefined || Memory.Settings.time == undefined || Memory.Settings.time < Game.time - 1000) {
         settings.init();
     }
 
-    factory.spawn();  
-    
-    for(var name in Game.creeps) {
+    factory.spawn();
+
+    for (var name in Game.creeps) {
         var creep = Game.creeps[name];
-        if(creep.memory.role == 'builder') {
+        if (creep.memory.role == 'builder') {
             roleBuilder.run(creep);
         }
         if (creep.memory.role == 'miner') {
@@ -73,4 +79,6 @@ module.exports.loop = function () {
         var link = Game.getObjectById(linkInfo.id);
         structureLink.run(link);
     }
+
+    console.log('cpuAtLoad ' + cpuAtLoad + ' cpuAtFirstLoop ' + cpuAtFirstLoop + ' cpuAtLoop ' + cpuAtLoop)
 }
