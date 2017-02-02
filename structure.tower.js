@@ -15,6 +15,7 @@ var structureTower = {
             var creeps = roomMonitor.GetInjuredInRoom(tower.room);
             if (creeps.length) {
                 tower.heal(creeps[0]);
+                return;
             }
 
             //repair damaged building
