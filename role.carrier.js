@@ -26,11 +26,11 @@ var roleCarrier = {
         }
 
         //Get the energy from the target Room
-        if (creep.memory.status != 'Getting Energy' && creep.carry.energy == 0) {
+        if (creep.memory.status != 'Getting Energy' && _sum(creep.carry) == 0) {
             creep.memory.status = 'Getting Energy';
             action.ClearDestination(creep);
         }
-        if (creep.memory.status != 'Delivering' && creep.carry.energy == creep.carryCapacity) {
+        if (creep.memory.status != 'Delivering' && _sum(creep.carry) == creep.carryCapacity) {
             creep.memory.status = 'Delivering';
             action.ClearDestination(creep);
         }
