@@ -15,6 +15,14 @@ var roomMonitor = {
         return targets;
     },
 
+    GetInjuredInRoom: function (room) {
+        var targets = room.find(FIND_MY_CREEPS,
+                                {
+                                    filter: (creep) => creep.hits < creep.hitsMax 
+                                });
+        return targets;
+    },
+
     GetConstructionSitesCount: function (room) {
         var constructionSites = room.find(FIND_MY_CONSTRUCTION_SITES);
         return constructionSites.length;

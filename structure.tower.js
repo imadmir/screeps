@@ -12,11 +12,9 @@ var structureTower = {
         }
         else if (tower.energy > tower.energyCapacity * 0.7) {
             //repair damaged units
-            for (var name in Game.creeps) {
-                var creep = Game.creeps[name];
-                if (creep.hits < creep.hitsMax) {
-                    tower.heal(creep);
-                }
+            var creeps = roomMonitor.GetInjuredInRoom(tower.room);
+            if (creeps.length) {
+                tower.heal(creeps[0]);
             }
 
             //repair damaged building

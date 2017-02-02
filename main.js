@@ -89,6 +89,5 @@ module.exports.loop = function () {
 
     cpuStats.end = Game.cpu.getUsed();
 
-    console.log(JSON.stringify(cpuStats))
-    //console.log('Start: ' + startCpu + ' Factory: ' + (spawnCpu - startCpu) + ' Creeps: ' + (creepsCpu - spawnCpu) + ' structures: ' + (structureCpu - creepsCpu) + ' End: ' + Game.cpu.getUsed())
+    //console.log(JSON.stringify(cpuStats))
 }
