@@ -167,7 +167,7 @@ var factory = {
     {
 
         //Target another room
-        var targetedRooms = roomMonitor.GetTargetedRooms(roomInfo.name);
+        var targetedRooms = roomMonitor.GetTargetedRooms(spawn.room.name);
         if (targetedRooms.length) {
             for (var i in targetedRooms) {
                 var targetedRoomName = targetedRooms[i].targetRoom;
