@@ -26,24 +26,31 @@ var factory = {
         for (var roomCount in Memory.Settings.roomsInfo) {
             var roomInfo = Memory.Settings.roomsInfo[roomCount];
 
-            //if the room has a spawn
-            if (roomInfo.spawnNames.length > 0) {
-                var room = Game.rooms[roomInfo.name];
-                var spawns = room.find(FIND_MY_SPAWNS, {
-                    filter: (spawn) => !spawn.spawning
-                });
-
-                if (spawns.length) {
-                    var roomLevel = roomMonitor.GetRoomLevel(room);
-                    this.spawnNext(spawns[0], roomLevel);
-                }
-            }
+            this.spawnNext(roomInfo);
+            
         }
 
     },
 
-    spawnNext: function(spawn, roomLevel)
+    spawnNext: function (roomInfo)
     {
+        var roomLevel = 0;
+        var spawn = undefined;
+        //if the room has a spawn
+        if (roomInfo.spawnNames.length > 0) {
+            var room = Game.rooms[roomInfo.name];
+            var spawns = room.find(FIND_MY_SPAWNS, {
+                filter: (spawn) => !spawn.spawning
+            });
+
+            if (spawns.length) {
+                roomLevel = roomMonitor.GetRoomLevel(room);
+                spawn = spawns[0];
+            } else {
+                return;
+            }
+        }
+
         if (spawn.spawning != null) {
             return;
         }
