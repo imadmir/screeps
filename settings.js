@@ -1,6 +1,6 @@
 function GetRoomInfo(room) {
     var sourceList = room.find(FIND_SOURCES);
-    var sources = {};
+    var sources = [];
     for (var i in sourceList) {
         var containerId = undefined;
         var linkId = undefined;
