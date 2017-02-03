@@ -76,11 +76,13 @@ var factory = {
                 roleMiner.spawnCreep(spawn, roomLevel, roomInfo.name, sourceId, containerId, linkId, true);
                 return;
             }
-            var carriersCount = roomMonitor.GetCountBySource(sourceId, 'carrier', 50);
+            if (linkId == undefined) {
+                var carriersCount = roomMonitor.GetCountBySource(sourceId, 'carrier', 50);
 
-            if (carriersCount < Memory.Settings.CarrierPerSource) {
-                roleCarrier.spawnCreep(spawn, roomLevel, roomInfo.name, roomInfo.name, sourceId, containerId);
-                return;
+                if (carriersCount < Memory.Settings.CarrierPerSource) {
+                    roleCarrier.spawnCreep(spawn, roomLevel, roomInfo.name, roomInfo.name, sourceId, containerId);
+                    return;
+                }
             }
         }
 
