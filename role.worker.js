@@ -63,7 +63,7 @@ var roleWorker = {
                 actionResult = action.PickUpStoredEnergy(creep);
             }
             if (!actionResult) {
-                actionResult = action.MineEnergy(creep);
+                actionResult = action.MineResource(creep);
             }
         }
 

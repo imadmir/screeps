@@ -429,13 +429,21 @@ var action = {
         return false;
     },
 
-    MineEnergy: function (creep) {
+    MineResource: function (creep, mineralType) {
+
+        if (mineralType == undefined) {
+            mineralType = RESOURCE_ENERGY;
+        }
+
         //if the creep is moving, keep on moving, he already has a target for his transfer
         var destinationId = this.GetDestinationId(creep);
 
         if (destinationId == '') {
             if (creep.memory.mainSourceId != undefined) {
                 destinationId = creep.memory.mainSourceId;
+                if (creep.memory.containerId != undefined) {
+                    destinationId = creep.memory.containerId;
+                }
                 this.SetDestination(creep, destinationId);
             }
             else {
@@ -447,31 +455,23 @@ var action = {
             }
         }
         if (destinationId != '') {
-            var source = Game.getObjectById(destinationId);
+            var destination = Game.getObjectById(destinationId);
+            var source = destination;
+            if (creep.memory.mainSourceId != undefined) {
+                source = Game.getObjectById(creep.memory.mainSourceId);
+            }
             if (creep.harvest(source) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(source);
+                creep.moveTo(destination);
                 if (creep.memory.buildRoads) {
                     creep.room.createConstructionSite(creep.pos, STRUCTURE_ROAD);
                 }
             }
-        }
-    },
-    MineMinerals: function (creep) {
-        //if the creep is moving, keep on moving, he already has a target for his transfer
-        var destinationId = this.GetDestinationId(creep);
-
-        if (destinationId == '') {
-            if (creep.memory.mainSourceId != undefined) {
-                destinationId = creep.memory.mainSourceId;
-                this.SetDestination(creep, destinationId);
-            }
-        }
-        if (destinationId != '') {
-            var mineralSource = Game.getObjectById(destinationId);
-            if (creep.harvest(mineralSource) == ERR_NOT_IN_RANGE) {
-                creep.moveTo(mineralSource);
-                if (creep.memory.buildRoads) {
-                    creep.room.createConstructionSite(creep.pos, STRUCTURE_ROAD);
+            else {
+                if (creep.memory.linkId != undefined && _.sum(creep.carry) == creep.carryCapacity) {
+                    link = Game.getObjectById(creep.memory.linkId);
+                    if (creep.transfer(link, mineralType) == ERR_NOT_IN_RANGE) {
+                        creep.moveTo(link);
+                    }
                 }
             }
         }

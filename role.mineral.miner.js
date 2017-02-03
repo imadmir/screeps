@@ -36,7 +36,7 @@ var roleMiner = {
             return;
         }
         else {
-            action.MineMinerals(creep);
+            action.MineResource(creep, creep.memory.mineralType);
         }
 
     }

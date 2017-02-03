@@ -39,7 +39,7 @@ var roleMiner = {
             return;
         }
         else {
-            action.MineEnergy(creep);
+            action.MineResource(creep);
         }
 
     }

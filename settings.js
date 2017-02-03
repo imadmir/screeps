@@ -104,6 +104,7 @@ var settings = {
 
     init: function () {
         console.log('Initializing Settings ....');
+        var startCpu = Game.cpu.getUsed();
 
         var settings = {};
         settings.time = Game.time;
@@ -137,17 +138,19 @@ var settings = {
         settings.links = GetLinks(settings.roomsInfo);
 
         settings.roomTargets = [];
-        settings.roomTargets.push({ room: 'E83S32', targetRoom: 'E84S32', type: 'reserve', buildRoads: true, worker: true });
-        settings.roomTargets.push({ room: 'E83S32', targetRoom: 'E83S31', type: 'reserve', buildRoads: true, worker: true });
-        settings.roomTargets.push({ room: 'E83S33', targetRoom: 'E83S34', type: 'reserve', buildRoads: true, worker: true });
-        settings.roomTargets.push({ room: 'E83S33', targetRoom: 'E82S33', type: 'reserve', buildRoads: true, worker: true });
-        settings.roomTargets.push({ room: 'E83S33', targetRoom: 'E84S33', type: 'reserve', buildRoads: true, worker: true });
+        settings.roomTargets.push({ room: 'E83S32', targetRoom: 'E84S32', type: 'reserve', buildRoads: true });
+        settings.roomTargets.push({ room: 'E83S32', targetRoom: 'E83S31', type: 'reserve', buildRoads: true });
+        settings.roomTargets.push({ room: 'E83S33', targetRoom: 'E83S34', type: 'reserve', buildRoads: true });
+        settings.roomTargets.push({ room: 'E83S33', targetRoom: 'E82S33', type: 'reserve', buildRoads: true });
+        settings.roomTargets.push({ room: 'E83S33', targetRoom: 'E84S33', type: 'reserve', buildRoads: true });
 
         settings.alliedPlayers = [];
         settings.alliedPlayers.push('Orocket');
 
         Memory.Settings = settings;
-        console.log('Initializing Completed. ');
+        var EndCpu = Game.cpu.getUsed();
+
+        console.log('Init used ' + (EndCpu - startCpu) + ' CPU');
         return true;
     },
 

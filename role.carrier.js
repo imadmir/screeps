@@ -70,6 +70,18 @@ var roleCarrier = {
             }
         }
 
+        //repair road as they move
+        if (creep.carry.energy != 0) {
+            var structuresAtPos = creep.pos.lookFor(LOOK_STRUCTURES);
+            if (structuresAtPos.length) {
+                var damagedroad = _.filter(structuresAtPos, (s) => s.structureType == STRUCTURE_ROAD
+                                                            && s.hits < s.hitsMax / 2);
+                if (damagedroad.length) {
+                    creep.repair(damagedroad[0]);
+                }
+            }
+        }
+
     }
 
 };
