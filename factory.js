@@ -51,7 +51,7 @@ var factory = {
             }
         }
 
-        if (spawn.spawning != null) {
+        if (spawn == undefined || spawn.spawning != null) {
             return;
         }
 
