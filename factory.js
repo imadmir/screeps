@@ -30,7 +30,7 @@ var factory = {
             if (roomInfo.spawnNames.length > 0) {
                 var room = Game.rooms[roomInfo.name];
                 var spawns = room.find(FIND_MY_SPAWNS, {
-                    filter: (spawn) => spawn.spawning != null
+                    filter: (spawn) => !spawn.spawning
                 });
 
                 if (spawns.length) {
