@@ -121,22 +121,19 @@ var action = {
         if (destinationId == '') {
             //if the creep has a mainSource id in memory
             if (creep.memory.mainSourceId != undefined) {
-                var sourceMain = Game.getObjectById(creep.memory.mainSourceId);
-                if (sourceMain != null) {
-                    var droppedSources = sourceMain.pos.findInRange(FIND_DROPPED_RESOURCES, 2);
-                    if (droppedSources.length > 0) {
-                        destinationId = droppedSources[0].id;
+                if (creep.memory.containerId != undefined) {
+                    var container = Game.getObjectById(creep.memory.containerId);
+                    if (container != null && container.store[RESOURCE_ENERGY] > 0) {
+                        destinationId = container.id;
                         this.SetDestination(creep, destinationId);
                     }
-                    else {
-                        var containers = sourceMain.pos.findInRange(FIND_STRUCTURES, 2, {
-                            filter: (structure) => {
-                                return (structure.structureType == STRUCTURE_CONTAINER &&
-                                        structure.store[RESOURCE_ENERGY] > 0);
-                            }
-                        });
-                        if (containers.length > 0) {
-                            destinationId = containers[0].id;
+                }
+                else {
+                    var sourceMain = Game.getObjectById(creep.memory.mainSourceId);
+                    if (sourceMain != null) {
+                        var droppedSources = sourceMain.pos.findInRange(FIND_DROPPED_RESOURCES, 2);
+                        if (droppedSources.length > 0) {
+                            destinationId = droppedSources[0].id;
                             this.SetDestination(creep, destinationId);
                         }
                     }
@@ -154,7 +151,7 @@ var action = {
             }
             //if the source is a contrainer, transfer energy
             if (source !== null && source.store != undefined && source.store[RESOURCE_ENERGY] > 0) {
-                if (source.transfer(creep, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
+                if (creep.withdraw(source, RESOURCE_ENERGY) == ERR_NOT_IN_RANGE) {
                     creep.moveTo(source);
                 }
                 return true;
