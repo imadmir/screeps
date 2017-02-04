@@ -38,6 +38,8 @@ var roleCarrier = {
             action.ClearDestination(creep);
         }
 
+        this.repairRoad(creep);
+
         if (creep.memory.status == 'Delivering') {
             //The carrier will deliver to the dropOffRoom
             if (creep.memory.dropOffRoom != creep.room.name) {
@@ -70,6 +72,10 @@ var roleCarrier = {
             }
         }
 
+    },
+
+    repairRoad: function (creep)
+    {
         //repair road as they move
         if (creep.carry.energy != 0) {
             var structuresAtPos = creep.pos.lookFor(LOOK_STRUCTURES);
@@ -81,7 +87,6 @@ var roleCarrier = {
                 }
             }
         }
-
     }
 
 };
