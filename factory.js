@@ -116,17 +116,17 @@ var factory = {
             }
         }
 
-        if (roomInfo.extractorId != undefined && roomInfo.mineralSourceId != undefined) {
+        if (roomInfo.minerals != undefined && roomInfo.minerals.extractorId != undefined && roomInfo.minerals.id != undefined) {
             //spawn mineral miners
-            var mineralMinersCount = roomMonitor.GetCountBySource(roomInfo.mineralSourceId, 'mineralMiner', 50);
+            var mineralMinersCount = roomMonitor.GetCountBySource(roomInfo.minerals.id, 'mineralMiner', 50);
             if (mineralMinersCount < 1) {
-                roleMineralMiner.spawnCreep(spawn, roomLevel, roomInfo.name, roomInfo.mineralSourceId, true, roomInfo.mineralType);
+                roleMineralMiner.spawnCreep(spawn, roomLevel, roomInfo.name, roomInfo.minerals, id, true, roomInfo.minerals.mineralType);
                 return;
             }
 
-            var mineralCarriersCount = roomMonitor.GetCountBySource(roomInfo.mineralSourceId, 'mineralCarrier', 20);
+            var mineralCarriersCount = roomMonitor.GetCountBySource(roomInfo.minerals.id, 'mineralCarrier', 20);
             if (mineralCarriersCount < 1) {
-                roleMineralCarrier.spawnCreep(spawn, 0, roomInfo.name, roomInfo.name, roomInfo.mineralSourceId, roomInfo.mineralType);
+                roleMineralCarrier.spawnCreep(spawn, 0, roomInfo.name, roomInfo.name, roomInfo.minerals.id, roomInfo.minerals.mineralType);
                 return;
             }
         }
