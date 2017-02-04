@@ -182,8 +182,8 @@ var factory = {
                     var workerCount = roomMonitor.GetCreepCountByRole(targetedRoomName, 'worker', 0);
                     if (workerCount < 1) {
                         roleWorker.spawnCreep(spawn, 0, targetedRoomName);
-                        return;
                     }
+                    return;
                 }
 
                 var targetedRoom = Game.rooms[targetedRoomName];
